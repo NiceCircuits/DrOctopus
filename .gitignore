@@ -3,3 +3,5 @@
 /3D model/lockfile.lck
 lockfile.lck
 OldVersions
+/3D model/3d_printing/*.gcode
+*.gcode

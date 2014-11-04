@@ -42,6 +42,9 @@ class inverseKinematics(object):
         self.Y = 0.0
         self.Z = 0.0
         self.limits=[[self.X, self.X], [0.0,0.0], [0.0,0.0]]
+        self.angleLimits=[[0.0,0.0], [0.0,0.0], [0.0,0.0], [0.0,0.0]]
+        self.angleOffsets=[0.0, 0.0, 0.0, 0.0]
+        self.inverts=[0,0,0,0]
         
     def limitTo(self, value, limits):
         if (value<limits[0]):
@@ -50,7 +53,13 @@ class inverseKinematics(object):
             return limits[1]
         else:
             return value
-        
+
+    def checkAngles(self):
+        self.A0 = self.limitTo(self.A0, self.angleLimits[0])
+        self.A1 = self.limitTo(self.A1, self.angleLimits[1])
+        self.A2 = self.limitTo(self.A2, self.angleLimits[2])
+        self.A3 = self.limitTo(self.A3, self.angleLimits[3])
+    
     def moveTo(self, X, Y, Z):
         X = self.limitTo(float(X), self.limits[0])
         Y = self.limitTo(float(Y), self.limits[1])

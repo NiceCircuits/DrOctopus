@@ -1,11 +1,12 @@
+#-*- coding: utf-8 -*-
 '''
 Created on 27.10.2014
 
 @author: Piotr
 '''
 from inverseKinematics import *
-from time import *
 import serial, os, random, re
+import threading, time, math
 
 class DrOctopus(object):
     L1 = 0.3
@@ -18,6 +19,12 @@ class DrOctopus(object):
     curves = [[],[],[],[]]
     counters=[0,0,0,0]
     port = 13
+    port_inner=17
+    port_outter=16
+    senOffset = [0,0,0,20,10,900,0]
+    senDiv = [90,10,1,0.2,0.07,0.5,10]
+    senNames=["Akcelerometr", "Magnetometr", "Odległościomierz", "Wilgotność", "Temperatura", "Ciśnienie", "Swiatło"]
+    
 
     def __init__(self):
         self.arms=[]
@@ -26,6 +33,7 @@ class DrOctopus(object):
             self.arms[i].angleLimits=[[0, math.radians(90)], [math.radians(-60), math.radians(60)],
                                       [0, math.radians(120)],[math.radians(-90), math.radians(30)]]
         self.ser = serial.Serial(self.port, 115200)
+        self.sensors = [0]*7
         print self.ser
 
     def armGoToAngle(self, nArm, angles, time):
@@ -71,24 +79,36 @@ class DrOctopus(object):
             points[i][0]=xnew[i]
             points[i][1]=ynew[i]
         return points
-                
+
+    def sensorsCheck(self):
+        ser1=serial.Serial(self.port_inner, 115200)
+        ser2=serial.Serial(self.port_outter, 115200)
+        while(1):
+            time.sleep(1)
+            line=ser1.readline().strip() + "," + ser2.readline().strip()
+            ser1.flushInput()
+            ser2.flushInput()
+            self.sensors=map(int, re.findall(r'\d+', line))+[0]*7
+            print(self.sensors)
+            for i in range(7):
+                self.sensors[i]=int(math.fabs((math.fabs(self.sensors[i])-self.senOffset[i])/self.senDiv[i]))
+            print(self.sensors)
+            
     def run(self):
         Xmax = self.armSpacing/2 - .04
         Ymax = (self.L1+self.L2)-0.1
-        while 1:
+        threading.Thread(target=self.sensorsCheck).start()
+        while 0:
             for limits in [[[0.0, Xmax], [0.0, Ymax], [0.0, Xmax]], [[0.0, Xmax*4.0/3.0], [0.0, Ymax], [0.0, Xmax*2.0/3.0]], [[0.0, Xmax*2.0/3.0], [0.0, Ymax], [0.0, Xmax*4.0/3.0]]]:
                 for i in range(4):
                     self.arms[i].limitTo(limits)
                 for t in range(6000): # 10 min
-                    self.checkSensors()
                     # according to sensors
                     # load curves if changed
                     for i in range(4):
                         if time.clock() >= self.curves[i][self.counters[i]][2] + self.clockStarts[i]:
-                            pass # next point 
+                            pass # next point
             
-    def checkSensors(self):
-        pass
     
 if __name__ == '__main__':
     pass

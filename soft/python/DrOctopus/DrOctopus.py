@@ -5,7 +5,7 @@ Created on 27.10.2014
 '''
 from inverseKinematics import *
 from time import *
-import serial
+import serial, os, random, re
 
 class DrOctopus(object):
     L1 = 0.3
@@ -23,7 +23,7 @@ class DrOctopus(object):
         self.arms=[]
         for i in range(4):
             self.arms.append(inverseKinematics(self.L1, self.L2))
-            self.arms[i].angleLimits=[[math.radians(-60), math.radians(60)], [math.radians(-60), math.radians(60)],
+            self.arms[i].angleLimits=[[0, math.radians(90)], [math.radians(-60), math.radians(60)],
                                       [0, math.radians(120)],[math.radians(-90), math.radians(30)]]
         self.ser = serial.Serial(self.port, 115200)
         print self.ser
@@ -54,7 +54,24 @@ class DrOctopus(object):
         command+= "T%d\r" % time
         print command
         self.ser.write(command)
-        
+
+    def loadLine(self, group): # random line
+        path = "line/%d/" % group
+        files = os.listdir(path)
+        path += files[random.randrange(len(files))]
+        f = open(path)
+        lines = f.readlines()
+        points = [map(int, re.findall(r'\d+', line)) for line in lines]
+        x=[p[0] for p in points]
+        y=[p[1] for p in points]
+        # scale
+        xnew = [(xp-min(x))*100.0/(max(x+y)-min(x)) for xp in x]
+        ynew = [(yp-min(y))*100.0/(max(x+y)-min(y)) for yp in y]
+        for i in range(len(points)):
+            points[i][0]=xnew[i]
+            points[i][1]=ynew[i]
+        return points
+                
     def run(self):
         Xmax = self.armSpacing/2 - .04
         Ymax = (self.L1+self.L2)-0.1

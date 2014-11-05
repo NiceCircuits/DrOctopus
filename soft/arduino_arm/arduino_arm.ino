@@ -130,7 +130,7 @@ void loop()
     
     if (*MotorPW > 24000)
     {
-      digitalWrite(MOT, 1);
+      analogWrite(MOT, (*MotorPW)-24000);
     }
     else
     {

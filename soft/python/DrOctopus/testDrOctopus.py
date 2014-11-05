@@ -9,9 +9,11 @@ import time
 
 if __name__ == '__main__':
     d = DrOctopus()
-    for i in range(100):
-        d.armGoToAngle(1, [0.0, 0, 0, 0], 2000)
-        time.sleep(2.5)
-        d.armGoToAngle(1, [1, 0.5, 0.5, 1], 2000)
-        time.sleep(2.5)
-        
+    for i in range(10):
+        pn=d.loadLine(4)
+        x=[p[0] for p in pn]
+        y=[p[1] for p in pn]
+        plt.plot(x,y, ".")
+    plt.show()
+    d.ser.close()
+    

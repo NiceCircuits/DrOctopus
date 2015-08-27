@@ -5,3 +5,7 @@ lockfile.lck
 OldVersions
 /3D model/3d_printing/*.gcode
 *.gcode
+*.bak
+drOctopus.kicad_pcb-bak
+/pcb/v1.0/sim/*.raw
+/pcb/v1.0/sim/*.log

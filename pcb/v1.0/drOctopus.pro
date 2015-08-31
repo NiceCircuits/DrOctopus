@@ -1,4 +1,4 @@
-update=2015-08-27 07:38:27
+update=2015-08-30 23:11:44
 version=1
 last_client=kicad
 [cvpcb]
@@ -44,3 +44,4 @@ LibName12=niceTerminalBlocks
 LibName13=niceResonators
 LibName14=niceDiodes
 LibName15=niceMechanical
+LibName16=D:/Lib/kicad/pnDiode

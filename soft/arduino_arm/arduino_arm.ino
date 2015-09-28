@@ -24,7 +24,7 @@ static volatile uint8_t *OutPortTable4[20] = {&PORTB,&PORTB,&PORTB,&PORTB,&PORTB
 static uint8_t OutBitTable4[20] = {2,2,2,2,2,2,2,2,2,2,2,2,4,8,16,32,2,2,2,2};
 
 static unsigned int* MotorPW;
-static unsigned int ServoPW[20] = {24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000};
+static unsigned int ServoPW[20] = {24000,12800,33600,24000,24000,12800,33600,24000,24000,12800,33600,24000,24000,12800,33600,24000,24000,24000,24000,24000};
 static byte ServoInvert[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 static byte Timer2Toggle;
 static volatile uint8_t *OutPort1A = &PORTD;
@@ -37,7 +37,7 @@ static uint8_t OutBitNext1A = 4;
 static uint8_t OutBitNext1B = 16;
 
 static long ServoStepsHD[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-static long ServoLastPos[20] = {24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000,24000};
+static long ServoLastPos[20] = {24000,12800,35200,24000,24000,12800,35200,24000,24000,12800,35200,24000,24000,12800,35200,24000,24000,24000,24000,24000};
 static long StepsToGo[20] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 static int ChannelCount;
 
@@ -117,12 +117,12 @@ void loop()
     CheckSerial();
     uint16_t th;
     th=analogRead(THERM);
-    if (th > 265)
+    if (th > 180)
     {
       digitalWrite(HEAT, 1);
       digitalWrite(LED, 1);
     }
-    else if (th < 205)
+    else if (th < 160)
     {
       digitalWrite(HEAT, 0);
       digitalWrite(LED, 0); 

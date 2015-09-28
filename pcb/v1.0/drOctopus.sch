@@ -4,7 +4,6 @@ LIBS:power
 LIBS:niceAVR
 LIBS:niceModules
 LIBS:niceRLC
-LIBS:niceSemiconductors
 LIBS:niceSwitches
 LIBS:test
 LIBS:nicePinheaders
@@ -2453,4 +2452,8 @@ Wire Wire Line
 	5100 5900 5600 5900
 Wire Wire Line
 	5300 5400 5300 5300
+Text Notes 6100 2700 0    67   Italic 0
+8\n9\n10\n11\n12\n13\nA0\nA1\nA2\nA3\nA4\nA5\n0\n1\n2\n3\n4\n5\n6\n7
+Text Notes 1600 2700 0    67   Italic 0
+A6\nA7
 $EndSCHEMATC

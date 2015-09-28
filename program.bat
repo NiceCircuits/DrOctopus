@@ -1,0 +1,1 @@
+C:\avrdude\avrdude -pm328p -cavrisp2 -Pusb -v -Uflash:w:"C:\Program Files (x86)\Arduino\hardware\arduino\avr/bootloaders/atmega/ATmegaBOOT_168_atmega328.hex":i

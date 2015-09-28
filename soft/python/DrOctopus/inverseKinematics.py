@@ -41,10 +41,10 @@ class inverseKinematics(object):
         self.X = float(L1+L2)
         self.Y = 0.0
         self.Z = 0.0
-        self.limits=[[self.X, self.X], [0.0,0.0], [0.0,0.0]]
+        self.limits=[[0.0, self.X], [0.0,float(L1+L2)], [0.0,float(L1+L2)]]
         self.angleLimits=[[0.0,0.0], [0.0,0.0], [0.0,0.0], [0.0,0.0]]
-        self.angleOffsets=[0.0, 0.0, 0.0, 0.0]
-        self.inverts=[0,0,0,0]
+        self.angleOffsets=[math.radians(45), math.radians(85), math.radians(120), math.radians(125)]
+        self.inverts=[0,1,1,1]
         
     def limitTo(self, value, limits):
         if (value<limits[0]):
@@ -61,9 +61,11 @@ class inverseKinematics(object):
         self.A3 = self.limitTo(self.A3, self.angleLimits[3])
     
     def moveTo(self, X, Y, Z):
+        print ("111", X,Y,Z)
         X = self.limitTo(float(X), self.limits[0])
         Y = self.limitTo(float(Y), self.limits[1])
         Z = self.limitTo(float(Z), self.limits[2])
+        print ("222", X,Y,Z)
         # inverse kinematics - rotate plane XY in Z axis
         self.A0 = math.atan2(Z, X) # rotation in Z axis
         # Inverse kinematics in rotated plane
@@ -89,6 +91,7 @@ class inverseKinematics(object):
         self.Z = Xrot*math.sin(self.A0)
         self._X1=X1rot*math.cos(self.A0)  # for debug purposes
         self._Y1=Y1
+        print (self.A1, self.A2, self.A3)
         
 
 

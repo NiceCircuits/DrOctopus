@@ -27,9 +27,9 @@ void loop()
 
   unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
   uS = (uS / US_ROUNDTRIP_CM); // Convert ping time to distance in cm and print result (0 = outside set distance range)
-  snprintf(report, sizeof(report), "%d,%d,%d,%d,%d,%d,%d",
-    compass.a.x, compass.a.y, compass.a.z,
-    compass.m.x, compass.m.y, compass.m.z, uS);
+  snprintf(report, sizeof(report), "%d,%d,%d",
+    compass.a.x, 
+    compass.m.x,  uS);
   Serial.println(report);
 
   delay(300);

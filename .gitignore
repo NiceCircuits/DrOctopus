@@ -10,3 +10,6 @@ drOctopus.kicad_pcb-bak
 /pcb/v1.0/sim/*.raw
 /pcb/v1.0/sim/*.log
 *.pyc
+/movies
+/soft/drOctopusArduinoTest/Release
+log.txt

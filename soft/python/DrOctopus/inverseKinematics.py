@@ -93,21 +93,3 @@ class inverseKinematics(object):
         self._Y1=Y1
         print (self.A1, self.A2, self.A3)
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

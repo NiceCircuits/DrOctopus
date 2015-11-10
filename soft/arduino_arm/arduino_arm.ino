@@ -4,18 +4,20 @@
 #include <EEPROM.h>
 #define HDServoMode 20
 #define SerialInterfaceSpeed 115200    // Serial interface Speed
-#define THERM A3
-#define HEAT 8
-#define MOT 6
-#define LED 13
+#define THERM A7
+#define HEAT 6
+#define MOT 5
+#define LED 3
 
 static unsigned int iCount;
 
 static volatile uint8_t **OutPortTable;
 static uint8_t* OutBitTable;
 
-static volatile uint8_t *OutPortTable1[20] = {&PORTD,&PORTD,&PORTD,&PORTD,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB};
-static uint8_t OutBitTable1[20] = {4,8,16,32,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+static volatile uint8_t *OutPortTable1[20] = {&PORTD,&PORTB,&PORTB,&PORTB,&PORTC,&PORTC,&PORTC,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB};
+static uint8_t OutBitTable1[20] = {128,1,2,4,1,2,4,8,2,2,2,2,2,2,2,2,2,2,2,2};
+//static volatile uint8_t *OutPortTable1[20] = {&PORTD,&PORTB,&PORTB,&PORTB,&PORTC,&PORTC,&PORTC,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB};
+//static uint8_t OutBitTable1[20] = {128,1,2,4,1,2,4,8,2,2,2,2,2,2,2,2,2,2,2,2};
 static volatile uint8_t *OutPortTable2[20] = {&PORTB,&PORTB,&PORTB,&PORTB,&PORTD,&PORTD,&PORTD,&PORTD,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB};
 static uint8_t OutBitTable2[20] = {2,2,2,2,4,8,16,32,2,2,2,2,2,2,2,2,2,2,2,2};
 static volatile uint8_t *OutPortTable3[20] = {&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTD,&PORTD,&PORTD,&PORTD,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB,&PORTB};
@@ -117,12 +119,12 @@ void loop()
     CheckSerial();
     uint16_t th;
     th=analogRead(THERM);
-    if (th > 180)
+    if ((th > 180) && (th<1000))
     {
       digitalWrite(HEAT, 1);
       digitalWrite(LED, 1);
     }
-    else if (th < 160)
+    else if ((th < 160) || (th>=1000))
     {
       digitalWrite(HEAT, 0);
       digitalWrite(LED, 0); 
@@ -375,8 +377,5 @@ void ServoSetup()
   OCR2A = 93;                     // Set counter A for about 500us before counter B below;
   OCR2B = 124;                    // Set counter B for about 2000us (20ms/10, where 20ms is 50Hz);
   
-  #if HDServoMode == 18
-  #elif HDServoMode == 20
-    for(iCount=2;iCount<6;iCount++) pinMode(iCount, OUTPUT);    // Set all pins used to output:
-  #endif
+  for(iCount=7;iCount<=10;iCount++) pinMode(iCount, OUTPUT);    // Set all pins used to output:
 }

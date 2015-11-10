@@ -1215,17 +1215,17 @@ F 3 "" H 8300 6000 60  0000 C CNN
 	1    8300 6000
 	1    0    0    -1  
 $EndComp
-Text Label 7200 5500 0    60   ~ 0
+Text Label 7000 5500 0    60   ~ 0
 ESP_EN
 $Comp
 L R_Network_4 RN3
 U 1 1 55E06D8A
-P 7800 5500
-F 0 "RN3" H 7800 5580 60  0000 C CNN
-F 1 "1k" H 7800 5500 40  0000 C CNN
-F 2 "4x0603_N" H 7800 5440 40  0001 C CNN
-F 3 "" H 7800 5500 60  0000 C CNN
-	1    7800 5500
+P 7600 5500
+F 0 "RN3" H 7600 5580 60  0000 C CNN
+F 1 "1k" H 7600 5500 40  0000 C CNN
+F 2 "4x0603_N" H 7600 5440 40  0001 C CNN
+F 3 "" H 7600 5500 60  0000 C CNN
+	1    7600 5500
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1383,12 +1383,12 @@ $EndComp
 $Comp
 L GND #PWR058
 U 1 1 55E23434
-P 8100 6000
-F 0 "#PWR058" H 8100 5750 50  0001 C CNN
-F 1 "GND" H 8100 5850 50  0000 C CNN
-F 2 "" H 8100 6000 60  0000 C CNN
-F 3 "" H 8100 6000 60  0000 C CNN
-	1    8100 6000
+P 7900 6000
+F 0 "#PWR058" H 7900 5750 50  0001 C CNN
+F 1 "GND" H 7900 5850 50  0000 C CNN
+F 2 "" H 7900 6000 60  0000 C CNN
+F 3 "" H 7900 6000 60  0000 C CNN
+	1    7900 6000
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -2179,9 +2179,9 @@ Wire Wire Line
 Wire Wire Line
 	8200 5100 8200 5000
 Wire Wire Line
-	7600 5500 7200 5500
+	7400 5500 7000 5500
 Wire Wire Line
-	8000 5500 8300 5500
+	7800 5500 8300 5500
 Wire Wire Line
 	5600 2400 6000 2400
 Wire Wire Line
@@ -2233,10 +2233,10 @@ Wire Wire Line
 Wire Wire Line
 	5500 4100 5500 4300
 Wire Wire Line
-	8100 6000 8100 6000
+	7900 6000 7900 6000
 Wire Wire Line
-	8100 5600 8100 5500
-Connection ~ 8100 5500
+	7900 5600 7900 5500
+Connection ~ 7900 5500
 Connection ~ 10600 3500
 Wire Wire Line
 	10500 3500 10600 3500
@@ -2354,12 +2354,12 @@ $EndComp
 $Comp
 L R_Network_4 RN5
 U 1 1 55E48D77
-P 8100 5800
-F 0 "RN5" H 8100 5880 60  0000 C CNN
-F 1 "22k" H 8100 5800 40  0000 C CNN
-F 2 "4x0603_N" H 8100 5740 40  0001 C CNN
-F 3 "" H 8100 5800 60  0000 C CNN
-	1    8100 5800
+P 7900 5800
+F 0 "RN5" H 7900 5880 60  0000 C CNN
+F 1 "22k" H 7900 5800 40  0000 C CNN
+F 2 "4x0603_N" H 7900 5740 40  0001 C CNN
+F 3 "" H 7900 5800 60  0000 C CNN
+	1    7900 5800
 	0    -1   -1   0   
 $EndComp
 NoConn ~ 10100 5900
@@ -2456,4 +2456,22 @@ Text Notes 6100 2700 0    67   Italic 0
 8\n9\n10\n11\n12\n13\nA0\nA1\nA2\nA3\nA4\nA5\n0\n1\n2\n3\n4\n5\n6\n7
 Text Notes 1600 2700 0    67   Italic 0
 A6\nA7
+Text Label 7700 900  0    60   ~ 0
+Servo2a
+Text Label 7700 1000 0    60   ~ 0
+Servo3a
+Text Label 7700 800  0    60   ~ 0
+Servo1a
+Text Label 7700 1100 0    60   ~ 0
+Servo4a
+Text Label 7700 1900 0    60   ~ 0
+Servo5a
+Text Label 7700 2000 0    60   ~ 0
+Servo6a
+Text Label 7700 2100 0    60   ~ 0
+Servo7a
+Text Label 7700 2200 0    60   ~ 0
+Servo8a
+Text Label 7900 5500 0    60   ~ 0
+ESP_ENa
 $EndSCHEMATC

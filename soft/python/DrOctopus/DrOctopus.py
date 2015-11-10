@@ -23,9 +23,9 @@ class DrOctopus(object):
     clockStarts =[0,0,0,0]
     curves = [[],[],[],[]]
     counters=[0,0,0,0]
-    port = 6
-    port_inner=8
-    port_outter=7
+    port = 16
+    port_inner=10
+    port_outter=10
     senOffset = [0,0,0,20,10,900,0]
     senDiv = [90,10,1,0.2,0.07,0.5,10]
     senNames=["Akcelerometr", "Magnetometr", "Odleglosciomierz", "Wilgotnosc", "Temperatura", "Cisnienie", "Swiatlo"]
@@ -98,6 +98,8 @@ class DrOctopus(object):
             command+= "#%d P%d " %(nArm*4 + i, servo)
         command+= "T%d\r" % int(time*1000)
         self.ser.write(command)
+        print command
+        
 
     def loadLine(self, group): # random line
         path = "line/%d/" % group
@@ -131,7 +133,7 @@ class DrOctopus(object):
                 sensors = [int(random.randrange(255)) for i in range(7)]
             self.sensors.pop(0)
             self.sensors.append(sensors)
-            f=open(r"C:\Users\ASP\Desktop\MapaEkran\OdSensorow.txt","w")
+            f=open(r"OdSensorow.txt","w")
             for s in self.sensors:
                 for i in range(7):
                     kol = ["transparentny", "bialy", "szary", "czarny"]
@@ -156,50 +158,32 @@ class DrOctopus(object):
         except:
             pass
             
-    def run(self):
+    def run(self,debugRun=False):
         Xmax = self.armSpacing/2 - .04
         Ymax = (self.L1+self.L2)-0.1
-        threading.Thread(target=self.sensorsCheck).start()
-        for k in range(4):
-            self.extrude(k,1)
-        start = time.time()
-        y=self.L1+self.L2-0.02
-        while time.time()<(start+3600):
-            for i in range(wiek):
-                print i
-                pts = self.loadLine(int(random.randrange(1,3)))
-                for k in range(4):
-                    self.armGoToPos(k,[pts[0][0]*float(wzrost)/4.0/1000.0, y, pts[0][1]*float(waga)/2.0/1000.0], 1)
-                time.sleep(1)
+        if not debugRun:
+            threading.Thread(target=self.sensorsCheck).start()
+            for k in range(4):
+                self.extrude(k,1)
+            start = time.time()
+            y=self.L1+self.L2-0.02
+            while 1:
+                pts = [self.loadLine(int(random.randrange(1,3))) for k in range(4)]
+                L = min([len(p) for p in pts])
+                print L
                 tt=0
-                for p in pts:
-                    for k in range(4):
-                        tt = p[2]/1000.0 - tt
-                        self.armGoToPos(k,[p[0]*float(wzrost)/4.0/10000.0, y, p[1]*float(waga)/2.0/10000.0], tt)
-                    time.sleep(tt+.01)
-            y+=.005
-        while time.time()<(start+56000):
-            for i in range(wiek):
-                print i
-                sense = self.sensors[random.randrange(len(self.sensors))]
-                ss = sense[random.randrange(len(sense))]
-                ss = int(ss*256/4)
-                if ss>3:
-                    ss=3
-                if ss<0:
-                    ss=0
-                pts = self.loadLine(ss+1)
-                for k in range(4):
-                    self.armGoToPos(k,[pts[0][0]*float(wzrost)/4.0/1000.0, y, pts[0][1]*float(waga)/2.0/1000.0], 1)
-                time.sleep(1)
-                tt=0
-                for p in pts:
-                    for k in range(4):
-                        tt = p[2]/1000.0 - tt
-                        self.armGoToPos(k,[p[0]*float(wzrost)/4.0/10000.0, y, p[1]*float(waga)/2.0/10000.0], tt)
-                    time.sleep(tt+.01)
-            y+=.005
-                    
+                for n in range(0,L,10):
+                    tm = max([p[n][2] for p in pts])
+                    t = tm-tt + 100
+                    tt=tm
+                    for k in [0]:
+                        self.armGoToPos(k,[pts[k][n][0]/100*Xmax, y, pts[k][n][1]/100*Xmax], t/1000.0)
+                        pass
+                    time.sleep(t/1000.0)
+
+        else:
+            pts = self.loadLine(int(random.randrange(1,3)))
+            print pts                    
     
 if __name__ == '__main__':
     pass

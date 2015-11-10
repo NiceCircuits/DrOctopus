@@ -1,4 +1,4 @@
-update=2015-09-02 21:59:49
+update=2015-09-28 17:11:58
 version=1
 last_client=kicad
 [cvpcb]
@@ -44,3 +44,13 @@ LibName12=niceResonators
 LibName13=niceDiodes
 LibName14=niceMechanical
 LibName15=D:/Lib/kicad/pnDiode
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=67

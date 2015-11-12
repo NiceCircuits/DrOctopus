@@ -20,6 +20,7 @@ def on_connect(client, userdata, flags, rc):
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe("/drOctopus/test/#")
+    client.subscribe("/esp-link/#")
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -58,4 +59,4 @@ if __name__ =="__main__":
     time.sleep(1)
     for i in range(10):
         client.publish("/drOctopus/test/test", "aaa")
-        time.sleep(1)
+        time.sleep(100)

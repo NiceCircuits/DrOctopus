@@ -37,7 +37,8 @@ void mqttConnected(void* response)
 {
   debugPort.println("MQTT connected");
   mqtt.subscribe("/drOctopus/test/#"); //or mqtt.subscribe("topic"); /*with qos = 0*/
-  mqtt.publish("/drOctopus/test/arduSend", "data0");
+  mqtt.subscribe("/esp-link/#"); // subscribe status messages
+  //mqtt.publish("/drOctopus/test/arduSend", "data0");
 
 }
 void mqttDisconnected(void* response)
@@ -70,7 +71,14 @@ void setup() {
   delay(500);
   debugPort.println("ARDUINO: esp reset");
   esp.reset();
-  delay(5000);
+  // wait for
+//  Serial.setTimeout(1000);
+//  for (int i=0;i<200;i++)
+//  {
+//	  String str = Serial.readStringUntil('\r');
+//	  debugPort.print(str);
+//  }
+//  delay(10000);
   debugPort.println("ARDUINO: esp wait");
   while(!esp.ready());
 
@@ -89,6 +97,7 @@ void setup() {
   mqtt.disconnectedCb.attach(&mqttDisconnected);
   mqtt.publishedCb.attach(&mqttPublished);
   mqtt.dataCb.attach(&mqttData);
+
 
   /*setup wifi*/
   debugPort.println("ARDUINO: setup wifi");

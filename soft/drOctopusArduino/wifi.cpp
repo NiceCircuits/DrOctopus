@@ -12,114 +12,109 @@
 ESP esp(&Serial, &Serial, 4);
 MQTT mqtt(&esp);
 boolean wifiConnected = false;
-String ip, ssid;
+char wifiIp[16], wifiSsid[16];
 
-void wifiCb(void* response)
-{
-  uint32_t status;
-  RESPONSE res(response);
+void wifiCb(void* response) {
+	uint32_t status;
+	RESPONSE res(response);
 
-  if(res.getArgc() == 1) {
-    res.popArgs((uint8_t*)&status, 4);
-    if(status == STATION_GOT_IP) {
-      debugPort.println("Wifi connected");
-      //mqtt.connect("yourserver.com", 1883, false); // not needed - esp-link connects automatically
-      wifiConnected = true;
-      //or mqtt.connect("host", 1883); /*without security ssl*/
-    } else {
-      wifiConnected = false;
-      mqtt.disconnect();
-    }
+	if (res.getArgc() == 1) {
+		res.popArgs((uint8_t*) &status, 4);
+		if (status == STATION_GOT_IP) {
+			debugPrintln("Wifi connected");
+			//mqtt.connect("yourserver.com", 1883, false); // not needed - esp-link connects automatically
+			wifiConnected = true;
+			//or mqtt.connect("host", 1883); /*without security ssl*/
+		} else {
+			wifiConnected = false;
+			mqtt.disconnect();
+		}
 
-  }
+	}
 }
 
-void mqttConnected(void* response)
-{
-  debugPort.println("MQTT connected");
-  mqtt.subscribe("/drOctopus/test/#"); //or mqtt.subscribe("topic"); /*with qos = 0*/
-  mqtt.subscribe("/esp-link/#"); // subscribe status messages
-  //mqtt.publish("/drOctopus/test/arduSend", "data0");
+void mqttConnected(void* response) {
+	debugPrintln("MQTT connected");
+	mqtt.subscribe("/drOctopus/#"); //or mqtt.subscribe("topic"); /*with qos = 0*/
+	mqtt.subscribe("/esp-link/#"); // subscribe status messages
+	//mqtt.publish("/drOctopus/test/arduSend", "data0");
 
 }
-void mqttDisconnected(void* response)
-{
+void mqttDisconnected(void* response) {
+	debugPrintln("MQTT disconnected");
+}
+void mqttData(void* response) {
+	RESPONSE res(response);
+
+	debugPrint("Received: topic=");
+	String topic = res.popString();
+	debugPrintln(topic);
+
+	debugPrint("\tdata=");
+	String data = res.popString();
+	debugPrintln(data);
 
 }
-void mqttData(void* response)
-{
-  RESPONSE res(response);
-
-  debugPort.print("Received: topic=");
-  String topic = res.popString();
-  debugPort.println(topic);
-
-  debugPort.print("data=");
-  String data = res.popString();
-  debugPort.println(data);
-
-}
-void mqttPublished(void* response)
-{
+void mqttPublished(void* response) {
 
 }
 
-void wifiInit()
-{
+void wifiInit() {
 	Serial.begin(115200);
 	esp.enable();
-	debugPort.println("ARDUINO: esp enable");
 	delay(500);
-	debugPort.println("ARDUINO: esp reset");
 	esp.reset();
-	// wait for
+
+	// wait for connection and search SSID and IP in debug log
 	Serial.setTimeout(1000);
 	const String ssidString = "Wifi connected to ssid ";
 	const String ipString = "Wifi got ip:";
-	int found=0, location, start, stop;
-	for (int i=0;i<200;i++)
-	{
-	  String espString = Serial.readStringUntil('\r');
-	  if (found==0)
-	  {
-		  // search Wifi SSID information
-		  location=espString.indexOf(ssidString);
-		  if (location>0)
-		  {
-			  start=location+ssidString.length();
-			  stop=espString.indexOf(",",start);
-			  ssid=espString.substring(start,stop);
-			  debugPort.println(ssid);
-			  found=1;
-		  }
-	  }
-	  if (found==1)
-	  {
-		  // search Wifi SSID information
-		  location=espString.indexOf(ipString);
-		  if (location>0)
-		  {
-			  start=location+ipString.length();
-			  stop=espString.indexOf(",",start);
-			  ip=espString.substring(start,stop);
-			  debugPort.println(ip);
-			  break;
-		  }
-	  }
+	const String endString = "Turning OFF uart log";
+	String temp;
+	int found = 0, location, start, stop;
+	for (int i = 0; i < 120; i++) {
+		String espString = Serial.readStringUntil('\r');
+		if (found == 0) {
+			// search for Wifi SSID information
+			location = espString.indexOf(ssidString);
+			if (location >= 0) {
+				start = location + ssidString.length();
+				stop = espString.indexOf(",", start);
+				strncpy(wifiSsid, espString.substring(start, stop).c_str(), 15);
+				debugPrint(ssidString);
+				debugPrintln(wifiSsid);
+				found = 1;
+			}
+		} else if (found == 1) {
+			// search for Wifi IP information
+			location = espString.indexOf(ipString);
+			if (location >= 0) {
+				start = location + ipString.length();
+				stop = espString.indexOf(',', start);
+				strncpy(wifiIp, espString.substring(start, stop).c_str(), 15);
+				debugPrint(ipString);
+				debugPrintln(wifiIp);
+				found = 2;
+			}
+		} else if (found == 2) {
+			// search for end of esp debug log
+			location = espString.indexOf(endString);
+			if (location >= 0) {
+				break;
+			}
+		}
 	}
-	delay(10000);
-	debugPort.println("ARDUINO: esp wait");
-	while(!esp.ready());
+	while (!esp.ready())
+		;
 
-	debugPort.println("ARDUINO: setup mqtt client");
-	if(!mqtt.begin("DVES_duino", "admin", "Isb_C4OGD4c3", 120, 1)) {
-	debugPort.println("ARDUINO: fail to setup mqtt");
-	while(1);
+	//debugPrintln("setup mqtt client");
+	if (!mqtt.begin("", "", "", 120, 1)) {
+		debugPrintln("MQTT Fail");
+		while (1)
+			;
 	}
 
-
-	debugPort.println("ARDUINO: setup mqtt lwt");
-	mqtt.lwt("/lwt", "offline", 0, 0); //or mqtt.lwt("/lwt", "offline");
+	//mqtt.lwt("/lwt", "offline", 0, 0); //or mqtt.lwt("/lwt", "offline");
 
 	/*setup mqtt events */
 	mqtt.connectedCb.attach(&mqttConnected);
@@ -127,16 +122,11 @@ void wifiInit()
 	mqtt.publishedCb.attach(&mqttPublished);
 	mqtt.dataCb.attach(&mqttData);
 
-
 	/*setup wifi*/
-	debugPort.println("ARDUINO: setup wifi");
 	esp.wifiCb.attach(&wifiCb);
-
-	//esp.wifiConnect("DVES_HOME","wifipassword"); // not needed - esp-link connects automatically
-
+	esp.wifiConnect("", "");
 }
 
-void wifiLoop()
-{
+void wifiLoop() {
 	esp.process();
 }

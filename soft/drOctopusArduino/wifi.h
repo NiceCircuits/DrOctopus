@@ -14,6 +14,6 @@ void wifiInit(void);
 void wifiLoop(void);
 
 extern boolean wifiConnected;
-extern String ip, ssid;
+extern char wifiIp[], wifiSsid[];
 
 #endif /* WIFI_H_ */

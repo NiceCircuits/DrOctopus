@@ -11,5 +11,5 @@ drOctopus.kicad_pcb-bak
 /pcb/v1.0/sim/*.log
 *.pyc
 /movies
-/soft/drOctopusArduinoTest/Release
+**/Release/
 log.txt

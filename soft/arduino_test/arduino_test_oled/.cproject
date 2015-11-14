@@ -21,11 +21,11 @@
 								<option id="it.baeyens.arduino.compiler.cpp.sketch.option.incpath.209362939" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.cpp.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/arduino/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/arduino/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/AdafruitGFXLibrary}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/Wire/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/nicer_Adafruit_SSD1306}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/U8glib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/U8glib/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.40266751" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -33,11 +33,11 @@
 								<option id="it.baeyens.arduino.compiler.c.sketch.option.incpath.1115821886" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.c.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/arduino/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/arduino/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/AdafruitGFXLibrary}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/Wire/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/nicer_Adafruit_SSD1306}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/U8glib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arduino_test_oled/Libraries/U8glib/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.1556108132" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

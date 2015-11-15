@@ -57,6 +57,6 @@ def tester_init():
 if __name__ =="__main__":
     tester_init()
     time.sleep(1)
-    for i in range(10):
-        client.publish("/drOctopus/test/test", "aaa")
-        time.sleep(100)
+    for i in range(100):
+        client.publish("/drOctopus/test/testsssss", "aaa")
+        time.sleep(5)

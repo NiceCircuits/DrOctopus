@@ -13,4 +13,5 @@ drOctopus.kicad_pcb-bak
 /movies
 **/Release/
 log.txt
-/pcb/v1.0/_autosave-drOctopus.kicad_pcb
+**/_autosave*.kicad_pcb
+.ino.cpp

@@ -11,7 +11,7 @@
 #if DEBUG_ENABLE
 SoftwareSerial debugPort(A2, A3); // RX, TX
 void debugInit(){
-	debugPort.begin(115200);
+	debugPort.begin(57600);
 }
 #else // DEBUG_ENABLE
 void debugInit(){

@@ -26,15 +26,15 @@ void oledLoop(void) {
 		for (int i = 0; i < OLED_LINES; i++) {
 			int L = strlen(oledText[i]);
 			if (L < 15) {
-				u8g.setFont(u8g_font_9x15);
-			} else if (L < 17) {
-				u8g.setFont(u8g_font_8x13);
+				u8g.setFont(u8g_font_9x15); // 2959 bytes
+//			} else if (L < 17) {
+//				u8g.setFont(u8g_font_8x13); // 2152 bytes
 			} else if (L < 19) {
-				u8g.setFont(u8g_font_7x13);
-			} else if (L < 22) {
-				u8g.setFont(u8g_font_6x13);
+				u8g.setFont(u8g_font_7x13); // 2157 bytes
+//			} else if (L < 22) {
+//				u8g.setFont(u8g_font_6x13); // 2160 bytes
 			} else {
-				u8g.setFont(u8g_font_5x8);
+				u8g.setFont(u8g_font_5x8); // 1693 bytes
 			}
 			u8g.drawStr(0, 15 + 16 * i, oledText[i]);
 		}

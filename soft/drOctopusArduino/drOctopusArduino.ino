@@ -22,14 +22,12 @@ void loop() {
 	oledLoop();
 	wifiLoop();
 	if (wifiConnected) {
-		char str[23]="WiFi:";
+		char str[23] = "WiFi:";
 		oledCls();
-		strncat(str,wifiSsid,22-5);
+		strncat(str, wifiSsid, 22 - 5);
 		oledPrintLine(str, 0);
 		oledPrintLine(wifiIp, 1);
-	}
-	else
-	{
+	} else {
 		oledCls();
 		oledPrintLine("Conn. failed!", 0);
 	}

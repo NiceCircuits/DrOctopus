@@ -7,8 +7,12 @@
 #include "wifi.h"
 #include "debug.h"
 #include "oled.h"
+#include "servos.h"
+
+boolean wifiConnectedLast = true;
 
 void setup() {
+	pinMode(A2, OUTPUT);
 	debugInit();
 	oledInit();
 	debugPrintln("start");
@@ -16,19 +20,25 @@ void setup() {
 	oledLoop(); // push data to OLED
 	wifiInit();
 	debugPrintln("started");
+	servosInit();
 }
 
 void loop() {
-	oledLoop();
+	digitalWrite(A2, HIGH);
 	wifiLoop();
-	if (wifiConnected) {
+	if (wifiConnected && !wifiConnectedLast) {
 		char str[23] = "WiFi:";
 		oledCls();
 		strncat(str, wifiSsid, 22 - 5);
 		oledPrintLine(str, 0);
 		oledPrintLine(wifiIp, 1);
-	} else {
+		oledLoop();
+	} else if (!wifiConnected && wifiConnectedLast) {
 		oledCls();
 		oledPrintLine("Conn. failed!", 0);
+		oledLoop();
 	}
+	wifiConnectedLast=wifiConnected;
+	digitalWrite(A2, LOW);
 }
+

@@ -13,10 +13,12 @@ ESP esp(&Serial, &Serial, 4);
 MQTT mqtt(&esp);
 boolean wifiConnected = false, mqttConnected = false;
 char wifiIp[16], wifiSsid[16];
+uint8_t wifiId; // last byte of IP
+
+#define MQTT_TOPIC_ROOT "/drOctopus/"
 
 void mqttSubscribe() {
-	mqtt.subscribe("/drOctopus/#"); //or mqtt.subscribe("topic"); /*with qos = 0*/
-	mqtt.subscribe("/esp-link/#"); // subscribe status messages
+	mqtt.subscribe(MQTT_TOPIC_ROOT "common");
 }
 
 void wifiCb(void* response) {
@@ -27,7 +29,7 @@ void wifiCb(void* response) {
 		res.popArgs((uint8_t*) &status, 4);
 		if (status == STATION_GOT_IP) {
 			debugPrintln("Wifi connected");
-			mqtt.connect("zzzz", 1883, false); // not needed - esp-link connects automatically
+			mqtt.connect("", 1883, false); // not needed - esp-link connects automatically
 			wifiConnected = true;
 			//or mqtt.connect("host", 1883); /*without security ssl*/
 		} else {
@@ -41,7 +43,6 @@ void wifiCb(void* response) {
 void mqttConnectedCb(void* response) {
 	debugPrintln("MQTT connected");
 	mqttSubscribe();
-	//mqtt.publish("/drOctopus/test/arduSend", "data0");
 	mqttConnected = true;
 }
 
@@ -52,15 +53,19 @@ void mqttDisconnectedCb(void* response) {
 
 void mqttDataCb(void* response) {
 	RESPONSE res(response);
-	char buf[21];
+	char buf[31];
 
 	debugPrint("Received: topic=");
-	res.popArgs((uint8_t*) buf, 20);
+	memset(buf, 0, 31);
+	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
 
 	debugPrint("\tdata=");
-	res.popArgs((uint8_t*) buf, 20);
+	memset(buf, 0, 31);
+	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
+	delay(100);
+	mqtt.publish("/drOctopus/resp", buf);
 }
 
 void mqttPublishedCb(void* response) {
@@ -87,7 +92,7 @@ void wifiInit() {
 	const char* ipString = "Wifi got ip:";
 	const char* endString = "Turning OFF uart log";
 	int found = 0;
-	char* start, stop;
+	char *start, *temp;
 	for (int i = 0; i < 120; i++) {
 		char espString[80];
 		Serial.readBytesUntil('\n', espString, 60);
@@ -111,6 +116,9 @@ void wifiInit() {
 				debugPrint(ipString);
 				debugPrintln(start);
 				strncpy(wifiIp, start, 15);
+				// find last dot and read last byte of IP
+				temp = strrchr(wifiIp, '.');
+				wifiId = atoi(temp);
 				found = 2;
 			}
 		} else if (found == 2) {

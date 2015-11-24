@@ -8,17 +8,27 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
+
+// debug port selection
+// no debug
+#define DEBUG_DISABLED 0
+// use dedicated software defined serial port (interferes with servos)
+#define DEBUG_SOFT_SERIAL 1
+// use existing hardware serial port (the same as ESP module)
+#define DEBUG_HARD_SERIAL 2
+// select one of options
+#define DEBUG_ENABLE DEBUG_DISABLED
+
+#if DEBUG_ENABLE==DEBUG_SOFT_SERIAL
 #include <SoftwareSerial.h>
-
-#define DEBUG_ENABLE 1
-
-#if DEBUG_ENABLE
 extern SoftwareSerial debugPort;
 
 #define debugPrint(n) do{debugPort.print(n);}while(0)
 #define debugPrintln(n) do{debugPort.println(n);}while(0)
-
-#else // DEBUG_ENABLE
+#elif DEBUG_ENABLE==DEBUG_HARD_SERIAL
+#define debugPrint(n) do{Serial.print(n);}while(0)
+#define debugPrintln(n) do{Serial.println(n);}while(0)
+#else // DEBUG_ENABLE==DEBUG_DISABLED
 #define debugPrint(n) do{}while(0)
 #define debugPrintln(n) do{}while(0)
 #endif //DEBUG_ENABLE

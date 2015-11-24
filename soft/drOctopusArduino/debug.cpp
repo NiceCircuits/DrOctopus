@@ -8,10 +8,14 @@
 #include "debug.h"
 #include <Arduino.h>
 
-#if DEBUG_ENABLE
-SoftwareSerial debugPort(A2, A3); // RX, TX
+#if DEBUG_ENABLE==DEBUG_SOFT_SERIAL
+SoftwareSerial debugPort(-1, A3); // RX, TX
 void debugInit(){
 	debugPort.begin(57600);
+}
+#elif DEBUG_ENABLE==DEBUG_HARD_SERIAL
+void debugInit(){
+	// port initilized in wifiInit
 }
 #else // DEBUG_ENABLE
 void debugInit(){

@@ -8,8 +8,7 @@
 
 Servo servo1, servo2, servo3, servo4;
 
-void servosInit()
-{
+void servosInit() {
 	servo1.attach(7);
 	servo2.attach(8);
 	servo3.attach(9);
@@ -19,5 +18,4 @@ void servosInit()
 	servo3.writeMicroseconds(1500);  // set servo to mid-point
 	servo4.writeMicroseconds(1500);  // set servo to mid-point
 }
-
 

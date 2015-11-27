@@ -9,6 +9,8 @@
 #define SERVOS_H_
 
 
+#define N_SERVOS (4)
+
 void servosInit();
 
 

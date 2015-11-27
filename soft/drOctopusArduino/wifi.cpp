@@ -8,17 +8,24 @@
 #include "debug.h"
 #include <espduino.h>
 #include <mqtt.h>
+#include <EEPROM.h>
+#include "commandBuffer.h"
 
 ESP esp(&Serial, &Serial, 4);
 MQTT mqtt(&esp);
 boolean wifiConnected = false, mqttConnected = false;
 char wifiIp[16], wifiSsid[16];
 uint8_t wifiId; // last byte of IP
+uint8_t armId; // id of arm, from 1 to 99, stored on EEPROM
+// address where ID is stored in EEPROM
+#define ARM_ID_EE_ADDRESS (13)
 
-#define MQTT_TOPIC_ROOT "/drOctopus/"
+const char* mqttTopicCommon = "/drOctopus/common";
+char* mqttTopicThis = "/drOctopus/arm/??"; // "??" will be replaced with arm number
 
 void mqttSubscribe() {
-	mqtt.subscribe(MQTT_TOPIC_ROOT "common");
+	mqtt.subscribe(mqttTopicCommon);
+	mqtt.subscribe(mqttTopicThis);
 }
 
 void wifiCb(void* response) {
@@ -36,7 +43,6 @@ void wifiCb(void* response) {
 			wifiConnected = false;
 			mqtt.disconnect();
 		}
-
 	}
 }
 
@@ -54,18 +60,25 @@ void mqttDisconnectedCb(void* response) {
 void mqttDataCb(void* response) {
 	RESPONSE res(response);
 	char buf[31];
+	boolean commandFlag = false;
 
 	debugPrint("Received: topic=");
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
+	if (strcmp(buf, mqttTopicThis) == 0) {
+		commandFlag = true;
+	}
 
 	debugPrint("\tdata=");
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
-	delay(100);
-	mqtt.publish("/drOctopus/resp", buf);
+	if (commandFlag) {
+		command_t c;
+		memcpy(&c, buf, sizeof(command_t));
+		commandBufferPush(&c);
+	}
 }
 
 void mqttPublishedCb(void* response) {
@@ -73,6 +86,11 @@ void mqttPublishedCb(void* response) {
 }
 
 void wifiInit() {
+	// read arm ID from EEPROM
+	armId = EEPROM.read(ARM_ID_EE_ADDRESS);
+	debugPrint("Arm ID: ");
+	debugPrintln(armId);
+
 	Serial.begin(57600);
 	esp.enable();
 	delay(500);
@@ -132,14 +150,14 @@ void wifiInit() {
 	while (!esp.ready())
 		;
 
-	//debugPrintln("setup mqtt client");
+//debugPrintln("setup mqtt client");
 	if (!mqtt.begin("", "", "", 120, 1)) {
 		debugPrintln("MQTT Fail");
 		while (1)
 			;
 	}
 
-	//mqtt.lwt("/lwt", "offline", 0, 0); //or mqtt.lwt("/lwt", "offline");
+//mqtt.lwt("/lwt", "offline", 0, 0); //or mqtt.lwt("/lwt", "offline");
 
 	esp.wifiConnect("", "");
 	mqttSubscribe();

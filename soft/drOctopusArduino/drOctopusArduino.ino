@@ -8,12 +8,14 @@
 #include "debug.h"
 #include "oled.h"
 #include "servos.h"
+#include "commandBuffer.h"
 
 boolean wifiConnectedLast = true;
 
 void setup() {
 	pinMode(A2, OUTPUT);
 	debugInit();
+	commandBufferInit();
 	oledInit();
 	debugPrintln("start");
 	oledPrintLine("Connecting...", 0);
@@ -38,7 +40,7 @@ void loop() {
 		oledPrintLine("Conn. failed!", 0);
 		oledLoop();
 	}
-	wifiConnectedLast=wifiConnected;
+	wifiConnectedLast = wifiConnected;
 	digitalWrite(A2, LOW);
 }
 

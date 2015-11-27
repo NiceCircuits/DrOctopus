@@ -8,6 +8,7 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
+#include <Arduino.h>
 
 // debug port selection
 // no debug
@@ -17,7 +18,9 @@
 // use existing hardware serial port (the same as ESP module)
 #define DEBUG_HARD_SERIAL 2
 // select one of options
-#define DEBUG_ENABLE DEBUG_DISABLED
+#ifndef DEBUG_ENABLE
+#define DEBUG_ENABLE DEBUG_HARD_SERIAL
+#endif
 
 #if DEBUG_ENABLE==DEBUG_SOFT_SERIAL
 #include <SoftwareSerial.h>
@@ -34,5 +37,7 @@ extern SoftwareSerial debugPort;
 #endif //DEBUG_ENABLE
 
 void debugInit();
+
+void debugPin(uint8_t value);
 
 #endif /* DEBUG_H_ */

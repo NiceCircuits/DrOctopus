@@ -7,8 +7,8 @@
 
 #include "debug.h"
 
-#if DEBUG_ENABLE
-#define DEBUG_PIN (5F)
+#if DEBUG_PIN_ENABLE
+#define DEBUG_PIN (5)
 void debugPin(uint8_t value) {
 	debugPrint("debugPin: ");
 	debugPrintln(value);
@@ -32,6 +32,7 @@ void debugInit() {
 }
 #else // DEBUG_ENABLE
 void debugInit() {
+	pinMode(DEBUG_PIN,OUTPUT);
 }
 #endif //DEBUG_ENABLE
 

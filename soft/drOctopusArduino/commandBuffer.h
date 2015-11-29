@@ -16,9 +16,9 @@ typedef struct {
 	int16_t servoPos[N_SERVOS]; // positions of servos to achieve at the timestamp
 } command_t;
 
-int commandBufferPush(command_t* data);
+int8_t commandBufferPush(command_t* data);
 
-int commandBufferPop(command_t* data);
+int8_t commandBufferPop(command_t* data);
 
 void commandBufferInit();
 

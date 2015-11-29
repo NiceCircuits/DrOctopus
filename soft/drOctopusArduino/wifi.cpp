@@ -10,6 +10,7 @@
 #include <mqtt.h>
 #include <EEPROM.h>
 #include "commandBuffer.h"
+#include "time.h"
 
 ESP esp(&Serial, &Serial, 4);
 MQTT mqtt(&esp);
@@ -24,6 +25,10 @@ const char mqttTopicCommon[] = "/drOctopus/common/#";
 const char mqttTopicSync[] = "/drOctopus/common/sync";
 char mqttTopicArm[] = "/drOctopus/arm/\0\0\0"; // "\0\0\0" will be replaced with arm number
 char mqttTopicConfig[] = "/drOctopus/conf/\0\0\0"; // "\0\0\0" will be replaced with arm wifi ID
+
+typedef enum {
+	mqttCommandNone = 0, mqttCommandPosition = 1, mqttCommandSync = 2
+} mqttCommand_t;
 
 void mqttSubscribe() {
 	mqtt.subscribe(mqttTopicCommon);
@@ -63,23 +68,30 @@ void mqttDisconnectedCb(void* response) {
 void mqttDataCb(void* response) {
 	RESPONSE res(response);
 	char buf[31];
-	boolean commandFlag = false;
+	mqttCommand_t commandType = mqttCommandNone;
 
 	debugPrint("Received: topic=");
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
 	if (strcmp(buf, mqttTopicArm) == 0) {
-		commandFlag = true;
+		commandType = mqttCommandPosition;
+	} else if (strcmp(buf, mqttTopicSync) == 0) {
+		commandType = mqttCommandSync;
 	}
+
 	debugPrint("\tdata=");
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
-	if (commandFlag) {
+	if (commandType == mqttCommandPosition) {
 		command_t c;
 		memcpy(&c, buf, sizeof(command_t));
 		commandBufferPush(&c);
+	} else if (commandType == mqttCommandSync) {
+		uint32_t newTime;
+		memcpy(&newTime, buf, sizeof(command_t));
+		setTime(newTime);
 	}
 }
 
@@ -141,6 +153,7 @@ void wifiInit() {
 				// find last dot and read last byte of IP
 				temp = strrchr(wifiIp, '.');
 				wifiId = atoi(temp);
+				strncat(mqttTopicConfig, temp, 3);
 				found = 2;
 			}
 		} else if (found == 2) {

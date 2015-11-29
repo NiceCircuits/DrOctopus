@@ -15,5 +15,7 @@ void wifiLoop(void);
 
 extern boolean wifiConnected;
 extern char wifiIp[], wifiSsid[];
+//TODO: delete:
+extern char mqttTopicArm[];
 
 #endif /* WIFI_H_ */

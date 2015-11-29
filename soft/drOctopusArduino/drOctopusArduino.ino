@@ -31,11 +31,10 @@ void loop() {
 	wifiLoop();
 	static uint32_t tLast=0;
 	if (wifiConnected && !wifiConnectedLast) {
-		char str[23] = "WiFi:";
 		oledCls();
-		strncat(str, wifiSsid, 22 - 5);
-		oledPrintLine(str, 0);
+		oledPrintLine(wifiSsid, 0);
 		oledPrintLine(wifiIp, 1);
+		oledPrintLine(mqttTopicArm+11, 2);
 		oledLoop();
 	} else if (!wifiConnected && wifiConnectedLast) {
 		oledCls();
@@ -46,11 +45,11 @@ void loop() {
 	uint32_t t;
 	t=timeGet();
 	char temp[20];
-	if(t>=(tLast+1000))
+	if((t>=(tLast+1000))||(t<=(tLast-1000)))
 	{
 		tLast=t;
 		itoa(t/1000,temp,10);
-		oledPrintLine(temp,2);
+		oledPrintLine(temp,3);
 		oledLoop();
 	}
 }

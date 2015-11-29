@@ -9,6 +9,7 @@
 #include "oled.h"
 #include "servos.h"
 #include "commandBuffer.h"
+#include "time.h"
 
 boolean wifiConnectedLast = true;
 
@@ -26,8 +27,9 @@ void setup() {
 }
 
 void loop() {
-	digitalWrite(A2, HIGH);
+	servosLoop();
 	wifiLoop();
+	static uint32_t tLast=0;
 	if (wifiConnected && !wifiConnectedLast) {
 		char str[23] = "WiFi:";
 		oledCls();
@@ -41,6 +43,15 @@ void loop() {
 		oledLoop();
 	}
 	wifiConnectedLast = wifiConnected;
-	digitalWrite(A2, LOW);
+	uint32_t t;
+	t=timeGet();
+	char temp[20];
+	if(t>=(tLast+1000))
+	{
+		tLast=t;
+		itoa(t/1000,temp,10);
+		oledPrintLine(temp,2);
+		oledLoop();
+	}
 }
 

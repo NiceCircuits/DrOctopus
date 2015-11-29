@@ -20,12 +20,15 @@ uint8_t armId; // id of arm, from 1 to 99, stored on EEPROM
 // address where ID is stored in EEPROM
 #define ARM_ID_EE_ADDRESS (13)
 
-const char* mqttTopicCommon = "/drOctopus/common";
-char* mqttTopicThis = "/drOctopus/arm/??"; // "??" will be replaced with arm number
+const char mqttTopicCommon[] = "/drOctopus/common/#";
+const char mqttTopicSync[] = "/drOctopus/common/sync";
+char mqttTopicArm[] = "/drOctopus/arm/\0\0\0"; // "\0\0\0" will be replaced with arm number
+char mqttTopicConfig[] = "/drOctopus/conf/\0\0\0"; // "\0\0\0" will be replaced with arm wifi ID
 
 void mqttSubscribe() {
 	mqtt.subscribe(mqttTopicCommon);
-	mqtt.subscribe(mqttTopicThis);
+	mqtt.subscribe(mqttTopicArm);
+	mqtt.subscribe(mqttTopicConfig);
 }
 
 void wifiCb(void* response) {
@@ -66,10 +69,9 @@ void mqttDataCb(void* response) {
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
 	debugPrintln(buf);
-	if (strcmp(buf, mqttTopicThis) == 0) {
+	if (strcmp(buf, mqttTopicArm) == 0) {
 		commandFlag = true;
 	}
-
 	debugPrint("\tdata=");
 	memset(buf, 0, 31);
 	res.popArgs((uint8_t*) buf, 30);
@@ -86,10 +88,13 @@ void mqttPublishedCb(void* response) {
 }
 
 void wifiInit() {
+	char strBuffer[80];
 	// read arm ID from EEPROM
 	armId = EEPROM.read(ARM_ID_EE_ADDRESS);
 	debugPrint("Arm ID: ");
-	debugPrintln(armId);
+	itoa(armId, strBuffer, 10);
+	debugPrintln(strBuffer);
+	strncat(mqttTopicArm, strBuffer, 3);
 
 	Serial.begin(57600);
 	esp.enable();
@@ -112,11 +117,10 @@ void wifiInit() {
 	int found = 0;
 	char *start, *temp;
 	for (int i = 0; i < 120; i++) {
-		char espString[80];
-		Serial.readBytesUntil('\n', espString, 60);
+		Serial.readBytesUntil('\n', strBuffer, 60);
 		if (found == 0) {
 			// search for Wifi SSID information
-			start = strstr(espString, ssidString);
+			start = strstr(strBuffer, ssidString);
 			if (start != NULL) {
 				start += strlen(ssidString);
 				*strchr(start, ',') = '\0';
@@ -127,7 +131,7 @@ void wifiInit() {
 			}
 		} else if (found == 1) {
 			// search for Wifi IP information
-			start = strstr(espString, ipString);
+			start = strstr(strBuffer, ipString);
 			if (start != NULL) {
 				start += strlen(ipString);
 				*strchr(start, ',') = '\0';
@@ -141,7 +145,7 @@ void wifiInit() {
 			}
 		} else if (found == 2) {
 			// search for end of esp debug log
-			start = strstr(espString, endString);
+			start = strstr(strBuffer, endString);
 			if (start != NULL) {
 				break;
 			}

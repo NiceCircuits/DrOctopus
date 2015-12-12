@@ -27,6 +27,7 @@ void servosInit() {
 
 void servosLoop() {
 	uint32_t now = timeGet();
+	//TODO: remove invalid commands from command buffer (timeout too far away?  timeout before last timeout?)
 	if (now >= lastCommand.timestamp) {
 		if (commandBufferPop(&lastCommand) >= 0) {
 			for (uint8_t i = 0; i < N_SERVOS; i++) {

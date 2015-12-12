@@ -79,5 +79,5 @@ if __name__ =="__main__":
             for i in range(100000):
                 sendCommand(i*500,[0,0,int(math.sin(i*math.pi/500)*300),0])
                 if i>10:
-                    time.sleep(.5)
+                    time.sleep(.499)
         time.sleep(1)

@@ -24,17 +24,26 @@ void setup() {
 	wifiInit();
 	debugPrintln("started");
 	servosInit();
+	// TODO:delete
+	pinMode(A0, OUTPUT);
+	pinMode(A1, OUTPUT);
 }
 
 void loop() {
+	// TODO:delete
+	digitalWrite(A0,HIGH);
 	servosLoop();
+	// TODO:delete
+	digitalWrite(A1,HIGH);
 	wifiLoop();
-	static uint32_t tLast=0;
+	// TODO:delete
+	digitalWrite(A0,LOW);
+	static uint32_t tLast = 0;
 	if (wifiConnected && !wifiConnectedLast) {
 		oledCls();
 		oledPrintLine(wifiSsid, 0);
 		oledPrintLine(wifiIp, 1);
-		oledPrintLine(mqttTopicArm+11, 2);
+		oledPrintLine(mqttTopicArm + 11, 2);
 		oledLoop();
 	} else if (!wifiConnected && wifiConnectedLast) {
 		oledCls();
@@ -43,14 +52,15 @@ void loop() {
 	}
 	wifiConnectedLast = wifiConnected;
 	uint32_t t;
-	t=timeGet();
+	t = timeGet();
 	char temp[20];
-	if((t>=(tLast+1000))||(t<=(tLast-1000)))
-	{
-		tLast=t;
-		itoa(t/1000,temp,10);
-		oledPrintLine(temp,3);
+	if ((t >= (tLast + 1000)) || (t <= (tLast - 1000))) {
+		tLast = t;
+		itoa(t / 1000, temp, 10);
+		oledPrintLine(temp, 3);
 		oledLoop();
 	}
+	// TODO:delete
+	digitalWrite(A1,LOW);
 }
 

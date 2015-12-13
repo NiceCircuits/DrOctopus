@@ -10,18 +10,21 @@
 
 #include <Arduino.h>
 
-// debug port selection
+// debug port selection options
 // no debug
 #define DEBUG_DISABLED 0
 // use dedicated software defined serial port (interferes with servos)
 #define DEBUG_SOFT_SERIAL 1
 // use existing hardware serial port (the same as ESP module)
 #define DEBUG_HARD_SERIAL 2
-// select one of options
+
+// =============== select one of debug options ===============
 #ifndef DEBUG_ENABLE
 #define DEBUG_ENABLE DEBUG_DISABLED
 #define DEBUG_PIN_ENABLE 1
 #endif
+
+#define FS(x) (__FlashStringHelper*)(x)
 
 #if DEBUG_ENABLE==DEBUG_SOFT_SERIAL
 #include <SoftwareSerial.h>

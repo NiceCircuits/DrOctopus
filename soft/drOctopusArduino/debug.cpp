@@ -30,6 +30,49 @@ void debugInit() {
 	Serial.begin(57600);
 	pinMode(DEBUG_PIN, OUTPUT);
 }
+#elif DEBUG_ENABLE==DEBUG_HARD_SPI
+SPISettings spiSettings(2000000, MSBFIRST, SPI_MODE0);
+const uint8_t SSpin = A2;
+void debugInit() {
+	// CS pin must be output to use SPI as Master!
+	SPI.begin();
+	digitalWrite(SSpin,HIGH);
+	pinMode(SSpin,OUTPUT);
+}
+
+void spiPrint(const char* str) {
+	char* str1 = (char*) str;
+	SPI.beginTransaction(spiSettings);
+	digitalWrite(SSpin,LOW);
+	while (1) {
+		unsigned char c = *str++;
+		if (c == 0) break;
+		SPI.transfer(c);
+	}
+	SPI.endTransaction();
+	digitalWrite(SSpin,HIGH);
+}
+
+void spiPrint(const __FlashStringHelper *str) {
+	PGM_P p = reinterpret_cast<PGM_P>(str);
+	size_t n = 0;
+	SPI.beginTransaction(spiSettings);
+	digitalWrite(SSpin,LOW);
+	while (1) {
+		unsigned char c = pgm_read_byte(p++);
+		if (c == 0) break;
+		SPI.transfer(c);
+	}
+	digitalWrite(SSpin,HIGH);
+	SPI.endTransaction();
+}
+
+void spiPrint(int num){
+	char str[11];
+	itoa(num,str,10);
+	spiPrint(str);
+}
+
 #else // DEBUG_ENABLE
 void debugInit() {
 	pinMode(DEBUG_PIN,OUTPUT);

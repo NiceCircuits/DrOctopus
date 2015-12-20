@@ -9,6 +9,7 @@
 #define DEBUG_H_
 
 #include <Arduino.h>
+#include <SPI.h>
 
 // debug port selection options
 // no debug
@@ -17,10 +18,12 @@
 #define DEBUG_SOFT_SERIAL 1
 // use existing hardware serial port (the same as ESP module)
 #define DEBUG_HARD_SERIAL 2
+// use existing hardware SPI
+#define DEBUG_HARD_SPI 3
 
 // =============== select one of debug options ===============
 #ifndef DEBUG_ENABLE
-#define DEBUG_ENABLE DEBUG_DISABLED
+#define DEBUG_ENABLE DEBUG_HARD_SPI
 #define DEBUG_PIN_ENABLE 1
 #endif
 
@@ -29,12 +32,19 @@
 #if DEBUG_ENABLE==DEBUG_SOFT_SERIAL
 #include <SoftwareSerial.h>
 extern SoftwareSerial debugPort;
-
 #define debugPrint(n) do{debugPort.print(n);}while(0)
 #define debugPrintln(n) do{debugPort.println(n);}while(0)
 #elif DEBUG_ENABLE==DEBUG_HARD_SERIAL
 #define debugPrint(n) do{Serial.print(n);}while(0)
 #define debugPrintln(n) do{Serial.println(n);}while(0)
+
+#elif DEBUG_ENABLE==DEBUG_HARD_SPI
+void spiPrint(const char* str);
+void spiPrint(const __FlashStringHelper *str);
+void spiPrint(int num);
+#define debugPrint(n) do{spiPrint(n);}while(0)
+#define debugPrintln(n) do{spiPrint(n);spiPrint(F("\r\n"));}while(0)
+
 #else // DEBUG_ENABLE==DEBUG_DISABLED
 #define debugPrint(n) do{}while(0)
 #define debugPrintln(n) do{}while(0)

@@ -13,11 +13,15 @@
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_DEV_0);	// I2C
 
 #define OLED_LINES 4
-const char* oledText[OLED_LINES];
+#define OLED_MAX_LINE 24
+char oledText[OLED_LINES][OLED_MAX_LINE + 1];
 
 void oledInit(void) {
 	// u8g.setRot180();
 	oledCls();
+	for (uint8_t i = 0; i < OLED_LINES; i++) {
+		memset(oledText[i], '\0', OLED_MAX_LINE + 1);
+	}
 }
 
 void oledLoop(void) {
@@ -43,11 +47,11 @@ void oledLoop(void) {
 
 void oledCls() {
 	for (int i = 0; i < OLED_LINES; i++) {
-		oledText[i] = "";
+		oledText[i][0] = '\0';
 	}
 }
 
 void oledPrintLine(const char *str, int line) {
-	oledText[line] = str;
+	strncpy(oledText[line], str, OLED_MAX_LINE);
 }
 

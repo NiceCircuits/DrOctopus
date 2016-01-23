@@ -1,4 +1,4 @@
-update=2015-09-28 17:11:58
+update=2016-01-13 20:19:02
 version=1
 last_client=kicad
 [cvpcb]
@@ -25,6 +25,16 @@ BoardOutlineThickness=0.09999999999999999
 ModuleOutlineThickness=0.15
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=67
 [eeschema]
 version=1
 LibDir=D:/test/kicadLib
@@ -44,13 +54,4 @@ LibName12=niceResonators
 LibName13=niceDiodes
 LibName14=niceMechanical
 LibName15=D:/Lib/kicad/pnDiode
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=67
+LibName16=niceSTM32

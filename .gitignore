@@ -1,18 +1,14 @@
-/3D model/OldVersions
-/design/OldVersions
-/3D model/lockfile.lck
 lockfile.lck
 OldVersions
-/3D model/3d_printing/*.gcode
 *.gcode
 *.bak
-drOctopus.kicad_pcb-bak
-/pcb/v1.0/sim/*.raw
-/pcb/v1.0/sim/*.log
+*.kicad_pcb-bak
+/pcb/**/*.raw
+/pcb/**/*.log
 *.pyc
 /movies
 **/Release/
 log.txt
 **/_autosave*.kicad_pcb
 .ino.cpp
-/pcb/v1.0/_autosave-drOctopus.pro
+/pcb/**/_autosave-*.pro

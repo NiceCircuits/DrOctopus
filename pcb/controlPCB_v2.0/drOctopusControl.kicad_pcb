@@ -1,15 +1,15 @@
 (kicad_pcb (version 4) (host pcbnew 4.0.0-rc1-stable)
 
   (general
-    (links 234)
-    (no_connects 202)
+    (links 236)
+    (no_connects 204)
     (area 49.949999 49.949999 100.050001 100.050001)
     (thickness 1.6)
     (drawings 20)
     (tracks 0)
     (zones 0)
     (modules 71)
-    (nets 66)
+    (nets 68)
   )
 
   (page A4)
@@ -164,6 +164,8 @@
   (net 63 heater_fb)
   (net 64 /HEATER)
   (net 65 BTN)
+  (net 66 LED2)
+  (net 67 LED1)
 
   (net_class Default "This is the default net class."
     (clearance 0.1524)
@@ -197,6 +199,8 @@
     (add_net Fan1)
     (add_net Fan2)
     (add_net GND)
+    (add_net LED1)
+    (add_net LED2)
     (add_net Motor)
     (add_net "Net-(C13-Pad1)")
     (add_net "Net-(C14-Pad1)")
@@ -1501,7 +1505,8 @@
     (fp_line (start -1.5 -0.8) (end 1.5 -0.8) (layer F.SilkS) (width 0.152))
     (fp_line (start 1.5 -0.8) (end 1.5 0.8) (layer F.SilkS) (width 0.152))
     (fp_line (start 1.5 0.8) (end -1.5 0.8) (layer F.SilkS) (width 0.152))
-    (pad 1 smd rect (at -0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask))
+    (pad 1 smd rect (at -0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask)
+      (net 66 LED2))
     (pad 2 smd rect (at 0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask)
       (net 16 "Net-(D11-Pad2)"))
     (model cube_metal.wrl
@@ -1553,7 +1558,8 @@
     (fp_line (start -1.5 -0.8) (end 1.5 -0.8) (layer F.SilkS) (width 0.152))
     (fp_line (start 1.5 -0.8) (end 1.5 0.8) (layer F.SilkS) (width 0.152))
     (fp_line (start 1.5 0.8) (end -1.5 0.8) (layer F.SilkS) (width 0.152))
-    (pad 1 smd rect (at -0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask))
+    (pad 1 smd rect (at -0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask)
+      (net 67 LED1))
     (pad 2 smd rect (at 0.725 0) (size 1 0.95) (layers F.Cu F.Paste F.Mask)
       (net 17 "Net-(D12-Pad2)"))
     (model cube_metal.wrl
@@ -2293,7 +2299,7 @@
     (fp_text reference CON5 (at -3.54 0 360) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
-    (fp_text value PIN-2x3 (at 3.54 0 360) (layer B.SilkS)
+    (fp_text value PowerPCB3 (at 3.54 0 360) (layer B.SilkS)
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
     (fp_line (start 0.95 2.22) (end 0.95 2.86) (layer B.Fab) (width 0.05))
@@ -2391,7 +2397,7 @@
     (fp_text reference CON1 (at -3.54 0 450) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
-    (fp_text value PIN-2x2_F (at 3.54 0 450) (layer B.SilkS)
+    (fp_text value PowerPCB2 (at 3.54 0 450) (layer B.SilkS)
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
     (fp_line (start 0.95 0.95) (end 0.95 1.59) (layer B.Fab) (width 0.05))
@@ -2467,7 +2473,7 @@
     (fp_text reference CON6 (at -3.54 0 450) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
-    (fp_text value PIN-2x4 (at 3.54 0 450) (layer B.SilkS)
+    (fp_text value PowerPCB1 (at 3.54 0 450) (layer B.SilkS)
       (effects (font (size 1 1) (thickness 0.152)) (justify mirror))
     )
     (fp_line (start 0.95 3.49) (end 0.95 4.13) (layer B.Fab) (width 0.05))
@@ -4978,7 +4984,7 @@
     )
   )
 
-  (module niceSemiconductors:QFP-64-0.5_N (layer F.Cu) (tedit 0) (tstamp 56A5A69D)
+  (module QFP-64-0.5_N (layer F.Cu) (tedit 0) (tstamp 56AABA84)
     (at 84.2 79.3 180)
     (path /56A913B5)
     (fp_text reference U1 (at 0 -1.5 180) (layer F.Fab)
@@ -5312,8 +5318,10 @@
       (net 2 GND))
     (pad 32 smd rect (at 3.75 5.7 270) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask)
       (net 6 +3V3))
-    (pad 33 smd rect (at 5.7 3.75) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask))
-    (pad 34 smd rect (at 5.7 3.25) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask))
+    (pad 33 smd rect (at 5.7 3.75) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask)
+      (net 67 LED1))
+    (pad 34 smd rect (at 5.7 3.25) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask)
+      (net 66 LED2))
     (pad 35 smd rect (at 5.7 2.75) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask))
     (pad 36 smd rect (at 5.7 2.25) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask))
     (pad 37 smd rect (at 5.7 1.75) (size 1.5 0.3) (layers F.Cu F.Paste F.Mask)

@@ -1,4 +1,4 @@
-update=2016-01-13 20:19:02
+update=2016-01-24 21:07:00
 version=1
 last_client=kicad
 [cvpcb]
@@ -23,8 +23,6 @@ SolderMaskMinWidth=0.13
 DrawSegmentWidth=0.2
 BoardOutlineThickness=0.09999999999999999
 ModuleOutlineThickness=0.15
-[general]
-version=1
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -39,19 +37,20 @@ LabSize=67
 version=1
 LibDir=D:/test/kicadLib
 [eeschema/libraries]
-LibName1=drOctopus-rescue
-LibName2=power
-LibName3=niceAVR
-LibName4=niceModules
-LibName5=niceRLC
-LibName6=niceSwitches
-LibName7=test
-LibName8=nicePinheaders
-LibName9=niceMosfets
-LibName10=nicePowerSupplies
-LibName11=niceTerminalBlocks
-LibName12=niceResonators
-LibName13=niceDiodes
-LibName14=niceMechanical
-LibName15=D:/Lib/kicad/pnDiode
-LibName16=niceSTM32
+LibName1=power
+LibName2=niceAVR
+LibName3=niceModules
+LibName4=niceRLC
+LibName5=niceSwitches
+LibName6=test
+LibName7=nicePinheaders
+LibName8=niceMosfets
+LibName9=nicePowerSupplies
+LibName10=niceTerminalBlocks
+LibName11=niceResonators
+LibName12=niceDiodes
+LibName13=niceMechanical
+LibName14=D:/Lib/kicad/pnDiode
+LibName15=niceSTM32
+[general]
+version=1

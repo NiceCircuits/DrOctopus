@@ -1,4 +1,4 @@
-update=2016-01-24 19:33:18
+update=2016-01-25 18:46:57
 version=1
 last_client=kicad
 [cvpcb]
@@ -55,3 +55,4 @@ LibName13=niceMechanical
 LibName14=D:/Lib/kicad/pnDiode
 LibName15=niceSTM32
 LibName16=niceSensors
+LibName17=niceDrivers

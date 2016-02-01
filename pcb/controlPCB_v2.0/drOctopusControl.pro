@@ -1,4 +1,4 @@
-update=2016-01-29 17:13:39
+update=2016-02-01 17:54:09
 version=1
 last_client=kicad
 [cvpcb]
@@ -14,25 +14,6 @@ NetFmtName=
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=67
-[eeschema]
-version=1
-LibDir=D:/test/kicadLib
-[eeschema/libraries]
-LibName1=power
-LibName2=niceAVR
-LibName3=niceModules
-LibName4=niceRLC
-LibName5=niceSwitches
-LibName6=test
-LibName7=nicePinheaders
-LibName8=niceMosfets
-LibName9=nicePowerSupplies
-LibName10=niceTerminalBlocks
-LibName11=niceResonators
-LibName12=niceDiodes
-LibName13=niceMechanical
-LibName14=D:/Lib/kicad/pnDiode
-LibName15=niceSTM32
 [general]
 version=1
 [pcbnew]
@@ -54,3 +35,23 @@ SolderMaskMinWidth=0.15
 DrawSegmentWidth=2
 BoardOutlineThickness=0.09999999999999999
 ModuleOutlineThickness=0.15
+[eeschema]
+version=1
+LibDir=D:/test/kicadLib
+[eeschema/libraries]
+LibName1=power
+LibName2=niceAVR
+LibName3=niceModules
+LibName4=niceRLC
+LibName5=niceSwitches
+LibName6=test
+LibName7=nicePinheaders
+LibName8=niceMosfets
+LibName9=nicePowerSupplies
+LibName10=niceTerminalBlocks
+LibName11=niceResonators
+LibName12=niceDiodes
+LibName13=niceMechanical
+LibName14=D:/Lib/kicad/pnDiode
+LibName15=niceSTM32
+LibName16=D:/Lib/kicad/pnConnector

@@ -25377,7 +25377,6 @@ NoConn ~ 8900 1700
 NoConn ~ 8900 1800
 NoConn ~ 7300 1900
 NoConn ~ 7300 2000
-NoConn ~ 7300 2100
 Text Notes 7500 1400 0    60   Italic 0
 ESP bootloader - via STM32 \n(UART->UART pipe)
 $Comp
@@ -25521,7 +25520,7 @@ Wire Wire Line
 Wire Wire Line
 	7300 2400 7200 2400
 Wire Wire Line
-	7200 2400 7200 2500
+	7200 2300 7200 2500
 Wire Wire Line
 	8900 2400 9100 2400
 Wire Wire Line
@@ -25569,7 +25568,7 @@ Wire Wire Line
 Wire Wire Line
 	4000 1800 4000 1900
 Wire Wire Line
-	7000 2300 7300 2300
+	7000 2100 7300 2100
 Wire Wire Line
 	6400 3800 5500 3800
 Wire Wire Line
@@ -25646,7 +25645,7 @@ Text GLabel 7000 1700 0    50   Output ~ 0
 B2B_ESP_TxD
 Text GLabel 7000 1800 0    50   Input ~ 0
 B2B_ESP_RxD
-Text GLabel 7000 2300 0    50   Input ~ 0
+Text GLabel 7000 2100 0    50   Input ~ 0
 B2B_esp_boot
 Wire Wire Line
 	9100 1900 8900 1900
@@ -25716,4 +25715,7 @@ F 3 "" H 2500 7000 60  0000 C CNN
 	1    2500 7000
 	-1   0    0    1   
 $EndComp
+Wire Wire Line
+	7200 2300 7300 2300
+Connection ~ 7200 2400
 $EndSCHEMATC

@@ -15,3 +15,4 @@ log.txt
 /soft/.metadata/**/*.log
 /soft/.metadata/**/*.lock
 /soft/RemoteSystemsTempFiles
+/soft/drOctopusArduino

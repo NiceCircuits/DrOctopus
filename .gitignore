@@ -12,3 +12,6 @@ log.txt
 **/_autosave*.kicad_pcb
 .ino.cpp
 /pcb/**/_autosave-*.pro
+/soft/.metadata/**/*.log
+/soft/.metadata/**/*.lock
+/soft/RemoteSystemsTempFiles

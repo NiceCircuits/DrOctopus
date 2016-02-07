@@ -9,13 +9,11 @@
 
 #include "stm32f30x.h"
 #include "config.h"
+#include "debug.h"
 
-/**
- *
- * @return
- */
 int main(void) {
-
-	for (;;)
-		;
+	portInit();
+	debugInit();
+	for (;;) {
+	}
 }

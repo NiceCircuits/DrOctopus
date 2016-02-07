@@ -24,4 +24,8 @@
 #else
 #error "Other hardware not supported yet."
 #endif
+
+// ---------- Debug port ----------
+#define DEBUG_BUADRATE (115200)
+
 #endif /* CONFIG_H_ */

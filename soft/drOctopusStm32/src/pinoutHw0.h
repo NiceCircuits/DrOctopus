@@ -1,21 +1,12 @@
 /**
  ******************************************************************************
- * @file    main.c
+ * @file    pinoutHw0.h
  * @author  piotr@nicecircuits.com
- * @date    2016-02-07
- * @brief   main.c for drOctopus firmware for STM32
+ * @date    7 lut 2016
+ * @brief   Pinout file for HW 0 (NUCLEO-F303RE)
  ******************************************************************************
  */
+#ifndef PINOUTHW0_H_
+#define PINOUTHW0_H_
 
-#include "stm32f30x.h"
-#include "config.h"
-
-/**
- *
- * @return
- */
-int main(void) {
-
-	for (;;)
-		;
-}
+#endif /* PINOUTHW0_H_ */

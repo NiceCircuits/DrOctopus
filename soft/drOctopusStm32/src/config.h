@@ -27,5 +27,6 @@
 
 // ---------- Debug port ----------
 #define DEBUG_BUADRATE (115200)
+#define DEBUG_BUFFER_SIZE (512)
 
 #endif /* CONFIG_H_ */

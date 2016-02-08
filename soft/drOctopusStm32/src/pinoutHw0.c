@@ -19,10 +19,11 @@ uint8_t portInit(void) {
 
 uint8_t debugClockEnable(void) {
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_USART2EN, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBENR_DMA1EN, ENABLE);
 	return 0;
 }
 
-uint8_t debugGpioAfSetup(void){
+uint8_t debugGpioAfSetup(void) {
 	GPIO_PinAFConfig(DEBUG_GPIO, GPIO_PinSource2, GPIO_AF_7);
 	GPIO_PinAFConfig(DEBUG_GPIO, GPIO_PinSource3, GPIO_AF_7);
 	return 0;

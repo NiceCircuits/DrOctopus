@@ -28,6 +28,7 @@ uint8_t portInit(void);
 #define DEBUG_GPIO GPIOA
 #define DEBUG_RX_PIN GPIO_Pin_3
 #define DEBUG_TX_PIN GPIO_Pin_2
+#define DEBUG_DMA DMA1_Channel7
 /**
  * Initialize peripheral clock for debug USART
  * @return 0 if OK.
@@ -39,5 +40,11 @@ uint8_t debugClockEnable(void);
  */
 uint8_t debugGpioAfSetup(void);
 
+// ---------- LEDs ----------
+/// Number of LEDs present.
+#define LED_NUMBER 1
+#define LED_GPIOS {GPIOA}
+#define LED_PINS {GPIO_Pin_5}
+#define LED_ACTIVE_STATES {1}
 
 #endif /* PINOUTHW0_H_ */

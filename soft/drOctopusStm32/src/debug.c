@@ -9,8 +9,11 @@
 
 #include "debug.h"
 #include "config.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
-char debugBuffer[DEBUG_BUFFER_SIZE] = "DMA buffer empty";
+char debugBuffer[DEBUG_BUFFER_SIZE] = "UART buffer empty";
 
 uint8_t debugInit(void) {
 	GPIO_InitTypeDef gpio;
@@ -44,6 +47,7 @@ uint8_t debugInit(void) {
 
 	// Setup DMA
 	// Clock enabled in debugClockEnable() function
+	DMA_Cmd(DEBUG_DMA, DISABLE);
 	DMA_StructInit(&dma);
 	dma.DMA_DIR = DMA_DIR_PeripheralDST;
 	dma.DMA_M2M = DMA_M2M_Disable;
@@ -55,10 +59,26 @@ uint8_t debugInit(void) {
 	dma.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
 	dma.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
 	dma.DMA_Priority = DMA_Priority_Low;
-	dma.DMA_BufferSize = 16;
+	dma.DMA_BufferSize = 1;
 	DMA_Init(DEBUG_DMA, &dma);
-
 	DMA_Cmd(DEBUG_DMA, ENABLE);
+	return 0;
+}
 
+uint8_t debugPrint(debugSource_t source, const char* format, ...) {
+	size_t len;
+	va_list arglist;
+
+	// pass variable argument list to vsnprintf function to format
+	// formatted string will be available in debugBuffer
+	va_start(arglist, format);
+	vsnprintf(debugBuffer, DEBUG_BUFFER_SIZE, format, arglist);
+	va_end(arglist);
+
+	len = strlen(debugBuffer);
+//	DMA_GetCurrDataCounter()
+	DMA_Cmd(DEBUG_DMA, DISABLE);
+	DMA_SetCurrDataCounter(DEBUG_DMA, len);
+	DMA_Cmd(DEBUG_DMA, ENABLE);
 	return 0;
 }

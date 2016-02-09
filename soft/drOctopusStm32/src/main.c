@@ -19,9 +19,16 @@ int main(void) {
 	debugInit();
 	outputsInit();
 	for (;;) {
-		ledCmd(0,ENABLE);
+		ledCmd(0, ENABLE);
 		delayMs(100);
-		ledCmd(0,DISABLE);
+		ledCmd(0, DISABLE);
 		delayMs(900);
+		debugPrint(0, "DMA test.\r\n");
+		delayMs(100);
+		debugPrint(0, "a=%d\r\n", 100);
+		delayMs(100);
+		debugPrint(0, "b=%s\r\n", "xxx");
+		delayMs(100);
+		debugPrint(0, "c=%1.3f\r\nd=0x%x\r\n", 3.14159, 12345);
 	}
 }

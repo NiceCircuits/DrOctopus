@@ -13,7 +13,18 @@
 #include <stdio.h>
 #include <string.h>
 
-char debugBuffer[DEBUG_BUFFER_SIZE] = "UART buffer empty";
+/// Max number of debug sources available.
+#define DEBUG_SOURCES_MAX_NUMBER (20)
+/// Maximum length of debug source name string.
+#define DEBUG_SOURCE_NAME_MAX_LENGTH (20)
+/// Debug USART DMA buffer.
+static char debugUsartBuffer[DEBUG_BUFFER_SIZE] = "UART buffer empty";
+/// Array of debug sources names.
+static const char* debugSourcesNames[DEBUG_SOURCES_MAX_NUMBER];
+/// Array of enable state of debug sources
+static FunctionalState debugSourcesEnabled[DEBUG_SOURCES_MAX_NUMBER];
+/// Number of configured debug sources
+static debugSource_t debugSourcesNumber = 0;
 
 uint8_t debugInit(void) {
 	GPIO_InitTypeDef gpio;
@@ -51,7 +62,7 @@ uint8_t debugInit(void) {
 	DMA_StructInit(&dma);
 	dma.DMA_DIR = DMA_DIR_PeripheralDST;
 	dma.DMA_M2M = DMA_M2M_Disable;
-	dma.DMA_MemoryBaseAddr = (uint32_t) debugBuffer;
+	dma.DMA_MemoryBaseAddr = (uint32_t) debugUsartBuffer;
 	dma.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
 	dma.DMA_MemoryInc = DMA_MemoryInc_Enable;
 	dma.DMA_Mode = DMA_Mode_Normal;
@@ -61,24 +72,70 @@ uint8_t debugInit(void) {
 	dma.DMA_Priority = DMA_Priority_Low;
 	dma.DMA_BufferSize = 1;
 	DMA_Init(DEBUG_DMA, &dma);
-	DMA_Cmd(DEBUG_DMA, ENABLE);
 	return 0;
 }
 
-uint8_t debugPrint(debugSource_t source, const char* format, ...) {
+uint8_t debugPrintln(debugSource_t source, const char* format, ...) {
 	size_t len;
 	va_list arglist;
+	if (source >= debugSourcesNumber) {
+		// no such source configured
+		return -1;
+	} else if (debugSourcesEnabled[source] == DISABLE) {
+		// source disabled, do not print anything
+		return 0;
+	} else {
+		// insert source name into USART DMA buffer
+		len = strlcpy(debugUsartBuffer, debugSourcesNames[source],
+		DEBUG_SOURCE_NAME_MAX_LENGTH);
+		if (len >= DEBUG_SOURCE_NAME_MAX_LENGTH) {
+			len = DEBUG_SOURCE_NAME_MAX_LENGTH - 1;
+		}
+		debugUsartBuffer[len] = ':';
+		len++;
+		debugUsartBuffer[len] = ' ';
+		len++;
+		// pass variable argument list to vsnprintf function to format
+		// formatted string will be available in debugBuffer
+		va_start(arglist, format);
+		len = len
+				+ vsnprintf(debugUsartBuffer + len, DEBUG_BUFFER_SIZE - len - 2,
+						format, arglist);
+		va_end(arglist);
+		// add new line
+		debugUsartBuffer[len] = '\r';
+		len++;
+		debugUsartBuffer[len] = '\n';
+		len++;
+		// setup DMA transfer
+		DMA_Cmd(DEBUG_DMA, DISABLE);
+		DMA_SetCurrDataCounter(DEBUG_DMA, len);
+		DMA_Cmd(DEBUG_DMA, ENABLE);
+		return 0;
+	}
+}
 
-	// pass variable argument list to vsnprintf function to format
-	// formatted string will be available in debugBuffer
-	va_start(arglist, format);
-	vsnprintf(debugBuffer, DEBUG_BUFFER_SIZE, format, arglist);
-	va_end(arglist);
+debugSource_t debugNewSource(const char* name) {
+	if (debugSourcesNumber >= DEBUG_SOURCES_MAX_NUMBER) {
+		// no more sources available
+		return -1;
+	} else {
+		debugSourcesNames[debugSourcesNumber] = name;
+		debugSourcesEnabled[debugSourcesNumber] = DISABLE;
+		debugSourcesNumber++;
+		return debugSourcesNumber - 1;
+	}
+}
 
-	len = strlen(debugBuffer);
-//	DMA_GetCurrDataCounter()
-	DMA_Cmd(DEBUG_DMA, DISABLE);
-	DMA_SetCurrDataCounter(DEBUG_DMA, len);
-	DMA_Cmd(DEBUG_DMA, ENABLE);
-	return 0;
+uint8_t debugSourceSetEnabled(debugSource_t source, FunctionalState enabled) {
+	if (source >= debugSourcesNumber) {
+		// no such source configured
+		return 1;
+	} else if (!IS_FUNCTIONAL_STATE(enabled)) {
+		// invalid value
+		return 2;
+	} else {
+		debugSourcesEnabled[source] = enabled;
+		return 0;
+	}
 }

@@ -12,8 +12,8 @@
 #include <stdbool.h>
 
 GPIO_TypeDef * const ledGpios[LED_NUMBER] = LED_GPIOS;
-uint16_t const ledPins[LED_NUMBER] = LED_PINS;
-BitAction const ledActiveStates[LED_NUMBER] = LED_ACTIVE_STATES;
+static uint16_t const ledPins[LED_NUMBER] = LED_PINS;
+static BitAction const ledActiveStates[LED_NUMBER] = LED_ACTIVE_STATES;
 
 uint8_t outputsInit(void) {
 	GPIO_InitTypeDef gpio;

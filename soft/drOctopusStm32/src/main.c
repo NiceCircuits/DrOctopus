@@ -14,21 +14,27 @@
 #include "outputs.h"
 
 int main(void) {
+	debugSource_t debugMain, test;
 	portInit();
 	sysTickInit();
 	debugInit();
 	outputsInit();
+	debugMain = debugNewSource("Main");
+	test=debugNewSource("test");
+	debugSourceSetEnabled(test,ENABLE);
+	debugPrintln(test,"aaaa");
+	debugPrintln(debugMain, "DMA test.");
+	delayMs(100);
+	debugPrintln(debugMain, "a=%d", 100);
+	delayMs(100);
+	debugSourceSetEnabled(debugMain, ENABLE);
+	debugPrintln(debugMain, "b=%s", "xxx");
+	delayMs(100);
+	debugPrintln(debugMain, "c=%1.3f\r\nd=0x%x", 3.14159, 12345);
 	for (;;) {
 		ledCmd(0, ENABLE);
 		delayMs(100);
 		ledCmd(0, DISABLE);
 		delayMs(900);
-		debugPrint(0, "DMA test.\r\n");
-		delayMs(100);
-		debugPrint(0, "a=%d\r\n", 100);
-		delayMs(100);
-		debugPrint(0, "b=%s\r\n", "xxx");
-		delayMs(100);
-		debugPrint(0, "c=%1.3f\r\nd=0x%x\r\n", 3.14159, 12345);
 	}
 }

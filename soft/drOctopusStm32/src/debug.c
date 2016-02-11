@@ -45,11 +45,10 @@ uint8_t debugInit(void) {
 	gpio.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_Init(DEBUG_GPIO, &gpio);
 
-	// Setup alternate functions of GPIO
-	debugGpioAfSetup();
+	// Alternate function registers of GPIO are set up in portInit() function
 
 	// Setup USART
-	debugClockEnable();
+	// Peripheral clock is enabled in portInit() function
 	USART_StructInit(&uart);
 	uart.USART_BaudRate = DEBUG_BUADRATE;
 	USART_Init(DEBUG_USART, &uart);
@@ -78,7 +77,7 @@ uint8_t debugInit(void) {
 uint8_t debugPrintln(debugSource_t source, const char* format, ...) {
 	size_t len;
 	va_list arglist;
-	if (source >= debugSourcesNumber) {
+	if ((source < 0) || (source >= debugSourcesNumber)) {
 		// no such source configured
 		return -1;
 	} else if (debugSourcesEnabled[source] == DISABLE) {
@@ -127,8 +126,8 @@ debugSource_t debugNewSource(const char* name) {
 	}
 }
 
-uint8_t debugSourceSetEnabled(debugSource_t source, FunctionalState enabled) {
-	if (source >= debugSourcesNumber) {
+uint8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) {
+	if ((source < 0) || (source >= debugSourcesNumber)) {
 		// no such source configured
 		return 1;
 	} else if (!IS_FUNCTIONAL_STATE(enabled)) {

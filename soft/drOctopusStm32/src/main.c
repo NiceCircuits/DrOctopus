@@ -14,23 +14,22 @@
 #include "outputs.h"
 
 int main(void) {
-	debugSource_t debugMain, test;
+	debugSource_t debugMain;
+	int i;
 	portInit();
 	sysTickInit();
 	debugInit();
 	outputsInit();
 	debugMain = debugNewSource("Main");
-	test=debugNewSource("test");
-	debugSourceSetEnabled(test,ENABLE);
-	debugPrintln(test,"aaaa");
-	debugPrintln(debugMain, "DMA test.");
-	delayMs(100);
-	debugPrintln(debugMain, "a=%d", 100);
-	delayMs(100);
-	debugSourceSetEnabled(debugMain, ENABLE);
-	debugPrintln(debugMain, "b=%s", "xxx");
-	delayMs(100);
-	debugPrintln(debugMain, "c=%1.3f\r\nd=0x%x", 3.14159, 12345);
+	debugSourceEnable(debugMain, ENABLE);
+	pwmCmd(1, 254);
+	pwmCmd(2, 255);
+	for (;;) {
+		for (i = 0; i <= PWM_MAX; i++) {
+			pwmCmd(0, i);
+			delayMs(3);
+		}
+	}
 	for (;;) {
 		ledCmd(0, ENABLE);
 		delayMs(100);

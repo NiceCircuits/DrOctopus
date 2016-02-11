@@ -29,4 +29,14 @@
 #define DEBUG_BUADRATE (115200)
 #define DEBUG_BUFFER_SIZE (512)
 
+// ---------- PWM outputs ----------
+#define PWM_CHANNELS_NUMBER (4)
+#define PWM_FREQ (1000)
+#define PWM_MAX (255)
+// PWM logical channels (not equal physical timer channels)
+#define PWM_MOTOR_CHANNEL (0)
+#define PWM_HEATER_CHANNEL (1)
+#define PWM_FAN1_CHANNEL (2)
+#define PWM_FAN2_CHANNEL (3)
+
 #endif /* CONFIG_H_ */

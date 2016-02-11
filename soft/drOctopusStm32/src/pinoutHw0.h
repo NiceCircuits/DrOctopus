@@ -13,9 +13,7 @@
 #include "stm32f30x.h"
 
 /**
- * Initialize basic port registers (clocks). All other port registers
- * (direction, initial state etc.) should be initialized in functions using
- * these port pins.
+ * Initialize basic peripheral registers (mostly clocks).
  * @return 0 if OK.
  */
 uint8_t portInit(void);
@@ -29,16 +27,6 @@ uint8_t portInit(void);
 #define DEBUG_RX_PIN GPIO_Pin_3
 #define DEBUG_TX_PIN GPIO_Pin_2
 #define DEBUG_DMA DMA1_Channel7
-/**
- * Initialize peripheral clock for debug USART
- * @return 0 if OK.
- */
-uint8_t debugClockEnable(void);
-/**
- * Setup alternate functions of GPIO for debug USART
- * @return 0 if OK.
- */
-uint8_t debugGpioAfSetup(void);
 
 // ---------- LEDs ----------
 /// Number of LEDs present.
@@ -46,5 +34,12 @@ uint8_t debugGpioAfSetup(void);
 #define LED_GPIOS {GPIOA}
 #define LED_PINS {GPIO_Pin_5}
 #define LED_ACTIVE_STATES {1}
+
+// ---------- PWM timer ----------
+#define PWM_TIMER TIM3
+#define PWM_GPIO GPIOC
+// PWM channels: motor, heater, fan, fan2
+#define PWM_PINS (GPIO_Pin_9 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8)
+#define PWM_CHANNELS {&(TIM3->CCR4), &(TIM3->CCR1), &(TIM3->CCR2), &(TIM3->CCR3)}
 
 #endif /* PINOUTHW0_H_ */

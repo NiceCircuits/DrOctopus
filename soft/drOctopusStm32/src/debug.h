@@ -45,5 +45,5 @@ debugSource_t debugNewSource(const char* name);
  * @param enabled new enabled state.
  * @return 0 if OK
  */
-uint8_t debugSourceSetEnabled(debugSource_t source, FunctionalState enabled) ;
+uint8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) ;
 #endif /* DEBUG_H_ */

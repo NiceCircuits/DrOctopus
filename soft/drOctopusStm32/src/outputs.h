@@ -26,4 +26,12 @@ uint8_t outputsInit(void);
  */
 uint8_t ledCmd(uint8_t led, FunctionalState state);
 
+/**
+ * Write new PWM value
+ * @param channel logical PWM channel (0.. PWM_CHANNELS_NUMBER)
+ * @param value new value (0..PWM_MAX)
+ * @return 0 if OK
+ */
+uint8_t pwmCmd(uint8_t channel, uint16_t value);
+
 #endif /* OUTPUTS_H_ */

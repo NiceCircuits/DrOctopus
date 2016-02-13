@@ -12,23 +12,30 @@
 #include "debug.h"
 #include "sysTick.h"
 #include "outputs.h"
+#include "servo.h"
 
 int main(void) {
 	debugSource_t debugMain;
-	int i;
+	int i, j, dir;
 	portInit();
 	sysTickInit();
 	debugInit();
 	outputsInit();
+	servoInit();
+
 	debugMain = debugNewSource("Main");
 	debugSourceEnable(debugMain, ENABLE);
-	pwmCmd(1, 254);
-	pwmCmd(2, 255);
+	pwmCmd(0, 1);
+
+	dir=1;
 	for (;;) {
-		for (i = 0; i <= PWM_MAX; i++) {
-			pwmCmd(0, i);
-			delayMs(3);
+		for (j = -1000; j <= 1000; j++) {
+			for (i = 0; i < 8; i++) {
+				servoCmd(i, j*dir);
+			}
+			delayMs(1);
 		}
+		dir=-dir;
 	}
 	for (;;) {
 		ledCmd(0, ENABLE);

@@ -17,10 +17,8 @@ static BitAction const ledActiveStates[LED_NUMBER] = LED_ACTIVE_STATES;
 
 static __IO uint32_t * const pwmChannels[] = PWM_CHANNELS;
 
-uint8_t outputsInit(void) {
+uint_fast8_t outputsInit(void) {
 	GPIO_InitTypeDef gpio;
-	TIM_TimeBaseInitTypeDef tim;
-	TIM_OCInitTypeDef timOc;
 	uint_fast8_t i;
 
 	// LED pins - low speed outputs
@@ -38,34 +36,13 @@ uint8_t outputsInit(void) {
 	gpio.GPIO_Mode = GPIO_Mode_AF;
 	gpio.GPIO_Pin = (PWM_PINS);
 	GPIO_Init(PWM_GPIO, &gpio);
-	// PWM Timer init
-	TIM_TimeBaseStructInit(&tim);
-	tim.TIM_CounterMode = TIM_CounterMode_Up;
-	tim.TIM_Period = (PWM_MAX) - 1;
-	tim.TIM_Prescaler = (SystemCoreClock + ((PWM_MAX) * (PWM_FREQ)) / 2)
-			/ ((PWM_MAX) * (PWM_FREQ))-1; // coreClock/PwmStepTime + 0.5 to round
-	TIM_TimeBaseInit(PWM_TIMER, &tim);
-	// PWM output compare init
-	TIM_OCStructInit(&timOc);
-	timOc.TIM_OCIdleState = TIM_OCIdleState_Reset;
-	timOc.TIM_OCMode = TIM_OCMode_PWM1;
-	timOc.TIM_OCPolarity = TIM_OCPolarity_High;
-	timOc.TIM_Pulse = 0;
-	TIM_OC1Init(PWM_TIMER, &timOc);
-	TIM_OC2Init(PWM_TIMER, &timOc);
-	TIM_OC3Init(PWM_TIMER, &timOc);
-	TIM_OC4Init(PWM_TIMER, &timOc);
-	TIM_CCxCmd(PWM_TIMER, TIM_Channel_1, TIM_CCx_Enable);
-	TIM_CCxCmd(PWM_TIMER, TIM_Channel_2, TIM_CCx_Enable);
-	TIM_CCxCmd(PWM_TIMER, TIM_Channel_3, TIM_CCx_Enable);
-	TIM_CCxCmd(PWM_TIMER, TIM_Channel_4, TIM_CCx_Enable);
-	TIM_CtrlPWMOutputs(PWM_TIMER, ENABLE);
-	TIM_Cmd(PWM_TIMER, ENABLE);
+	// init PWM timer
+	pwmTimerInit(PWM_TIMER, PWM_MAX, (PWM_MAX) * (PWM_FREQ));
 
 	return 0;
 }
 
-uint8_t ledCmd(uint8_t led, FunctionalState state) {
+uint_fast8_t ledCmd(uint8_t led, FunctionalState state) {
 	BitAction bitState;
 	bitState = !((bool) ledActiveStates[led] ^ (bool) state); // negate if active low
 	if (led < LED_NUMBER) {
@@ -76,13 +53,45 @@ uint8_t ledCmd(uint8_t led, FunctionalState state) {
 	}
 }
 
-uint8_t pwmCmd(uint8_t channel, uint16_t value) {
+uint_fast8_t pwmCmd(uint8_t channel, uint16_t value) {
 	if (channel >= (PWM_CHANNELS_NUMBER)) {
 		return 1;
 	}
 	if (value > (PWM_MAX)) {
+		// turn off pwm for safety
+		*pwmChannels[channel] = 0;
 		return 2;
 	}
 	*pwmChannels[channel] = value;
+	return 0;
+}
+
+uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax, uint32_t pwmClock) {
+	TIM_TimeBaseInitTypeDef tim;
+	TIM_OCInitTypeDef timOc;
+
+	// init timer
+	TIM_TimeBaseStructInit(&tim);
+	tim.TIM_CounterMode = TIM_CounterMode_Up;
+	tim.TIM_Period = pwmMax - 1;
+	tim.TIM_Prescaler = (SystemCoreClock + pwmClock / 2) / pwmClock - 1;
+	TIM_TimeBaseInit(timer, &tim);
+
+	// init output compare
+	TIM_OCStructInit(&timOc);
+	timOc.TIM_OCIdleState = TIM_OCIdleState_Reset;
+	timOc.TIM_OCMode = TIM_OCMode_PWM1;
+	timOc.TIM_OCPolarity = TIM_OCPolarity_High;
+	timOc.TIM_Pulse = 0;
+	TIM_OC1Init(timer, &timOc);
+	TIM_OC2Init(timer, &timOc);
+	TIM_OC3Init(timer, &timOc);
+	TIM_OC4Init(timer, &timOc);
+	TIM_CCxCmd(timer, TIM_Channel_1, TIM_CCx_Enable);
+	TIM_CCxCmd(timer, TIM_Channel_2, TIM_CCx_Enable);
+	TIM_CCxCmd(timer, TIM_Channel_3, TIM_CCx_Enable);
+	TIM_CCxCmd(timer, TIM_Channel_4, TIM_CCx_Enable);
+	TIM_CtrlPWMOutputs(timer, ENABLE);
+	TIM_Cmd(timer, ENABLE);
 	return 0;
 }

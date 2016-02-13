@@ -26,7 +26,7 @@ static FunctionalState debugSourcesEnabled[DEBUG_SOURCES_MAX_NUMBER];
 /// Number of configured debug sources
 static debugSource_t debugSourcesNumber = 0;
 
-uint8_t debugInit(void) {
+uint_fast8_t debugInit(void) {
 	GPIO_InitTypeDef gpio;
 	USART_InitTypeDef uart;
 	DMA_InitTypeDef dma;
@@ -74,7 +74,7 @@ uint8_t debugInit(void) {
 	return 0;
 }
 
-uint8_t debugPrintln(debugSource_t source, const char* format, ...) {
+uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 	size_t len;
 	va_list arglist;
 	if ((source < 0) || (source >= debugSourcesNumber)) {
@@ -126,7 +126,7 @@ debugSource_t debugNewSource(const char* name) {
 	}
 }
 
-uint8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) {
+uint_fast8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) {
 	if ((source < 0) || (source >= debugSourcesNumber)) {
 		// no such source configured
 		return 1;

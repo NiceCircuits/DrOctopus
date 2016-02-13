@@ -18,7 +18,7 @@ typedef int8_t debugSource_t;
  * Initialize debug UART
  * @return 0 if OK
  */
-uint8_t debugInit(void);
+uint_fast8_t debugInit(void);
 
 /**
  * Print new line to debug UART. Uses printf format and variable list of
@@ -28,7 +28,7 @@ uint8_t debugInit(void);
  * @param format printf-like format string.
  * @return 0 if OK
  */
-uint8_t debugPrintln(debugSource_t source, const char* format, ...);
+uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...);
 
 /**
  * Add new debug source. It can be than used with debugPrint, enabled and
@@ -45,5 +45,5 @@ debugSource_t debugNewSource(const char* name);
  * @param enabled new enabled state.
  * @return 0 if OK
  */
-uint8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) ;
+uint_fast8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) ;
 #endif /* DEBUG_H_ */

@@ -15,12 +15,13 @@
  * Initialize SysTick to generate exception every 1ms
  * @return 0 if OK
  */
-uint8_t sysTickInit(void);
+uint_fast8_t sysTickInit(void);
 
 /**
  * Delay for some ms.
  * @param time Time in ms.
+ * @return 0 if OK
  */
-void delayMs(uint32_t time);
+uint_fast8_t delayMs(uint32_t time);
 
 #endif /* SYSTICK_H_ */

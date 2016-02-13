@@ -17,7 +17,7 @@
  */
 volatile uint64_t millisFromStart = 0;
 
-uint8_t sysTickInit(void) {
+uint_fast8_t sysTickInit(void) {
 	return SysTick_Config(SystemCoreClock / 1000);
 }
 
@@ -25,8 +25,9 @@ void SysTick_Handler() {
 	millisFromStart++;
 }
 
-void delayMs(uint32_t time) {
+uint_fast8_t delayMs(uint32_t time) {
 	uint64_t end = millisFromStart + time;
 	while (millisFromStart < end) {
 	}
+	return 0;
 }

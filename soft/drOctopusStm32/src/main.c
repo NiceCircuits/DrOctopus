@@ -31,7 +31,7 @@ int main(void) {
 	for (;;) {
 		for (j = -1000; j <= 1000; j++) {
 			for (i = 0; i < 8; i++) {
-				servoCmd(i, j*dir);
+				servoCmd(i, j*dir,0);
 			}
 			delayMs(1);
 		}

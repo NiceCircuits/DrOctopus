@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include "outputs.h"
 #include "config.h"
+#include "stm32f30x.h"
 
 // ---------- constants ----------
 /// Servo pulse frequency.
@@ -34,28 +35,35 @@ static __IO uint32_t * const servoChannels[SERVO_NUMBER] = SERVO_CHANNELS;
 
 // ---------- private variables ----------
 /// Offsets of servos to trim zero position.
-static uint_fast32_t servoOffset[SERVO_NUMBER];
+static int_fast32_t servoOffset[SERVO_NUMBER];
 /// Current speeds of servo movement.
 static uint_fast32_t servoSpeed[SERVO_NUMBER];
 /// Current positions of servos.
-static uint_fast32_t servoPosition[SERVO_NUMBER];
+static int_fast32_t servoPosition[SERVO_NUMBER];
 /// Desired positions of servos.
-static uint_fast32_t servoDesiredPosition[SERVO_NUMBER];
+static int_fast32_t servoDesiredPosition[SERVO_NUMBER];
 /// Servo reverse flags.
 static bool servoReverse[SERVO_NUMBER];
 /// Servo enable flags.
 static FunctionalState servoEnabled[SERVO_NUMBER];
 /// Servo busy flags.
 static bool servoBusy[SERVO_NUMBER];
+/// Servo interrupt flag
+static volatile bool servoIrqFlag = false;
 
 // ---------- private function declarations ----------
 
 // ---------- function definitions ----------
 uint_fast8_t servoInit() {
 	GPIO_InitTypeDef gpio;
+	NVIC_InitTypeDef nvic;
 	uint_fast8_t i;
 
+	GPIO_StructInit(&gpio);
 	gpio.GPIO_Mode = GPIO_Mode_AF;
+	gpio.GPIO_OType = GPIO_OType_PP;
+	gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	gpio.GPIO_Speed = GPIO_Speed_2MHz;
 	for (i = 0; i < SERVO_NUMBER; i++) {
 		// Init servo pins.
 		gpio.GPIO_Pin = servoPins[i];
@@ -63,7 +71,7 @@ uint_fast8_t servoInit() {
 		// Init servo variables
 		servoOffset[i] = 0;
 		servoSpeed[i] = 0;
-		servoPosition[i] = SERVO_ZERO;
+		servoPosition[i] = 0;
 		servoDesiredPosition[i] = 0;
 		servoReverse[i] = false;
 		servoEnabled[i] = false;
@@ -75,21 +83,67 @@ uint_fast8_t servoInit() {
 		pwmTimerInit(servoTimers[i], SERVO_CNT_MAX,
 				(SERVO_CNT_MAX) * (SERVO_FREQ));
 	}
+
+	// Init servo timer update interrupt
+	nvic.NVIC_IRQChannel = (SERVO_IRQ);
+	nvic.NVIC_IRQChannelPreemptionPriority = 0;
+	nvic.NVIC_IRQChannelSubPriority = 0;
+	nvic.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvic);
+	TIM_ITConfig(servoTimers[0], TIM_IT_Update, ENABLE);
 	return 0;
 }
 
-uint_fast8_t servoLoop(){
-
+uint_fast8_t servoLoop() {
+	uint_fast8_t servo;
+	int_fast32_t position, desired;
+	int_fast32_t speed;
+	if (servoIrqFlag) {
+		servoIrqFlag = false;
+		for (servo = 0; servo < SERVO_NUMBER; servo++) {
+			if (servoEnabled[servo]) {
+				position = servoPosition[servo];
+				desired = servoDesiredPosition[servo];
+				speed = servoSpeed[servo];
+				if (position == desired) {
+					// do nothing
+				} else if (position + speed < desired) {
+					// limit speed
+					position += speed;
+				} else if (position - speed > desired) {
+					// limit speed
+					position -= speed;
+				} else {
+					// go to desired position
+					position = desired;
+				}
+				// save new position
+				servoPosition[servo] = position;
+				// calculate pulse length
+				if (servoReverse[servo]) {
+					position = -position;
+				}
+				*servoChannels[servo] = (uint32_t) (position + SERVO_ZERO
+						+ servoOffset[servo]);
+			} else {
+				// servo disabled, do not generate pulse
+				*servoChannels[servo] = 0;
+			}
+		}
+		servoIrqFlag = false;
+	}
+	return 0;
 }
 
-uint_fast8_t servoCmd(uint8_t servo, int_fast32_t pos, int_fast32_t speed) {
+uint_fast8_t servoCmd(uint8_t servo, int_fast32_t pos, uint_fast32_t speed) {
 	if (servo >= SERVO_NUMBER) {
 		return 1;
 	}
 	if ((pos < SERVO_MIN_POS) || (pos > SERVO_MAX_POS)) {
 		return 2;
 	}
-	*servoChannels[servo] = (uint32_t) (pos + SERVO_ZERO);
+	servoDesiredPosition[servo] = pos;
+	servoSpeed[servo] = speed;
 	return 0;
 }
 
@@ -101,5 +155,13 @@ uint_fast8_t servoEnable(uint8_t servo, FunctionalState enabled) {
 		return 2;
 	}
 	servoEnabled[servo] = enabled;
+
 	return 0;
+}
+
+void SERVO_IRQ_HANDLER() {
+	if (TIM_GetITStatus(servoTimers[0], TIM_IT_Update) == SET) {
+		TIM_ClearITPendingBit(servoTimers[0], TIM_IT_Update);
+		servoIrqFlag = true;
+	}
 }

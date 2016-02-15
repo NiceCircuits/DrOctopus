@@ -24,4 +24,10 @@ uint_fast8_t sysTickInit(void);
  */
 uint_fast8_t delayMs(uint32_t time);
 
+/**
+ * Get time from start.
+ * @return Time from start in ms.
+ */
+uint64_t getTime();
+
 #endif /* SYSTICK_H_ */

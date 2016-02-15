@@ -21,6 +21,9 @@ uint_fast8_t sysTickInit(void) {
 	return SysTick_Config(SystemCoreClock / 1000);
 }
 
+/**
+ * Interrupt handler.
+ */
 void SysTick_Handler() {
 	millisFromStart++;
 }
@@ -30,4 +33,8 @@ uint_fast8_t delayMs(uint32_t time) {
 	while (millisFromStart < end) {
 	}
 	return 0;
+}
+
+uint64_t getTime(){
+	return millisFromStart;
 }

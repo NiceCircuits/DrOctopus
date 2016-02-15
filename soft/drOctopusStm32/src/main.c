@@ -3,7 +3,7 @@
  * @file    main.c
  * @author  piotr@nicecircuits.com
  * @date    2016-02-07
- * @brief   main.c for drOctopus firmware for STM32
+ * @brief   drOctopus firmware for STM32.
  ******************************************************************************
  */
 
@@ -13,35 +13,38 @@
 #include "sysTick.h"
 #include "outputs.h"
 #include "servo.h"
+#include "adc.h"
 
 int main(void) {
 	debugSource_t debugMain;
 	FunctionalState led = ENABLE;
 	int i, j;
 	int_fast32_t dir, pos = 0;
-	uint64_t time = 0;
+	uint16_t adc;
+	uint64_t time;
+
 	portInit();
 	sysTickInit();
 	debugInit();
 	outputsInit();
 	servoInit();
+	adcInit();
 
 	debugMain = debugNewSource("Main");
 	debugSourceEnable(debugMain, ENABLE);
-	pwmCmd(0, 1);
-	servoEnable(0,ENABLE);
-	servoEnable(1,ENABLE);
+	debugPrintln(debugMain, "Hello!");
+	delayMs(10);
 
-	pos=-1000;
+	servoEnable(0, ENABLE);
+
+	time = 0;
 	for (;;) {
 		servoLoop();
-		if (getTime() >= time) {
-			ledCmd(0, led);
-			servoCmd(0, pos, 60);
-			servoCmd(1, pos, 120);
-			pos =-pos;
-			time = getTime() + 1000;
-			led = !led;
+		adcLoop();
+		if (time <= getTime()) {
+			time = getTime() + 20;
+			uint16_t adc = ADC_GetConversionValue(ADC);
+			servoCmd(0, adc  - 2048, 50);
 		}
 	}
 }

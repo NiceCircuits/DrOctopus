@@ -13,7 +13,8 @@
 #include "stm32f30x.h"
 
 /**
- * Initialize basic peripheral registers (mostly clocks).
+ * Initialize basic peripheral registers (mostly clocks and alternative pin
+ * functions).
  * @return 0 if OK.
  */
 uint_fast8_t portInit(void);
@@ -41,6 +42,8 @@ uint_fast8_t portInit(void);
 // PWM channels: motor, heater, fan, fan2
 #define PWM_PINS (GPIO_Pin_9 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8)
 #define PWM_CHANNELS {&(TIM3->CCR4), &(TIM3->CCR1), &(TIM3->CCR2), &(TIM3->CCR3)}
+#define PWM_IRQ TIM3_IRQn
+#define PWM_IRQ_HANDLER TIM3_IRQHandler
 
 // ---------- servos ----------
 #define SERVO_NUMBER 8
@@ -51,5 +54,8 @@ uint_fast8_t portInit(void);
 #define SERVO_CHANNELS {&(TIM1->CCR1), &(TIM1->CCR2), &(TIM1->CCR3), &(TIM1->CCR4), &(TIM4->CCR3), &(TIM4->CCR2), &(TIM4->CCR1), &(TIM4->CCR4)}
 #define SERVO_IRQ TIM1_UP_TIM16_IRQn
 #define SERVO_IRQ_HANDLER TIM1_UP_TIM16_IRQHandler
+
+// ---------- ADC ----------
+#define ADC ADC1
 
 #endif /* PINOUTHW0_H_ */

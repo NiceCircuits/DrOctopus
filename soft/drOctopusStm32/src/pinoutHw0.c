@@ -13,9 +13,9 @@ uint_fast8_t portInit(void) {
 	uint16_t const pwmGpioSources[4] = { GPIO_PinSource6, GPIO_PinSource7,
 	GPIO_PinSource8, GPIO_PinSource9 };
 	GPIO_TypeDef * const servoGpios[SERVO_NUMBER] = SERVO_GPIOS;
-	uint16_t const servoGpioSources[SERVO_NUMBER] = { GPIO_PinSource8, GPIO_PinSource9,
-	GPIO_PinSource10, GPIO_PinSource11, GPIO_PinSource8, GPIO_PinSource7,
-	GPIO_PinSource6, GPIO_PinSource9 };
+	uint16_t const servoGpioSources[SERVO_NUMBER] = { GPIO_PinSource8,
+	GPIO_PinSource9, GPIO_PinSource10, GPIO_PinSource11,
+	GPIO_PinSource8, GPIO_PinSource7, GPIO_PinSource6, GPIO_PinSource9 };
 	uint_fast16_t i;
 
 	// initialize all GPIO clocks (power consumption is not important)
@@ -49,5 +49,10 @@ uint_fast8_t portInit(void) {
 	for (i = 4; i < SERVO_NUMBER; i++) {
 		GPIO_PinAFConfig(servoGpios[i], servoGpioSources[i], GPIO_AF_2);
 	}
+
+	// enable ADC peripheral clock
+	RCC_AHBPeriphClockCmd(RCC_AHBENR_ADC12EN, ENABLE);
+	// set ADC clock to 12MHz
+	RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div6);
 	return 0;
 }

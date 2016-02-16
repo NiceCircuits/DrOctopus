@@ -64,5 +64,7 @@ uint_fast8_t portInit(void);
 #define ADC_PINS {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_11, GPIO_Pin_3, GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2}
 #define ADC_CHANNELS {ADC_Channel_6, ADC_Channel_2, ADC_Channel_14, ADC_Channel_9, ADC_Channel_1, ADC_Channel_7, ADC_Channel_8}
 #define ADC_DMA DMA1_Channel1
+/// ADC conversion trigger event: Timer 3
+#define ADC_TRIGGER (ADC_ExternalTrigConvEvent_4)
 
 #endif /* PINOUTHW0_H_ */

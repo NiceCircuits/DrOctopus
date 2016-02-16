@@ -70,10 +70,10 @@ uint8_t adcInit(void) {
 	adcCommon.ADC_TwoSamplingDelay = 0;
 	ADC_CommonInit(ADC, &adcCommon);
 
-	adc.ADC_ContinuousConvMode = ADC_ContinuousConvMode_Enable;
+	adc.ADC_ContinuousConvMode = ADC_ContinuousConvMode_Disable;
 	adc.ADC_Resolution = ADC_Resolution_12b;
-	adc.ADC_ExternalTrigConvEvent = ADC_ExternalTrigConvEvent_0;
-	adc.ADC_ExternalTrigEventEdge = ADC_ExternalTrigEventEdge_None;
+	adc.ADC_ExternalTrigConvEvent = ADC_TRIGGER;
+	adc.ADC_ExternalTrigEventEdge = ADC_ExternalTrigEventEdge_RisingEdge;
 	adc.ADC_DataAlign = ADC_DataAlign_Right;
 	adc.ADC_OverrunMode = ADC_OverrunMode_Disable;
 	adc.ADC_AutoInjMode = ADC_AutoInjec_Disable;
@@ -83,17 +83,13 @@ uint8_t adcInit(void) {
 
 	// Init ADC channels.
 	for (i = 0; i < ADC_NUMBER; i++) {
-		ADC_RegularChannelConfig(ADC, adcChannels[i], i+1,
+		ADC_RegularChannelConfig(ADC, adcChannels[i], i + 1,
 		ADC_SampleTime_61Cycles5);
 	}
 
-	// Enable and calibrate.
+	// Enable.
 	ADC_DMACmd(ADC, ENABLE);
 	ADC_Cmd(ADC, ENABLE);
-	//ADC_VrefintCmd(ADC, ENABLE);
-	/*ADC_StartCalibration(ADC);
-	 while (ADC_GetCalibrationStatus(ADC)) {
-	 }*/
 
 	// wait for ADRDY
 	while (!ADC_GetFlagStatus(ADC, ADC_FLAG_RDY)) {
@@ -101,6 +97,9 @@ uint8_t adcInit(void) {
 
 	// Start ADC1 Software Conversion
 	ADC_StartConversion(ADC);
+
+	// Enable PWM_TIMER to be the master for ADC
+	TIM_SelectOutputTrigger(PWM_TIMER, TIM_TRGOSource_Update);
 
 	return 0;
 }

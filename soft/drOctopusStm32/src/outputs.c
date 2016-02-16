@@ -9,13 +9,14 @@
 
 #include "outputs.h"
 #include "config.h"
-#include <stdbool.h>
 
-GPIO_TypeDef * const ledGpios[LED_NUMBER] = LED_GPIOS;
+static GPIO_TypeDef * const ledGpios[LED_NUMBER] = LED_GPIOS;
 static uint16_t const ledPins[LED_NUMBER] = LED_PINS;
+static __IO uint32_t * const pwmChannels[] = PWM_CHANNELS;
 static BitAction const ledActiveStates[LED_NUMBER] = LED_ACTIVE_STATES;
 
-static __IO uint32_t * const pwmChannels[] = PWM_CHANNELS;
+volatile bool pwmIrqFlag = false;
+
 
 uint_fast8_t outputsInit(void) {
 	GPIO_InitTypeDef gpio;
@@ -66,7 +67,8 @@ uint_fast8_t pwmCmd(uint8_t channel, uint16_t value) {
 	return 0;
 }
 
-uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax, uint32_t pwmClock) {
+uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
+		uint32_t pwmClock) {
 	TIM_TimeBaseInitTypeDef tim;
 	TIM_OCInitTypeDef timOc;
 
@@ -94,4 +96,11 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax, uint32_t pwmClock
 	TIM_CtrlPWMOutputs(timer, ENABLE);
 	TIM_Cmd(timer, ENABLE);
 	return 0;
+}
+
+/**
+ * PWM timer interrupt handler. Used to synchronize ADC processing with PWM.
+ */
+void PWM_IRQ_HANDLER(void) {
+	pwmIrqFlag=true;
 }

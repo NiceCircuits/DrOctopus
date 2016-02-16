@@ -46,8 +46,8 @@ uint_fast8_t portInit(void);
 #define PWM_IRQ_HANDLER TIM3_IRQHandler
 
 // ---------- servos ----------
-#define SERVO_NUMBER 8
-#define SERVO_TIMERS_NUMBER 2
+#define SERVO_NUMBER (8)
+#define SERVO_TIMERS_NUMBER (2)
 #define SERVO_TIMERS {TIM1, TIM4}
 #define SERVO_GPIOS {GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB, GPIOB, GPIOB}
 #define SERVO_PINS {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_8, GPIO_Pin_7, GPIO_Pin_6, GPIO_Pin_9}
@@ -57,5 +57,12 @@ uint_fast8_t portInit(void);
 
 // ---------- ADC ----------
 #define ADC ADC1
+/// Number of ADC channels.
+#define ADC_NUMBER (7)
+// ADC channels: heater_sig, bts_fb_sig, thermistors from 0
+#define ADC_GPIOS {GPIOC, GPIOA, GPIOB, GPIOC, GPIOA, GPIOC, GPIOC}
+#define ADC_PINS {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_11, GPIO_Pin_3, GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2}
+#define ADC_CHANNELS {ADC_Channel_6, ADC_Channel_2, ADC_Channel_14, ADC_Channel_9, ADC_Channel_1, ADC_Channel_7, ADC_Channel_8}
+#define ADC_DMA DMA1_Channel1
 
 #endif /* PINOUTHW0_H_ */

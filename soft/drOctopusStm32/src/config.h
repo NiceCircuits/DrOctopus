@@ -39,4 +39,11 @@
 #define PWM_FAN1_CHANNEL (2)
 #define PWM_FAN2_CHANNEL (3)
 
+// ---------- ADC inputs ----------
+// ADC logical channels (not equal physical channels)
+#define ADC_HEATER_SIGNAL (0)
+#define ADC_BTS_FEEDBACK (1)
+/// First thermistor channel, the rest of thermistor channels follows.
+#define ADC_THERM_SIGNAL (2)
+
 #endif /* CONFIG_H_ */

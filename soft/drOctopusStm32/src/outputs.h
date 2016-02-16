@@ -11,6 +11,10 @@
 
 #include <inttypes.h>
 #include "stm32f30x.h"
+#include <stdbool.h>
+
+/// PWM timer interrupt flag. Used to synchronize ADC processing with PWM.
+extern volatile bool pwmIrqFlag;
 
 /**
  * Initialize basic outputs - LEDs, PWMs.

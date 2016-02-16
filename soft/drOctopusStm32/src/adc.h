@@ -23,4 +23,13 @@ uint8_t adcInit(void);
  */
 uint8_t adcLoop(void);
 
+/**
+ * Read value from ADC. ADC is operated by DMA, so last converted value is
+ * returned.
+ * @todo Filtering of converted signals.
+ * @param channel Channel used.
+ * @return Last converted value from selected channel.
+ */
+uint16_t adcRead(uint_fast8_t channel);
+
 #endif /* ADC_H_ */

@@ -152,7 +152,7 @@ g_pfnVectors:
 	.word	0                                         // 26: TIM1 Trigger and Commutation and TIM17
 	.word	0                                         // 27: TIM1 Capture Compare
 	.word	0                                         // 28: TIM2
-	.word	0                                         // 29: TIM3
+	.word	TIM3_IRQHandler                           // 29: TIM3
 	.word	0                                         // 30: TIM4
 	.word	0                                         // 31: I2C1 Event
 	.word	0                                         // 32: I2C1 Error

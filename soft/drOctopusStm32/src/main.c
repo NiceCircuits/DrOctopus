@@ -36,6 +36,7 @@ int main(void) {
 	delayMs(10);
 
 	servoEnable(0, ENABLE);
+	servoEnable(1, ENABLE);
 
 	time = 0;
 	for (;;) {
@@ -43,8 +44,10 @@ int main(void) {
 		adcLoop();
 		if (time <= getTime()) {
 			time = getTime() + 20;
-			uint16_t adc = ADC_GetConversionValue(ADC);
-			servoCmd(0, adc  - 2048, 50);
+			for (i = 0; i < 3; i++) {
+				int16_t adc = adcRead(i);
+				servoCmd(i, adc / 2 - (int16_t) 1024, 50);
+			}
 		}
 	}
 }

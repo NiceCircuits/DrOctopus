@@ -49,8 +49,8 @@ uint_fast8_t portInit(void);
 #define SERVO_NUMBER (8)
 #define SERVO_TIMERS_NUMBER (2)
 #define SERVO_TIMERS {TIM1, TIM4}
-#define SERVO_GPIOS {GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB, GPIOB, GPIOB}
-#define SERVO_PINS {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_8, GPIO_Pin_7, GPIO_Pin_6, GPIO_Pin_9}
+#define SERVO_GPIOS {GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB}
+#define SERVO_PINS {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_13, GPIO_Pin_12, GPIO_Pin_6, GPIO_Pin_9}
 #define SERVO_CHANNELS {&(TIM1->CCR1), &(TIM1->CCR2), &(TIM1->CCR3), &(TIM1->CCR4), &(TIM4->CCR3), &(TIM4->CCR2), &(TIM4->CCR1), &(TIM4->CCR4)}
 #define SERVO_IRQ TIM1_UP_TIM16_IRQn
 #define SERVO_IRQ_HANDLER TIM1_UP_TIM16_IRQHandler
@@ -66,5 +66,11 @@ uint_fast8_t portInit(void);
 #define ADC_DMA DMA1_Channel1
 /// ADC conversion trigger event: Timer 3
 #define ADC_TRIGGER (ADC_ExternalTrigConvEvent_4)
+
+// ---------- I2C ----------
+#define I2C I2C1
+// I2C pins: SDA, SCL
+#define I2C_GPIOS {GPIOB, GPIOB}
+#define I2C_PINS {GPIO_Pin_7, GPIO_Pin_8}
 
 #endif /* PINOUTHW0_H_ */

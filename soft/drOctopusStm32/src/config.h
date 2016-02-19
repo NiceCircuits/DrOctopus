@@ -46,4 +46,6 @@
 /// First thermistor channel, the rest of thermistor channels follows.
 #define ADC_THERM_SIGNAL (2)
 
+// ---------- I2C ----------
+#define I2C_BITRATE (100000)
 #endif /* CONFIG_H_ */

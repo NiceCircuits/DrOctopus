@@ -17,7 +17,6 @@ static BitAction const ledActiveStates[LED_NUMBER] = LED_ACTIVE_STATES;
 
 volatile bool pwmIrqFlag = false;
 
-
 uint_fast8_t outputsInit(void) {
 	GPIO_InitTypeDef gpio;
 	uint_fast8_t i;
@@ -71,12 +70,21 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
 		uint32_t pwmClock) {
 	TIM_TimeBaseInitTypeDef tim;
 	TIM_OCInitTypeDef timOc;
+	uint_fast8_t ret = 0;
+	uint32_t prescaler;
+	prescaler = (SystemCoreClock + pwmClock / 2) / pwmClock - 1;
 
+	if (prescaler > 65535) {
+		// If incorrect pwmClock frequency requested, use maximum correct one
+		// and return an error flag
+		prescaler = 65535;
+		ret = 1;
+	}
 	// init timer
 	TIM_TimeBaseStructInit(&tim);
 	tim.TIM_CounterMode = TIM_CounterMode_Up;
 	tim.TIM_Period = pwmMax - 1;
-	tim.TIM_Prescaler = (SystemCoreClock + pwmClock / 2) / pwmClock - 1;
+	tim.TIM_Prescaler = (uint16_t) prescaler;
 	TIM_TimeBaseInit(timer, &tim);
 
 	// init output compare
@@ -95,12 +103,12 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
 	TIM_CCxCmd(timer, TIM_Channel_4, TIM_CCx_Enable);
 	TIM_CtrlPWMOutputs(timer, ENABLE);
 	TIM_Cmd(timer, ENABLE);
-	return 0;
+	return ret;
 }
 
 /**
  * PWM timer interrupt handler. Used to synchronize ADC processing with PWM.
  */
 void PWM_IRQ_HANDLER(void) {
-	pwmIrqFlag=true;
+	pwmIrqFlag = true;
 }

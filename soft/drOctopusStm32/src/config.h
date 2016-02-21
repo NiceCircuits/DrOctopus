@@ -9,7 +9,23 @@
 
 #ifndef CONFIG_H_
 #define CONFIG_H_
+// ---------- Test modes ----------
+/*
+ * Used to build test firmwares for different functions. If TEST_MODE symbol
+ * is defined in build configuration and has any of the following values, test
+ * firmware is build instead of normal one.
+ */
 
+#define TEST_MODE_DELAY 1
+
+/**
+ * Default init function. Defined in main.c. Excluded from main, can be used in
+ * main functions in test modes.
+ * @return 0 if OK.
+ */
+uint_fast8_t defaultInit();
+
+// ---------- Pinout and HW versions ----------
 /// Hardware version 0 - NUCLEO-F303RE. Used until PCB is ready.
 #define HW_VERSION0 0
 /// Hardware version 1 - PCB v2.0 with STM32F103RBT6

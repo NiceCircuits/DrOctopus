@@ -11,7 +11,7 @@
 #include "adc.h"
 #include "config.h"
 #include "outputs.h" // for pwmIrqFlag
-#include "sysTick.h"
+#include "delay.h"
 
 static GPIO_TypeDef * const adcGpios[ADC_NUMBER] = ADC_GPIOS;
 static uint16_t const adcPins[ADC_NUMBER] = ADC_PINS;

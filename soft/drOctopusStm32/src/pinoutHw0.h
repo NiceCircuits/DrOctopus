@@ -73,4 +73,7 @@ uint_fast8_t portInit(void);
 #define I2C_GPIOS {GPIOB, GPIOB}
 #define I2C_PINS {GPIO_Pin_7, GPIO_Pin_8}
 
+// ---------- delay ----------
+#define DELAY_TIMER TIM2
+
 #endif /* PINOUTHW0_H_ */

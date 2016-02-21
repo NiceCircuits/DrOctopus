@@ -18,11 +18,13 @@ uint_fast8_t portInit(void) {
 	GPIO_PinSource8, GPIO_PinSource7, GPIO_PinSource6, GPIO_PinSource9 };
 	uint_fast16_t i;
 
+	// ---------- GPIO clocks ----------
 	// initialize all GPIO clocks (power consumption is not important).
 	RCC_AHBPeriphClockCmd(
 			RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN
 					| RCC_AHBENR_GPIODEN | RCC_AHBENR_GPIOFEN, ENABLE);
 
+	// ---------- Debug port ----------
 	// enable debug USART and DMA peripheral clock.
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_USART2EN, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBENR_DMA1EN, ENABLE);
@@ -30,6 +32,7 @@ uint_fast8_t portInit(void) {
 	GPIO_PinAFConfig(DEBUG_GPIO, GPIO_PinSource2, GPIO_AF_7);
 	GPIO_PinAFConfig(DEBUG_GPIO, GPIO_PinSource3, GPIO_AF_7);
 
+	// ---------- PWM ----------
 	// enable PWM timer peripheral clock.
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM3EN, ENABLE);
 	// initialize PWM pins alternative functions.
@@ -37,6 +40,7 @@ uint_fast8_t portInit(void) {
 		GPIO_PinAFConfig(PWM_GPIO, pwmGpioSources[i], GPIO_AF_2);
 	}
 
+	// ---------- servos ----------
 	// enable servo timers peripheral clocks.
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM4EN, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2ENR_TIM1EN, ENABLE);
@@ -50,11 +54,13 @@ uint_fast8_t portInit(void) {
 		GPIO_PinAFConfig(servoGpios[i], servoGpioSources[i], GPIO_AF_2);
 	}
 
+	// ---------- ADC ----------
 	// enable ADC peripheral clock.
 	RCC_AHBPeriphClockCmd(RCC_AHBENR_ADC12EN, ENABLE);
 	// set ADC clock to 12MHz
 	RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div6);
 
+	// ---------- I2C ----------
 	// Enable I2C peripheral clock.
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
 	// Set I2C clock to internal clock 8MHz.
@@ -62,5 +68,10 @@ uint_fast8_t portInit(void) {
 	// initialize I2C pins alternative functions.
 	GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_4);
 	GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_4);
+
+	// ---------- delay ----------
+	// enable delay timer peripheral clock.
+	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM2EN, ENABLE);
+
 	return 0;
 }

@@ -1,0 +1,152 @@
+/**
+ ******************************************************************************
+ * @file    sysTick.c
+ * @author  piotr@nicecircuits.com
+ * @date    2016-02-08
+ * @brief   Delay functions.
+ ******************************************************************************
+ */
+
+#include "delay.h"
+#include "config.h"
+#include "stm32f30x.h"
+
+// ---------- variables ----------
+/**
+ * Store time elapsed from start (in ms). 32bit gives only ~49 days so
+ * 64bit is used - 580*10^6 years should be enough :)
+ */
+volatile uint64_t millisFromStart = 0;
+/// Prescaler value for delay timer. Results in 1us clock period.
+uint16_t delayTimerPrescaler1us;
+/// Prescaler value for delay timer. Results in 256us clock period.
+uint16_t delayTimerPrescaler256us;
+
+// ---------- private functions declarations ----------
+uint_fast8_t delayTimerReload(uint32_t ticks);
+
+// ---------- public functions ----------
+uint_fast8_t delayInit(void) {
+	uint_fast8_t ret = 0;
+	TIM_TimeBaseInitTypeDef tim;
+	uint32_t prescaler;
+
+	/* Calculate prescaler values. For system clock up to 216MHz and
+	 * 16b prescaler, maximum timer clock period is 303us. */
+	// 1us prescaler.
+	delayTimerPrescaler1us = (SystemCoreClock + 1000000 / 2) / 1000000 - 1;
+	// 256us prescaler
+	prescaler = (SystemCoreClock + 1000000 / 256 / 2) * 256 / 1000000 - 1;
+	if (prescaler > 65535) {
+		// That should not happen if system clock frequency is less than 256MHz
+		prescaler = 65535;
+		ret = 1; // signal error
+	}
+	delayTimerPrescaler256us = prescaler;
+
+	// Delay timer initialization.
+	TIM_Cmd(DELAY_TIMER, DISABLE);
+	TIM_TimeBaseStructInit(&tim);
+	tim.TIM_CounterMode = TIM_CounterMode_Down;
+	tim.TIM_Period = 1;
+	// Preload 1us prescaler to not extend 1us delay too much.
+	tim.TIM_Prescaler = delayTimerPrescaler1us;
+	TIM_TimeBaseInit(DELAY_TIMER, &tim);
+	// Setup timer to generate single pulse.
+	TIM_SelectOnePulseMode(DELAY_TIMER, TIM_OPMode_Single);
+
+	// Initialize SysTick to generate IRQ every 1ms.
+	if (SysTick_Config((SystemCoreClock + 500) / 1000)) {
+		ret = 2;
+	}
+	return ret;
+}
+
+uint_fast8_t delayMs(uint32_t time) {
+	uint64_t end;
+	//delayTimerReload(sysTickForMs);
+	end = millisFromStart + time;
+	while (millisFromStart < end) {
+	}
+	return 0;
+}
+
+uint_fast8_t delayUs(uint32_t time) {
+	TIM_Cmd(DELAY_TIMER, DISABLE);
+	DELAY_TIMER->CNT = time;
+	TIM_ClearFlag(DELAY_TIMER, TIM_FLAG_Update);
+	TIM_Cmd(DELAY_TIMER, ENABLE);
+	while (TIM_GetFlagStatus(DELAY_TIMER, TIM_FLAG_Update) != SET) {
+	}
+	TIM_ClearFlag(DELAY_TIMER, TIM_FLAG_Update);
+	return 0;
+}
+
+uint64_t getTime() {
+	return millisFromStart;
+}
+
+/**
+ * Interrupt handler.
+ */
+void SysTick_Handler() {
+	millisFromStart++;
+}
+
+// ---------- private functions ----------
+
+uint_fast8_t delayTimerReload(uint32_t ticks) {
+	uint_fast8_t ret = 0;
+	TIM_TimeBaseInitTypeDef tim;
+	uint32_t prescaler;
+
+	TIM_Cmd(DELAY_TIMER, DISABLE);
+
+	// init timer
+	TIM_TimeBaseStructInit(&tim);
+	tim.TIM_CounterMode = TIM_CounterMode_Down;
+	tim.TIM_Period = ticks - 1;
+	tim.TIM_Prescaler = delayTimerPrescaler1us;
+	TIM_TimeBaseInit(DELAY_TIMER, &tim);
+
+	TIM_Cmd(DELAY_TIMER, ENABLE);
+
+	return ret;
+}
+// ---------- test functions ----------
+#if TEST_MODE == TEST_MODE_DELAY
+#include <stdlib.h>
+#include "outputs.h"
+
+/**
+ * Delay test mode main function. Generate 10us and 1ms LED pulses with random
+ * delays between pulse pairs.
+ * @return
+ */
+int main(void) {
+	int i, max;
+
+	defaultInit();
+
+	for (;;) {
+		ledCmd(0, ENABLE);
+		delayUs(1);
+		ledCmd(0, DISABLE);
+
+		delayUs(10);
+		ledCmd(0, ENABLE);
+		delayUs(100);
+		ledCmd(0, DISABLE);
+
+		delayUs(10);
+		ledCmd(0, ENABLE);
+		delayMs(1);
+		ledCmd(0, DISABLE);
+
+		max = rand() & 0xfff;
+		for (i = 0; i < max; i++) {
+		}
+	}
+}
+
+#endif

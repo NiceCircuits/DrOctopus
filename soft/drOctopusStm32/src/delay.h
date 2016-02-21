@@ -3,7 +3,7 @@
   * @file    sysTick.h
   * @author  piotr@nicecircuits.com
   * @date    2016-02-08
-  * @brief   System clock functions
+  * @brief   Delay functions.
   ******************************************************************************
 */
 #ifndef SYSTICK_H_
@@ -12,10 +12,10 @@
 #include <inttypes.h>
 
 /**
- * Initialize SysTick to generate exception every 1ms
+ * Initialize SysTick and delay timer.
  * @return 0 if OK
  */
-uint_fast8_t sysTickInit(void);
+uint_fast8_t delayInit(void);
 
 /**
  * Delay for some ms.
@@ -23,6 +23,13 @@ uint_fast8_t sysTickInit(void);
  * @return 0 if OK
  */
 uint_fast8_t delayMs(uint32_t time);
+
+/**
+ * Delay for some us. If delay time is >=1000us, delay is rounded to 1ms.
+ * @param time Time in us.
+ * @return 0 if OK, 1 if delay rounded.
+ */
+uint_fast8_t delayUs(uint32_t time);
 
 /**
  * Get time from start.

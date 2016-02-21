@@ -22,14 +22,14 @@ uint_fast8_t delayInit(void);
  * @param time Time in ms.
  * @return 0 if OK
  */
-uint_fast8_t delayMs(uint32_t time);
+uint_fast8_t delayMs(uint16_t time);
 
 /**
  * Delay for some us. If delay time is >=1000us, delay is rounded to 1ms.
  * @param time Time in us.
  * @return 0 if OK, 1 if delay rounded.
  */
-uint_fast8_t delayUs(uint32_t time);
+uint_fast8_t delayUs(uint16_t time);
 
 /**
  * Get time from start.

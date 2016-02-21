@@ -18,9 +18,13 @@
  */
 volatile uint64_t millisFromStart = 0;
 /// Prescaler value for delay timer. Results in 1us clock period.
-uint16_t delayTimerPrescaler1us;
-/// Prescaler value for delay timer. Results in 256us clock period.
-uint16_t delayTimerPrescaler256us;
+uint16_t delayTimerPrescalerUs;
+/// Prescaler value for delay timer. Results in 250us clock period.
+uint16_t delayTimerPrescalerMs;
+/// Value divider for delayMs function.
+#define DELAY_MS_DIVIDER (4)
+/// Maximum delay time for delayMs function.
+#define DELAY_MS_MAX (65536 / DELAY_MS_DIVIDER)
 
 // ---------- private functions declarations ----------
 uint_fast8_t delayTimerReload(uint32_t ticks);
@@ -34,15 +38,16 @@ uint_fast8_t delayInit(void) {
 	/* Calculate prescaler values. For system clock up to 216MHz and
 	 * 16b prescaler, maximum timer clock period is 303us. */
 	// 1us prescaler.
-	delayTimerPrescaler1us = (SystemCoreClock + 1000000 / 2) / 1000000 - 1;
+	delayTimerPrescalerUs = (SystemCoreClock + 1000000 / 2) / 1000000 - 1;
 	// 256us prescaler
-	prescaler = (SystemCoreClock + 1000000 / 256 / 2) * 256 / 1000000 - 1;
+	prescaler = (SystemCoreClock + 1000 * DELAY_MS_DIVIDER / 2)
+			/ DELAY_MS_DIVIDER / 1000 - 1;
 	if (prescaler > 65535) {
 		// That should not happen if system clock frequency is less than 256MHz
 		prescaler = 65535;
 		ret = 1; // signal error
 	}
-	delayTimerPrescaler256us = prescaler;
+	delayTimerPrescalerMs = prescaler;
 
 	// Delay timer initialization.
 	TIM_Cmd(DELAY_TIMER, DISABLE);
@@ -50,7 +55,7 @@ uint_fast8_t delayInit(void) {
 	tim.TIM_CounterMode = TIM_CounterMode_Down;
 	tim.TIM_Period = 1;
 	// Preload 1us prescaler to not extend 1us delay too much.
-	tim.TIM_Prescaler = delayTimerPrescaler1us;
+	tim.TIM_Prescaler = delayTimerPrescalerUs;
 	TIM_TimeBaseInit(DELAY_TIMER, &tim);
 	// Setup timer to generate single pulse.
 	TIM_SelectOnePulseMode(DELAY_TIMER, TIM_OPMode_Single);
@@ -62,19 +67,33 @@ uint_fast8_t delayInit(void) {
 	return ret;
 }
 
-uint_fast8_t delayMs(uint32_t time) {
-	uint64_t end;
-	//delayTimerReload(sysTickForMs);
-	end = millisFromStart + time;
-	while (millisFromStart < end) {
+uint_fast8_t delayMs(uint16_t time) {
+	if (time > DELAY_MS_MAX) {
+		time = DELAY_MS_MAX;
 	}
+	// Disable timer.
+	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down;
+	// Set prescaler to achieve 250us clock period.
+	TIM_PrescalerConfig(DELAY_TIMER, delayTimerPrescalerMs,
+			TIM_PSCReloadMode_Immediate);
+	DELAY_TIMER->CNT = time * DELAY_MS_DIVIDER - 1; // Load new time
+	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
+	// Enable timer.
+	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;
+	while ((DELAY_TIMER->SR & TIM_FLAG_Update) == 0) {
+		// Wait until timer update flag is set.
+	}
+	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
+	// Reload default prescaler.
+	TIM_PrescalerConfig(DELAY_TIMER, delayTimerPrescalerUs,
+			TIM_PSCReloadMode_Immediate);
 	return 0;
 }
 
-uint_fast8_t delayUs(uint32_t time) {
+uint_fast8_t delayUs(uint16_t time) {
 	// Disable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down;
-	DELAY_TIMER->CNT = time-1; // Load new time
+	DELAY_TIMER->CNT = time - 1; // Load new time
 	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	// Enable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;
@@ -109,7 +128,7 @@ uint_fast8_t delayTimerReload(uint32_t ticks) {
 	TIM_TimeBaseStructInit(&tim);
 	tim.TIM_CounterMode = TIM_CounterMode_Down;
 	tim.TIM_Period = ticks - 1;
-	tim.TIM_Prescaler = delayTimerPrescaler1us;
+	tim.TIM_Prescaler = delayTimerPrescalerUs;
 	TIM_TimeBaseInit(DELAY_TIMER, &tim);
 
 	TIM_Cmd(DELAY_TIMER, ENABLE);
@@ -139,34 +158,23 @@ int main(void) {
 	defaultInit();
 
 	for (;;) {
-		// ledCmd(0, ENABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
 		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayUs(1);
-		// ledCmd(0, DISABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
 		LED_GPIO->BRR = GPIO_Pin_5;
 
 		delayUs(10);
-		// ledCmd(0, ENABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
 		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayUs(100);
-		// ledCmd(0, DISABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
 		LED_GPIO->BRR = GPIO_Pin_5;
 
-		delayUs(10);
-		// ledCmd(0, ENABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
-		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayMs(1);
-		// ledCmd(0, DISABLE); optimize:
-		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		LED_GPIO->BSRR = GPIO_Pin_5;
+		delayMs(10);
 		LED_GPIO->BRR = GPIO_Pin_5;
 
-		max = rand() & 0xfff;
+		max = rand() & 0x3fff;
 		for (i = 0; i < max; i++) {
+			LED_GPIO->BRR = GPIO_Pin_5;
 		}
 	}
 }

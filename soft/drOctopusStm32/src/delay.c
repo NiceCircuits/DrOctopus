@@ -119,8 +119,12 @@ uint_fast8_t delayTimerReload(uint32_t ticks) {
 #include <stdlib.h>
 #include "outputs.h"
 
-static GPIO_TypeDef * const ledGpios[LED_NUMBER] = LED_GPIOS;
-static uint16_t const ledPins[LED_NUMBER] = LED_PINS;
+#if HW_VERSION == HW_VERSION0
+#define LED_GPIO GPIOA
+#define LED_PIN GPIO_Pin_5
+#else
+#error "Unsupported HW version!"
+#endif /* HW_VERSION == HW_VERSION0 */
 
 /**
  * Delay test mode main function. Generate 10us and 1ms LED pulses with random
@@ -134,26 +138,30 @@ int main(void) {
 
 	for (;;) {
 		// ledCmd(0, ENABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
-		//optimize:
-		// GPIOx->BSRR = GPIO_Pin;
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
+		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayUs(1);
 		// ledCmd(0, DISABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		LED_GPIO->BRR = GPIO_Pin_5;
 
 		delayUs(10);
 		// ledCmd(0, ENABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
+		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayUs(100);
 		// ledCmd(0, DISABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		LED_GPIO->BRR = GPIO_Pin_5;
 
 		delayUs(10);
 		// ledCmd(0, ENABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 1); optimize:
+		LED_GPIO->BSRR = GPIO_Pin_5;
 		delayMs(1);
 		// ledCmd(0, DISABLE); optimize:
-		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		// GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
+		LED_GPIO->BRR = GPIO_Pin_5;
 
 		max = rand() & 0xfff;
 		for (i = 0; i < max; i++) {
@@ -161,4 +169,4 @@ int main(void) {
 	}
 }
 
-#endif
+#endif /* TEST_MODE == TEST_MODE_DELAY */

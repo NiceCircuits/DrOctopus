@@ -72,13 +72,14 @@ uint_fast8_t delayMs(uint32_t time) {
 }
 
 uint_fast8_t delayUs(uint32_t time) {
-	TIM_Cmd(DELAY_TIMER, DISABLE);
-	DELAY_TIMER->CNT = time;
-	TIM_ClearFlag(DELAY_TIMER, TIM_FLAG_Update);
-	TIM_Cmd(DELAY_TIMER, ENABLE);
-	while (TIM_GetFlagStatus(DELAY_TIMER, TIM_FLAG_Update) != SET) {
+	DELAY_TIMER->CR1 &= (uint16_t) ~TIM_CR1_CEN; // Disable timer.
+	DELAY_TIMER->CNT = time; // Load new time
+	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
+	DELAY_TIMER->CR1 |= TIM_CR1_CEN; // Enable timer.
+	while ((DELAY_TIMER->SR & TIM_FLAG_Update) == 0) {
+		// Wait until timer update flag is set.
 	}
-	TIM_ClearFlag(DELAY_TIMER, TIM_FLAG_Update);
+	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	return 0;
 }
 

@@ -119,6 +119,9 @@ uint_fast8_t delayTimerReload(uint32_t ticks) {
 #include <stdlib.h>
 #include "outputs.h"
 
+static GPIO_TypeDef * const ledGpios[LED_NUMBER] = LED_GPIOS;
+static uint16_t const ledPins[LED_NUMBER] = LED_PINS;
+
 /**
  * Delay test mode main function. Generate 10us and 1ms LED pulses with random
  * delays between pulse pairs.
@@ -130,19 +133,27 @@ int main(void) {
 	defaultInit();
 
 	for (;;) {
-		ledCmd(0, ENABLE);
+		// ledCmd(0, ENABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
+		//optimize:
+		// GPIOx->BSRR = GPIO_Pin;
 		delayUs(1);
-		ledCmd(0, DISABLE);
+		// ledCmd(0, DISABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
 
 		delayUs(10);
-		ledCmd(0, ENABLE);
+		// ledCmd(0, ENABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
 		delayUs(100);
-		ledCmd(0, DISABLE);
+		// ledCmd(0, DISABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
 
 		delayUs(10);
-		ledCmd(0, ENABLE);
+		// ledCmd(0, ENABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 1);
 		delayMs(1);
-		ledCmd(0, DISABLE);
+		// ledCmd(0, DISABLE); optimize:
+		GPIO_WriteBit(ledGpios[0], ledPins[0], 0);
 
 		max = rand() & 0xfff;
 		for (i = 0; i < max; i++) {

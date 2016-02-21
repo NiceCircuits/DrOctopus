@@ -73,12 +73,10 @@ uint_fast8_t delayMs(uint32_t time) {
 
 uint_fast8_t delayUs(uint32_t time) {
 	// Disable timer.
-	//DELAY_TIMER->CR1 &= (uint16_t) ~TIM_CR1_CEN; optimize:
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down;
-	DELAY_TIMER->CNT = time; // Load new time
+	DELAY_TIMER->CNT = time-1; // Load new time
 	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	// Enable timer.
-	// DELAY_TIMER->CR1 |= TIM_CR1_CEN; optimize:
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;
 	while ((DELAY_TIMER->SR & TIM_FLAG_Update) == 0) {
 		// Wait until timer update flag is set.

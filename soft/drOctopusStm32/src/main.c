@@ -22,6 +22,7 @@
 #include "servo.h"
 #include "adc.h"
 #include "i2c.h"
+#include "oled.h"
 
 #ifndef TEST_MODE
 // Standard main function. TEST_MODE symbol must not be defined.
@@ -38,8 +39,8 @@ int main(void) {
 	time = 0;
 	addr = 1;
 	for (;;) {
-//		servoLoop();
-//		adcLoop();
+		servoLoop();
+		adcLoop();
 //		if (time <= getTime()) {
 //			time = getTime() + 1;
 //			I2C_TransferHandling(I2C, addr, 0, I2C_SoftEnd_Mode,

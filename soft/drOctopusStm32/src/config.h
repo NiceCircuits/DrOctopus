@@ -44,26 +44,44 @@ uint_fast8_t defaultInit();
 #endif
 
 // ---------- Debug port ----------
-#define DEBUG_BUADRATE (115200)
-#define DEBUG_BUFFER_SIZE (512)
+enum {
+	/// Debug port baudrate.
+	DEBUG_BUADRATE = 115200,
+	/// Debug transmit buffer size.
+	DEBUG_BUFFER_SIZE = 512
+};
 
 // ---------- PWM outputs ----------
-#define PWM_CHANNELS_NUMBER (4)
-#define PWM_FREQ (1000)
-#define PWM_MAX (255)
+enum {
+	PWM_CHANNELS_NUMBER = 4, PWM_FREQ = 1000, PWM_MAX = 255,
 // PWM logical channels (not equal physical timer channels)
-#define PWM_MOTOR_CHANNEL (0)
-#define PWM_HEATER_CHANNEL (1)
-#define PWM_FAN1_CHANNEL (2)
-#define PWM_FAN2_CHANNEL (3)
+	PWM_MOTOR_CHANNEL = 0,
+	PWM_HEATER_CHANNEL,
+	PWM_FAN1_CHANNEL,
+	PWM_FAN2_CHANNEL
+};
 
 // ---------- ADC inputs ----------
-// ADC logical channels (not equal physical channels)
-#define ADC_HEATER_SIGNAL (0)
-#define ADC_BTS_FEEDBACK (1)
+/// ADC logical channels (not equal physical channels)
+enum {
+	ADC_HEATER_SIGNAL = 0, ADC_BTS_FEEDBACK = 1,
 /// First thermistor channel, the rest of thermistor channels follows.
-#define ADC_THERM_SIGNAL (2)
+	ADC_THERM_SIGNAL0 = 2,
+	ADC_THERM_SIGNAL1,
+	ADC_THERM_SIGNAL2,
+	ADC_THERM_SIGNAL3,
+	ADC_THERM_SIGNAL4,
+	ADC_THERM_SIGNAL5,
+	ADC_THERM_SIGNAL6
+};
 
 // ---------- I2C ----------
-#define I2C_TIMEOUT_US (2000)
+enum {
+	I2C_TIMEOUT_US = 2000
+};
+
+// ---------- OLED ----------
+enum {
+	OLED_I2C_ADDR = 0x3C
+};
 #endif /* CONFIG_H_ */

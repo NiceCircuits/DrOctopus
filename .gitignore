@@ -17,3 +17,5 @@ log.txt
 /soft/RemoteSystemsTempFiles
 /soft/drOctopusArduino
 /soft/.metadata
+/soft/drOctopusStm32/u8glib_arm_v1.18.1/lpc1114
+/soft/drOctopusStm32/u8glib_arm_v1.18.1/lpc1226

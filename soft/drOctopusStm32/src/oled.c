@@ -59,7 +59,7 @@ void u8g_10MicroDelay(void) {
  * @param msg Message from u8glib.
  * @param arg_val Optional argument.
  * @param arg_ptr Optional argument pointer.
- * @return 1.
+ * @return 1 if OK.
  */
 uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 		void *arg_ptr) {
@@ -83,19 +83,14 @@ uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 		break; // Not available.
 
 	case U8G_COM_MSG_WRITE_BYTE:
-		//spi_out(arg_val);
-		u8g_MicroDelay();
+		i2cWrite(OLED_I2C_ADDR, 1, &arg_val);
 		break;
 
 	case U8G_COM_MSG_WRITE_SEQ:
 	case U8G_COM_MSG_WRITE_SEQ_P: {
-		register uint8_t *ptr = arg_ptr;
-		while (arg_val > 0) {
-			//spi_out(*ptr++);
-			arg_val--;
-		}
-	}
+		i2cWrite(OLED_I2C_ADDR, arg_val, (uint8_t*) arg_ptr);
 		break;
+	}
 	default: {
 		return 0;
 	}
@@ -104,13 +99,30 @@ uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 }
 
 #if TEST_MODE == TEST_MODE_OLED
-int main(void) {
-	uint8_t addr;
 
+void draw(uint8_t pos) {
+	u8g_SetFont(&u8g, u8g_font_unifont);
+	u8g_DrawStr(&u8g, 0, 12 + pos, "Hello World!");
+}
+
+int main(void) {
+	uint8_t pos = 0;
 	defaultInit();
 	oledInit();
 
 	for (;;) {
+		/* picture loop */
+		u8g_FirstPage(&u8g);
+		do {
+			draw(pos);
+		} while (u8g_NextPage(&u8g));
+
+		/* refresh screen after some delay */
+		u8g_Delay(100);
+
+		/* update position */
+		pos++;
+		pos &= 15;
 	}
 }
 #endif // TEST_MODE == TEST_MODE_OLED

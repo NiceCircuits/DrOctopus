@@ -162,6 +162,10 @@ int main(void) {
 
 		timerStartUs(10);
 		LED_GPIO->BRR = GPIO_Pin_5;
+		for (i=0;i<20;i++)
+		{
+			timerStartUs(10); // restart timer
+		}
 		while (timerEnd() == 0) {
 		}
 

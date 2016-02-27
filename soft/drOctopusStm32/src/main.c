@@ -36,6 +36,10 @@ int main(void) {
 	defaultInit();
 	oledInit();
 
+	debugMain = debugNewSource("Main");
+	debugSourceEnable(debugMain, ENABLE);
+	debugPrintln(debugMain, "Hello!");
+
 	for (;;) {
 		servoLoop();
 		adcLoop();
@@ -52,10 +56,6 @@ uint_fast8_t defaultInit() {
 	servoInit();
 	adcInit();
 	// OLED and I2C is not initialized here.
-
-	debugMain = debugNewSource("Main");
-	debugSourceEnable(debugMain, ENABLE);
-	debugPrintln(debugMain, "Hello!");
 
 	return 0;
 }

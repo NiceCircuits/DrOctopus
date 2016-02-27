@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 /// Max number of debug sources available.
 #define DEBUG_SOURCES_MAX_NUMBER (20)
@@ -25,6 +26,8 @@ static const char* debugSourcesNames[DEBUG_SOURCES_MAX_NUMBER];
 static FunctionalState debugSourcesEnabled[DEBUG_SOURCES_MAX_NUMBER];
 /// Number of configured debug sources
 static debugSource_t debugSourcesNumber = 0;
+/// Debug start flag. Set to one after starting first debug print.
+static bool debugStartFlag = 0;
 
 uint_fast8_t debugInit(void) {
 	GPIO_InitTypeDef gpio;
@@ -84,6 +87,10 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 		// source disabled, do not print anything
 		return 0;
 	} else {
+		while (debugStartFlag && DMA_GetFlagStatus(DEBUG_DMA_TC_FLAG) == 0) {
+			// Wait until previous transfer complete (if any has started).
+		}
+		debugStartFlag = 1; // Indicate, that transfer has started.
 		// insert source name into USART DMA buffer
 		len = strlcpy(debugUsartBuffer, debugSourcesNames[source],
 		DEBUG_SOURCE_NAME_MAX_LENGTH);
@@ -109,6 +116,7 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 		// setup DMA transfer
 		DMA_Cmd(DEBUG_DMA, DISABLE);
 		DMA_SetCurrDataCounter(DEBUG_DMA, len);
+		DMA_ClearFlag(DEBUG_DMA_TC_FLAG);
 		DMA_Cmd(DEBUG_DMA, ENABLE);
 		return 0;
 	}
@@ -138,3 +146,19 @@ uint_fast8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) {
 		return 0;
 	}
 }
+
+#if TEST_MODE == TEST_MODE_DEBUG
+
+int main(void) {
+	uint8_t debugTest;
+	defaultInit();
+	debugTest = debugNewSource("Test");
+	debugSourceEnable(debugTest, ENABLE);
+	debugPrintln(debugTest, "Hello!");
+	debugPrintln(debugTest, "Hello! %d %f", 1234, 1234.567);
+	debugPrintln(debugTest, "Hello!");
+	for (;;) {
+		// Finished, do nothing.
+	}
+}
+#endif // TEST_MODE == TEST_MODE_DEBUG

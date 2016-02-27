@@ -19,6 +19,7 @@
 #define TEST_MODE_DELAY 1
 #define TEST_MODE_I2C 2
 #define TEST_MODE_OLED 3
+#define TEST_MODE_DEBUG 4
 
 /**
  * Default init function. Defined in main.c. Excluded from main, can be used in

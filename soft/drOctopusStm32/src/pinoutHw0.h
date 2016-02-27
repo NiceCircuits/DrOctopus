@@ -28,6 +28,8 @@ uint_fast8_t portInit(void);
 #define DEBUG_RX_PIN GPIO_Pin_3
 #define DEBUG_TX_PIN GPIO_Pin_2
 #define DEBUG_DMA DMA1_Channel7
+/// Debug DMA transfer complete flag.
+#define DEBUG_DMA_TC_FLAG DMA1_FLAG_TC7
 
 // ---------- LEDs ----------
 /// Number of LEDs present.

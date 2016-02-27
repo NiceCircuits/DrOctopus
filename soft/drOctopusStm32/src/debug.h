@@ -11,6 +11,7 @@
 
 #include <inttypes.h>
 #include "stm32f30x.h"
+#include <stdbool.h>
 
 typedef int8_t debugSource_t;
 

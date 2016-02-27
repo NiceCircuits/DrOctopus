@@ -1,11 +1,11 @@
 /**
-  ******************************************************************************
-  * @file    sysTick.h
-  * @author  piotr@nicecircuits.com
-  * @date    2016-02-08
-  * @brief   Delay functions.
-  ******************************************************************************
-*/
+ ******************************************************************************
+ * @file    sysTick.h
+ * @author  piotr@nicecircuits.com
+ * @date    2016-02-08
+ * @brief   Delay functions.
+ ******************************************************************************
+ */
 #ifndef SYSTICK_H_
 #define SYSTICK_H_
 
@@ -30,6 +30,26 @@ uint_fast8_t delayMs(uint16_t time);
  * @return 0 if OK, 1 if delay rounded.
  */
 uint_fast8_t delayUs(uint16_t time);
+
+/**
+ * Start timer with delay stated in us.
+ * @param time Time in us.
+ * @return 0 if OK.
+ */
+uint_fast8_t timerStartUs(uint16_t time);
+
+/**
+ * Start timer with delay stated in ms.
+ * @param time Time in ms.
+ * @return 0 if OK.
+ */
+uint_fast8_t timerStartMs(uint16_t time);
+
+/**
+ * Check, if delay timer stopped counting.
+ * @return 1 if timer stopped counting.
+ */
+uint_fast8_t timerEnd(void);
 
 /**
  * Get time from start.

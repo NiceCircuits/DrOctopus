@@ -10,7 +10,6 @@
 #include "i2c.h"
 #include "config.h"
 #include "delay.h"
-#include "outputs.h"
 
 static GPIO_TypeDef * const i2cGpios[2] = I2C_GPIOS;
 static uint16_t const i2cPins[2] = I2C_PINS;
@@ -53,9 +52,9 @@ uint_fast8_t i2cInit(void) {
 	return 0;
 }
 
-uint_fast8_t i2cWrite(uint16_t addr, uint8_t count, uint8_t* payload) {
+uint_fast8_t i2cWrite(uint8_t addr, uint8_t count, uint8_t* payload) {
 	uint_fast8_t ret = 0;
-	I2C_TransferHandling(I2C, addr, count, I2C_SoftEnd_Mode,
+	I2C_TransferHandling(I2C, addr << 1, count, I2C_SoftEnd_Mode,
 	I2C_Generate_Start_Write);
 	// transfer bytes of data
 	while (count > 0) {
@@ -103,12 +102,12 @@ int main(void) {
 	defaultInit();
 	i2cInit();
 
-	addr = 0x76;
+	addr = 0x3B;
 	for (;;) {
 		i2cWrite(addr, 4, payload);
-		addr += 2;
-		if (addr >= 0x7C) {
-			addr = 0x76;
+		addr++;
+		if (addr >= 0x3E) {
+			addr = 0x3B;
 		}
 	}
 }

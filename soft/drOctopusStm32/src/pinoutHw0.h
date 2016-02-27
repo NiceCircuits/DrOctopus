@@ -31,10 +31,10 @@ uint_fast8_t portInit(void);
 
 // ---------- LEDs ----------
 /// Number of LEDs present.
-#define LED_NUMBER 1
-#define LED_GPIOS {GPIOA}
-#define LED_PINS {GPIO_Pin_5}
-#define LED_ACTIVE_STATES {1}
+#define LED_NUMBER 3
+#define LED_GPIOS {GPIOA, GPIOB, GPIOB}
+#define LED_PINS {GPIO_Pin_5, GPIO_Pin_13, GPIO_Pin_14}
+#define LED_ACTIVE_STATES {1,1,1}
 
 // ---------- PWM ----------
 #define PWM_TIMER TIM3

@@ -17,6 +17,8 @@
  */
 
 #define TEST_MODE_DELAY 1
+#define TEST_MODE_I2C 2
+#define TEST_MODE_OLED 3
 
 /**
  * Default init function. Defined in main.c. Excluded from main, can be used in
@@ -63,5 +65,5 @@ uint_fast8_t defaultInit();
 #define ADC_THERM_SIGNAL (2)
 
 // ---------- I2C ----------
-#define I2C_BITRATE (100000)
+#define I2C_TIMEOUT_US (2000)
 #endif /* CONFIG_H_ */

@@ -11,9 +11,19 @@
 #include "config.h"
 #include "delay.h"
 
+// ---------- Private variables. ----------
 static GPIO_TypeDef * const i2cGpios[2] = I2C_GPIOS;
 static uint16_t const i2cPins[2] = I2C_PINS;
 
+// ---------- Private functions declarations. ----------
+/**
+ * Send a single byte over I2C.
+ * @param data Data to be sent.
+ * @return 0 if OK.
+ */
+uint_fast8_t i2cWriteByte(uint8_t data);
+
+// ---------- Public functions. ----------
 uint_fast8_t i2cInit(void) {
 
 	GPIO_InitTypeDef gpio;
@@ -52,16 +62,9 @@ uint_fast8_t i2cInit(void) {
 	return 0;
 }
 
-uint_fast8_t i2cWriteTransaction(uint8_t addr, uint8_t count, uint8_t* payload,
-		i2cTransferMode_t mode) {
-	uint32_t startStopMode;
-	if ((mode == i2cTransferModeStartStop) || (mode == i2cTransferModeStart)) {
-		startStopMode = I2C_Generate_Start_Write;
-	} else {
-		startStopMode = I2C_No_StartStop;
-	}
-	I2C_TransferHandling(I2C, (addr << 1) & 0xFF, 255, I2C_SoftEnd_Mode,
-			startStopMode);
+uint_fast8_t i2cWriteTransaction(uint8_t addr, uint8_t count, uint8_t* payload) {
+	I2C_TransferHandling(I2C, (addr << 1) & 0xFF, count, I2C_AutoEnd_Mode,
+			I2C_Generate_Start_Write);
 	// transfer bytes of data
 	while (count > 0) {
 		i2cWriteByte(*payload);
@@ -69,21 +72,18 @@ uint_fast8_t i2cWriteTransaction(uint8_t addr, uint8_t count, uint8_t* payload,
 		count--;
 	}
 	timerStartUs(I2C_TIMEOUT_US); // (re)start timeout timer
-	// Wait for transfer complete flag.
-	while (I2C_GetFlagStatus(I2C, I2C_FLAG_TC) == 0) {
+	// Wait for stop flag.
+	while (I2C_GetFlagStatus(I2C, I2C_FLAG_STOPF) == 0) {
 		if (timerEnd()) {
 			// I2C  timeout
 			return 1; // set error flag
 		}
 	}
-	I2C_ClearFlag(I2C, I2C_FLAG_TC);
-	if ((mode == i2cTransferModeStartStop)
-			|| (mode == i2cTransferModeStartStop)) {
-		return i2cStopBit();
-	}
+	I2C_ClearFlag(I2C, I2C_FLAG_STOPF);
 	return 0;
 }
 
+// ---------- Private functions. ----------
 uint_fast8_t i2cWriteByte(uint8_t data) {
 	timerStartUs(I2C_TIMEOUT_US); // (re)start timeout timer
 	// wait for transmit buffer flag
@@ -97,24 +97,6 @@ uint_fast8_t i2cWriteByte(uint8_t data) {
 	return 0;
 }
 
-uint_fast8_t i2cStopBit() {
-	if (I2C_GetFlagStatus(I2C, I2C_FLAG_BUSY)) {
-		I2C_GenerateSTOP(I2C, ENABLE);
-		timerStartUs(I2C_TIMEOUT_US); // (re)start timeout timer
-		// Wait for transfer complete flag.
-		while (I2C_GetFlagStatus(I2C, I2C_FLAG_STOPF) == 0) {
-			if (timerEnd()) {
-				// I2C  timeout
-				return 1; // set error flag
-			}
-		}
-		I2C_ClearFlag(I2C, I2C_FLAG_STOPF);
-		return 0;
-	} else {
-		return 2;
-	}
-}
-
 #if TEST_MODE == TEST_MODE_I2C
 
 int main(void) {
@@ -126,9 +108,7 @@ int main(void) {
 
 	addr = 0x3C;
 	for (;;) {
-		i2cWriteTransaction(addr, 0, payload, i2cTransferModeStart);
-		i2cWriteTransaction(addr, 1, payload, i2cTransferModeNoStartStop);
-		i2cStopBit();
+		i2cWriteTransaction(addr, 1, payload);
 		addr++;
 		if (addr >= 0x3E) {
 			addr = 0x3B;

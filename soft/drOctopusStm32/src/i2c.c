@@ -51,10 +51,9 @@ uint_fast8_t i2cInit(void) {
 	gpio.GPIO_Speed = GPIO_Speed_10MHz;
 	for (i = 0; i < 2; i++) {
 		gpio.GPIO_Pin = i2cPins[i];
-		GPIO_Init(i2cGpios[i], &gpio);
 		GPIO_WriteBit(i2cGpios[i], i2cPins[i], Bit_SET);
+		GPIO_Init(i2cGpios[i], &gpio);
 	}
-
 	return 0;
 }
 
@@ -83,13 +82,15 @@ bool i2cWriteByte(uint8_t data) {
 
 uint_fast8_t i2cStopBit() {
 	// Initial state: SDA is high, SCL is low.
-	i2cPinCmd(SDA, Bit_RESET);
-	i2cDelay1_4();
-	i2cPinCmd(SCL, Bit_SET);
-	i2cDelay1_4();
-	i2cPinCmd(SDA, Bit_SET);
-	i2cDelay1_2();
-	i2cStarted = false;
+	if (i2cStarted) {
+		i2cPinCmd(SDA, Bit_RESET);
+		i2cDelay1_4();
+		i2cPinCmd(SCL, Bit_SET);
+		i2cDelay1_4();
+		i2cPinCmd(SDA, Bit_SET);
+		i2cDelay1_2();
+		i2cStarted = false;
+	}
 	return 0;
 }
 
@@ -155,7 +156,7 @@ bool i2cPinState(i2c_pin_t pin) {
 
 int main(void) {
 	uint8_t addr;
-	uint8_t payload[] = { 1, 2, 3, 4 };
+	uint8_t payload[] = {1, 2, 3, 4};
 
 	defaultInit();
 	i2cInit();

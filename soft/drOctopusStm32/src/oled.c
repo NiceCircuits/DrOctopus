@@ -3,7 +3,7 @@
  * @file    oled.c
  * @author  piotr@nicecircuits.com
  * @date    2016-02-22
- * @brief   OLED display library.
+ * @brief   SSD1306 128x64 OLED display library.
  ******************************************************************************
  */
 
@@ -13,8 +13,15 @@
 #include "debug.h"
 
 // ---------- Private variables. ----------
-debugSource_t debugOled;
+debugSource_t oledDebugSource;
+/// u8glib object.
 u8g_t u8g;
+/// Force generate I2C start sequence in next write.
+bool generateStart = 1;
+/// Select communication mode: 0: command 1: data.
+bool oledCmdMode = 0;
+/// Buffer for OLED communication functions.
+uint8_t oledCommunicationBuffer[256];
 
 // ---------- Private functions. ----------
 uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
@@ -22,15 +29,15 @@ uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 
 // ---------- Public functions. ----------
 uint_fast8_t oledInit(void) {
-	debugOled = debugNewSource("Oled");
-	debugSourceEnable(debugOled, ENABLE);
-	i2cInit();
+	oledDebugSource = debugNewSource("Oled");
+	debugSourceEnable(oledDebugSource, ENABLE);
 	u8g_InitComFn(&u8g, &u8g_dev_ssd1306_128x64_i2c, u8g_communication);
 	u8g_SetDefaultForegroundColor(&u8g);
 	return 0;
 }
 
 // ---------- Functions needed by u8glib ----------
+
 /**
  * Delay by "val" milliseconds. Function needed by u8glib.
  * @param val
@@ -63,32 +70,78 @@ void u8g_10MicroDelay(void) {
  */
 uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 		void *arg_ptr) {
-	debugPrintln(debugOled, "u8glib: 0x%2x 0x%2x %p", msg, arg_val, arg_ptr);
-	delayMs(10);
+	uint_fast8_t result, i;
+
 	switch (msg) {
 	case U8G_COM_MSG_STOP:
+		//debugPrintln(oledDebugSource, "stop");
 		break;
 
 	case U8G_COM_MSG_INIT:
-		oledInit();
+		debugPrintln(oledDebugSource, "init");
+		i2cInit();
 		break;
 
 	case U8G_COM_MSG_ADDRESS: // define cmd (arg_val = 0) or data mode (arg_val = 1)
-		break; // Not available.
+		debugPrintln(oledDebugSource, "addr: %1x", arg_val);
+		// Generate I2C start sequence in next write.
+		generateStart = 1;
+		// Select communication mode.
+		oledCmdMode = arg_val;
+		// Generate stop bit to complete previous transaction.
+		i2cStopBit();
+		break;
 
 	case U8G_COM_MSG_CHIP_SELECT:
-		break; // Not available.
+		debugPrintln(oledDebugSource, "cs: %1x", arg_val);
+		generateStart = 1;
+		if (arg_val == 0) {
+			// Disable communication.
+			i2cStopBit();
+		} else {
+			// Enable communication.
+		}
+		break;
 
 	case U8G_COM_MSG_RESET:
+		debugPrintln(oledDebugSource, "rst");
 		break; // Not available.
 
 	case U8G_COM_MSG_WRITE_BYTE:
-		i2cWrite(OLED_I2C_ADDR, 1, &arg_val);
+		debugPrintln(oledDebugSource, "write: %02x", arg_val);
+		if (generateStart) {
+			i2cStartBit();
+			// I2C address.
+			i2cWriteByte(OLED_I2C_ADDR << 1);
+			// SSD1306 control byte.
+			i2cWriteByte((oledCmdMode & 0x01) << 6);
+			generateStart = 0;
+		}
+		result = i2cWriteByte(arg_val);
+		if (result != 0) { // error
+//			i2cStopBit();
+			return 0; // error flag
+		}
 		break;
 
 	case U8G_COM_MSG_WRITE_SEQ:
 	case U8G_COM_MSG_WRITE_SEQ_P: {
-		i2cWrite(OLED_I2C_ADDR, arg_val, (uint8_t*) arg_ptr);
+		debugPrintln(oledDebugSource, "write: %d %p", arg_val, arg_ptr);
+		if (generateStart) {
+			i2cStartBit();
+			// I2C address.
+			i2cWriteByte(OLED_I2C_ADDR << 1);
+			// SSD1306 control byte.
+			i2cWriteByte((oledCmdMode & 0x01) << 6);
+			generateStart = 0;
+		}
+		for (i = 0; i < arg_val; i++) {
+			result = i2cWriteByte(((uint8_t*) arg_ptr)[i]);
+		}
+		if (result != 0) { // error
+//			i2cStopBit();
+			return 0; // error flag
+		}
 		break;
 	}
 	default: {

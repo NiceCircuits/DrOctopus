@@ -60,15 +60,6 @@ uint_fast8_t portInit(void) {
 	// set ADC clock to 12MHz
 	RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div6);
 
-	// ---------- I2C ----------
-	// Enable I2C peripheral clock.
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
-	// Set I2C clock to internal clock 8MHz.
-	RCC_I2CCLKConfig(RCC_I2C1CLK_HSI);
-	// initialize I2C pins alternative functions.
-	GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_4);
-	GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_4);
-
 	// ---------- delay ----------
 	// enable delay timer peripheral clock.
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM2EN, ENABLE);

@@ -78,7 +78,10 @@ enum {
 
 // ---------- I2C ----------
 enum {
-	I2C_TIMEOUT_US = 2000
+	/// I2C frequency in Hz.
+	I2C_FREQ = 100000,
+	/// I2C single bit time in us, calculated. Rounded up.
+	I2C_BIT_TIME_US = (1000000 + I2C_FREQ - 1) / I2C_FREQ
 };
 
 // ---------- OLED ----------

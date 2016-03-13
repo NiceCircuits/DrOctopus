@@ -1,0 +1,31 @@
+Reference, Value, Footprint, Datasheet
+CON2,BEC,EDG-5.08mm-4_N,
+CON4,Heater,EDG-5.08mm-2_N,
+CON1,+12V,EDG-5.08mm-2_N,
+U2,AMS1117-3.3,SOT223_N,
+C4,100n,0603_N,
+C1,470u/16V,niceRLC:Cpol_8.0_12.0_HR_N,ED1C471MNN0812
+D1,SS14,SMA_N,
+MH1,Mounting hole,mounting_hole_3.2_7.5_plated_vias,
+C5,22u/6V3,Tantal_A_N,T491A226K006AT
+MH2,Mounting hole,mounting_hole_3.2_7.5_plated_vias,
+MH3,Mounting hole,mounting_hole_3.2_7.5_plated_vias,
+MH4,Mounting hole,mounting_hole_3.2_7.5_plated_vias,
+MECH1,nut,nut_M3_DIN985,
+MECH2,nut,nut_M3_DIN985,
+MECH3,nut,nut_M3_DIN985,
+MECH4,nut,nut_M3_DIN985,
+MECH5,spacer_M3x5+6,spacer_M3x5+6,
+MECH6,spacer_M3x5+6,spacer_M3x5+6,
+MECH7,spacer_M3x5+6,spacer_M3x5+6,
+MECH8,spacer_M3x5+6,spacer_M3x5+6,
+U3,ESP-07,ESP-07_N,
+C3,100u/25V,niceRLC:Cpol_6.3_11.0_HR_N,ED1E101MNN6311U
+U1,DcDcDsun3A,niceModules:DcDcDsun3A_5.08N,
+C2,470u/16V,niceRLC:Cpol_8.0_12.0_HR_N,ED1C471MNN0812
+CON3,PIN-2x3,PIN-2x3_N,
+CON5,PIN-2x2,PIN-2x2_N,
+CON6,PIN-2x4,nicePinheaders:PIN-2x4_N,
+Th1,10k NTC,0603_N,
+U4,BTS142D,D-PAK_N,
+C6,100n,0603_N,

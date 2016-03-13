@@ -22,17 +22,13 @@
 #include "servo.h"
 #include "adc.h"
 #include "oled.h"
+#include "ESP8266.h"
 
 debugSource_t debugMain;
 
 #ifndef TEST_MODE
 // Standard main function. TEST_MODE symbol must not be defined.
 int main(void) {
-	FunctionalState led = ENABLE;
-	int i, j;
-	int_fast32_t dir, pos = 0;
-	uint16_t adc;
-
 	defaultInit();
 	oledInit();
 
@@ -56,6 +52,7 @@ uint_fast8_t defaultInit() {
 	servoInit();
 	adcInit();
 	// OLED and I2C is not initialized here.
+	espInit();
 
 	return 0;
 }

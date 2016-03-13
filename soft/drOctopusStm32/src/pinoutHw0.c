@@ -64,5 +64,13 @@ uint_fast8_t portInit(void) {
 	// enable delay timer peripheral clock.
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM2EN, ENABLE);
 
+	// ---------- ESP8266 ----------
+	// Enable ESP USART and DMA peripheral clock.
+	RCC_APB1PeriphClockCmd(RCC_APB1ENR_USART3EN, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBENR_DMA1EN, ENABLE);
+	// Initialize USART pins alternative functions.
+	GPIO_PinAFConfig(ESP_GPIO, GPIO_PinSource10, GPIO_AF_7);
+	GPIO_PinAFConfig(ESP_GPIO, GPIO_PinSource11, GPIO_AF_7);
+
 	return 0;
 }

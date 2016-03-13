@@ -20,6 +20,7 @@
 #define TEST_MODE_I2C 2
 #define TEST_MODE_OLED 3
 #define TEST_MODE_DEBUG 4
+#define TEST_MODE_ESP 5
 
 /**
  * Default init function. Defined in main.c. Excluded from main, can be used in
@@ -87,5 +88,15 @@ enum {
 // ---------- OLED ----------
 enum {
 	OLED_I2C_ADDR = 0x3C
+};
+
+// ---------- ESP8266 ----------
+enum {
+	/// ESP8266 port baudrate.
+	ESP_BUADRATE=57600,
+	/// ESP8266 transmit buffer size.
+	ESP_TX_BUFFER_SIZE = 512,
+	/// ESP8266 transmit buffer size.
+	ESP_RX_BUFFER_SIZE = 512
 };
 #endif /* CONFIG_H_ */

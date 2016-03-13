@@ -78,4 +78,14 @@ uint_fast8_t portInit(void);
 // ---------- delay ----------
 #define DELAY_TIMER TIM2
 
+// ---------- ESP8266 ----------
+#define ESP_USART USART3
+#define ESP_GPIO GPIOC
+#define ESP_RX_PIN GPIO_Pin_11
+#define ESP_TX_PIN GPIO_Pin_10
+#define ESP_RX_DMA DMA1_Channel3
+#define ESP_TX_DMA DMA1_Channel2
+/// ESP8266 DMA transmit complete flag.
+#define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2
+
 #endif /* PINOUTHW0_H_ */

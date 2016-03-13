@@ -1750,15 +1750,11 @@ Text Notes 6950 2150 0    60   Italic 0
 ADC12_IN6
 Text Notes 6950 2250 0    60   Italic 0
 ADC12_IN7
-Text Notes 9250 1550 2    60   Italic 0
-ADC12_IN8
-Text Notes 9250 1650 2    60   Italic 0
-ADC12_IN9
 Text Notes 9250 4450 2    60   Italic 0
 ADC12_IN14
 Text Notes 9250 4550 2    60   Italic 0
 ADC12_IN15
-Text Notes 9250 4050 2    60   Italic 0
+Text Notes 9250 4050 2    40   Italic 0
 ADC12_IN10
 Text Notes 9250 4150 2    60   Italic 0
 ADC12_IN11
@@ -2301,10 +2297,6 @@ F 3 "" H 3500 6700 60  0000 C CNN
 	1    3500 6700
 	1    0    0    -1  
 $EndComp
-Text Notes 7200 1550 0    60   Italic 0
-ADC12_IN0
-Text Notes 7200 1650 0    60   Italic 0
-ADC12_IN1
 Text Label 2200 6100 0    50   Italic 0
 B2B_heater_cmd
 Text Notes 600  11100 0    75   Italic 0
@@ -2503,9 +2495,7 @@ F 3 "" H 10200 4000 60  0000 C CNN
 	1    10200 4000
 	0    1    -1   0   
 $EndComp
-Text Notes 9250 1950 2    60   Italic 0
-TIM3_CH1
-Text Notes 9250 2050 2    60   Italic 0
+Text Notes 9250 2050 2    40   Italic 0
 TIM3_CH2
 $Comp
 L Testpoint TP6
@@ -3511,4 +3501,12 @@ F 3 "" H 9900 10900 60  0000 C CNN
 	1    9900 10900
 	1    0    0    -1  
 $EndComp
+Text Notes 8350 9400 0    75   Italic 0
+I2C pullups are integrated on OLED module
+Text Notes 9250 1950 2    40   Italic 0
+TIM3_CH1
+Text Notes 7200 1650 0    40   Italic 0
+ADC12_IN1
+Text Notes 7200 1550 0    40   Italic 0
+ADC12_IN0
 $EndSCHEMATC

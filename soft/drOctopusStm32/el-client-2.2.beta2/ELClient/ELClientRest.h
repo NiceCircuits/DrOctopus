@@ -3,7 +3,6 @@
 #ifndef _EL_CLIENT_REST_H_
 #define _EL_CLIENT_REST_H_
 
-#include <Arduino.h>
 #include "FP.h"
 #include "ELClient.h"
 
@@ -38,16 +37,16 @@ class ELClientRest {
     // open a connection to the remote server. Host may be a hostname or an IP address,
     // security causes HTTPS to be used (not yet supported). Returns 0 if the set-up is
     // successful, returns a negative error code if it failed.
-    int begin(const char* host, uint16_t port=80, boolean security=false);
+    int begin(const char* host, uint16_t port=80, bool security=false);
 
     // Make a request to the remote server. The data must be null-terminated
-    void request(const char* path, const char* method, const char* data=NULL);
+    void request(const char* path, const char* method, const char* data=0);
 
     // Make a request to the remote server.
     void request(const char* path, const char* method, const char* data, int len);
 
     // Make a GET request to the remote server with NULL-terminated data
-    void get(const char* path, const char* data=NULL);
+    void get(const char* path, const char* data=0);
 
     // Make a POST request to the remote server with NULL-terminated data
     void post(const char* path, const char* data);

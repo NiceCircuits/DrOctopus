@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include "ELClient.h"
+#include "ELClientMqtt.h"
 
 // ---------- Private variables. ----------
 /// ESP8266 Tx USART DMA buffer.
@@ -21,6 +23,8 @@ static char espUsartTxBuffer[ESP_TX_BUFFER_SIZE] = "";
 static char espUsartRxBuffer[ESP_RX_BUFFER_SIZE] = "";
 /// ESP8266 transmit start flag. Set to one after starting first debug print.
 static bool espTxStartFlag = 0;
+/// esp-link client object
+
 
 // ---------- Public functions. ----------
 uint_fast8_t espInit(void) {
@@ -69,6 +73,8 @@ uint_fast8_t espInit(void) {
 	dma.DMA_BufferSize = 1;
 	DMA_Init(ESP_TX_DMA, &dma);
 	return 0;
+
+
 }
 
 uint_fast8_t espPrintf(const char* format, ...) {

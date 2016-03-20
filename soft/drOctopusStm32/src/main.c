@@ -52,7 +52,7 @@ uint_fast8_t defaultInit() {
 	servoInit();
 	adcInit();
 	// OLED and I2C is not initialized here.
-	espInit();
+	//espInit();
 
 	return 0;
 }

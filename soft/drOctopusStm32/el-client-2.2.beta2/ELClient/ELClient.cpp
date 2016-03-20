@@ -1,7 +1,7 @@
 // Copyright (c) 2016 by B. Runnels and T. von Eicken
 
 #include "ELClient.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 #define SLIP_END  0300        // indicates end of packet
 #define SLIP_ESC  0333        // indicates byte stuffing
@@ -164,13 +164,13 @@ void ELClient::init() {
 	_proto.isEsc = 0;
 }
 
-ELClient::ELClient(Stream* serial) :
+ELClient::ELClient(Stream* serial, uint64_t (*millis)()) :
 		_serial(serial) {
 	_debugEn = false;
 	init();
 }
 
-ELClient::ELClient(Stream* serial, Stream* debug) :
+ELClient::ELClient(Stream* serial, Stream* debug, uint64_t (*millis)()) :
 		_debug(debug), _serial(serial) {
 	_debugEn = true;
 	init();
@@ -184,9 +184,9 @@ void ELClient::DBG(const char* info) {
 //===== Responses
 
 // Wait for a response for a given timeout
-ELClientPacket *ELClient::WaitReturn(uint32_t timeout) {
-	uint32_t wait = millis();
-	while (millis() - wait < timeout) {
+ELClientPacket *ELClient::WaitReturn(uint64_t timeout) {
+	uint64_t wait = _millis();
+	while (_millis() - wait < timeout) {
 		ELClientPacket *packet = Process();
 		if (packet != NULL)
 			return packet;

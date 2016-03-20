@@ -1,6 +1,7 @@
 // Copyright (c) 2016 by B. Runnels and T. von Eicken
 
 #include "ELClientMqtt.h"
+#include <cstring>
 
 // constructor
 ELClientMqtt::ELClientMqtt(ELClient* elc) :

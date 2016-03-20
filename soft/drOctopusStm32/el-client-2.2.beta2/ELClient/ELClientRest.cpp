@@ -1,6 +1,7 @@
 // Copyright (c) 2016 by B. Runnels and T. von Eicken
 
 #include "ELClientRest.h"
+#include <cstring>
 
 typedef enum {
 	HEADER_GENERIC = 0, HEADER_CONTENT_TYPE, HEADER_USER_AGENT
@@ -110,9 +111,9 @@ uint16_t ELClientRest::getResponse(char* data, uint16_t maxLen) {
 }
 
 uint16_t ELClientRest::waitResponse(char* data, uint16_t maxLen,
-		uint32_t timeout) {
-	uint32_t wait = millis();
-	while (_status == 0 && (millis() - wait < timeout)) {
+		uint64_t timeout) {
+	uint64_t wait = _elc->_millis();
+	while (_status == 0 && (_elc->_millis() - wait < timeout)) {
 		_elc->Process();
 	}
 	return getResponse(data, maxLen);

@@ -3,7 +3,8 @@
 
 #include "ELClientResponse.h"
 #include "FP.h"
-#include <stdbool.h>
+#include <cstdint>
+#include <cstddef>
 
 #define ESP_TIMEOUT 2000
 #define NULL 0
@@ -61,9 +62,9 @@ typedef struct {
 class ELClient {
 public:
 	// Create an esp-link client based on a stream and with a specified debug output stream.
-	ELClient(Stream* serial, Stream* debug);
+	ELClient(Stream* serial, Stream* debug, uint64_t (*millis)());
 	// Create an esp-link client based on a stream with no debug output
-	ELClient(Stream* serial);
+	ELClient(Stream* serial, uint64_t (*millis)());
 
 	Stream* _debug;
 
@@ -86,7 +87,7 @@ public:
 	// Busy wait for a response with a timeout in milliseconds, returns an ELClientPacket
 	// if a response was recv'd and NULL otherwise. The ELClientPacket is typically used to
 	// create an ELClientResponse.
-	ELClientPacket *WaitReturn(uint32_t timeout=ESP_TIMEOUT);
+	ELClientPacket *WaitReturn(uint64_t timeout=ESP_TIMEOUT);
 
 	//== Commands built-into ELClient
 	// Initialize and synchronize communication with esp-link with a timeout in milliseconds,
@@ -101,6 +102,7 @@ public:
 	//private:
 	Stream* _serial;
 	bool _debugEn;
+	uint64_t (*_millis)();
 	uint16_t crc;
 	ELClientProtocol _proto;
 	uint8_t _protoBuf[128];

@@ -7,7 +7,7 @@
 #define PACKED __attribute__ ((__packed__))
 #endif
 
-#include <string>
+#include <cstdint>
 
 typedef struct
 	PACKED {

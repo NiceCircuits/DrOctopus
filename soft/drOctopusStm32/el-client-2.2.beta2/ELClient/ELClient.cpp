@@ -165,13 +165,13 @@ void ELClient::init() {
 }
 
 ELClient::ELClient(ELStream* serial, uint64_t (*millis)()) :
-		_serial(serial) {
+		_serial(serial), _millis(millis) {
 	_debugEn = false;
 	init();
 }
 
 ELClient::ELClient(ELStream* serial, ELStream* debug, uint64_t (*millis)()) :
-		_debug(debug), _serial(serial) {
+		_debug(debug), _serial(serial), _millis(millis) {
 	_debugEn = true;
 	init();
 }

@@ -9,6 +9,9 @@
 
 #ifndef CONFIG_H_
 #define CONFIG_H_
+
+#include <inttypes.h>
+
 // ---------- Test modes ----------
 /*
  * Used to build test firmwares for different functions. If TEST_MODE symbol

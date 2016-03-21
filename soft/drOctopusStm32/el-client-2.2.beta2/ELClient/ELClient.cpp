@@ -164,13 +164,13 @@ void ELClient::init() {
 	_proto.isEsc = 0;
 }
 
-ELClient::ELClient(Stream* serial, uint64_t (*millis)()) :
+ELClient::ELClient(ELStream* serial, uint64_t (*millis)()) :
 		_serial(serial) {
 	_debugEn = false;
 	init();
 }
 
-ELClient::ELClient(Stream* serial, Stream* debug, uint64_t (*millis)()) :
+ELClient::ELClient(ELStream* serial, ELStream* debug, uint64_t (*millis)()) :
 		_debug(debug), _serial(serial) {
 	_debugEn = true;
 	init();

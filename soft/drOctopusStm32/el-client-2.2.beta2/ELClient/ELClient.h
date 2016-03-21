@@ -7,9 +7,8 @@
 #include <cstddef>
 
 #define ESP_TIMEOUT 2000
-#define NULL 0
 
-class Stream {
+class ELStream {
 public:
 	virtual size_t print(const char* format, ...) = 0;
 	virtual size_t write(uint8_t) = 0;
@@ -62,11 +61,11 @@ typedef struct {
 class ELClient {
 public:
 	// Create an esp-link client based on a stream and with a specified debug output stream.
-	ELClient(Stream* serial, Stream* debug, uint64_t (*millis)());
+	ELClient(ELStream* serial, ELStream* debug, uint64_t (*millis)());
 	// Create an esp-link client based on a stream with no debug output
-	ELClient(Stream* serial, uint64_t (*millis)());
+	ELClient(ELStream* serial, uint64_t (*millis)());
 
-	Stream* _debug;
+	ELStream* _debug;
 
 	//== Requests
 	// Start a request. cmd is the command to execute, value is either the address of a function
@@ -100,7 +99,7 @@ public:
 	FP<void, void*> wifiCb;
 
 	//private:
-	Stream* _serial;
+	ELStream* _serial;
 	bool _debugEn;
 	uint64_t (*_millis)();
 	uint16_t crc;

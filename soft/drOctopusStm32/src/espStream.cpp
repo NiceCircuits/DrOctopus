@@ -44,17 +44,20 @@ size_t espStream_t::write(uint8_t byte) {
 }
 
 int espStream_t::available() {
-
+	return this->rxBuffer.count;
 }
 
 int espStream_t::read() {
-
+	char data = 0;
+	this->rxBuffer.pop(&data);
+	return data;
 }
 
 uint_fast8_t espStream_t::init() {
 	GPIO_InitTypeDef gpio;
 	USART_InitTypeDef uart;
 	DMA_InitTypeDef dma;
+	NVIC_InitTypeDef nvic;
 
 	// TX pin - alternative low speed output
 	GPIO_StructInit(&gpio);
@@ -67,7 +70,7 @@ uint_fast8_t espStream_t::init() {
 
 	// RX pin - input
 	gpio.GPIO_Pin = ESP_RX_PIN;
-	gpio.GPIO_Mode = GPIO_Mode_IN;
+	gpio.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_Init(ESP_GPIO, &gpio);
 
 	// Alternate function registers of GPIO are set up in portInit() function
@@ -97,5 +100,17 @@ uint_fast8_t espStream_t::init() {
 	dma.DMA_BufferSize = 1;
 	DMA_Init(ESP_TX_DMA, &dma);
 
+	// Init USART Receive data register not empty interrupt.
+	nvic.NVIC_IRQChannel = (ESP_IRQ);
+	nvic.NVIC_IRQChannelPreemptionPriority = 0;
+	nvic.NVIC_IRQChannelSubPriority = 0;
+	nvic.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvic);
+	USART_ITConfig(ESP_USART, USART_IT_RXNE, ENABLE);
+
 	return 0;
+}
+
+uint_fast8_t espStream_t::pushRxData(char data) {
+	return this->rxBuffer.push(data);
 }

@@ -162,7 +162,7 @@ g_pfnVectors:
 	.word	0                                         // 36: SPI2
 	.word	0                                         // 37: USART1
 	.word	0                                         // 38: USART2
-	.word	0                                         // 39: USART3
+	.word	USART3_IRQHandler                         // 39: USART3
 	.word	0                                         // 40: External Line[15:10]s
 	.word	0                                         // 41: RTC Alarm (A and B) through EXTI Line
 	.word	0                                         // 42: USB Wakeup through EXTI line

@@ -27,6 +27,7 @@ public:
 	int available();
 	int read();
 	uint_fast8_t init();
+	uint_fast8_t pushRxData(char data);
 private:
 	bool txStartFlag=0;
 	/// ESP8266 Rx USART DMA buffer.

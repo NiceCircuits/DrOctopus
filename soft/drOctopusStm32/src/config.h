@@ -96,7 +96,7 @@ enum {
 // ---------- ESP8266 ----------
 enum {
 	/// ESP8266 port baudrate.
-	ESP_BUADRATE=57600,
+	ESP_BUADRATE=115200,
 	/// ESP8266 transmit buffer size.
 	ESP_TX_BUFFER_SIZE = 512,
 	/// ESP8266 transmit buffer size.

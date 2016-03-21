@@ -87,5 +87,7 @@ uint_fast8_t portInit(void);
 #define ESP_TX_DMA DMA1_Channel2
 /// ESP8266 DMA transmit complete flag.
 #define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2
+#define ESP_IRQHandler USART3_IRQHandler
+#define ESP_IRQ USART3_IRQn
 
 #endif /* PINOUTHW0_H_ */

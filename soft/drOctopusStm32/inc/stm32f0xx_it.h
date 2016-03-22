@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f30x.h
+  * @file    Project/STM32F0xx_StdPeriph_Templates/stm32f0xx_it.h 
   * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    31-October-2014
-  * @brief   CMSIS Cortex-M4 Device System Source File for STM32F30x devices.  
+  * @version V1.5.0
+  * @date    05-December-2014
+  * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   * @attention
   *
@@ -25,52 +25,34 @@
   ******************************************************************************
   */
 
-/** @addtogroup CMSIS
-  * @{
-  */
-
-/** @addtogroup stm32f30x_system
-  * @{
-  */  
-  
-/**
-  * @brief Define to prevent recursive inclusion
-  */
-#ifndef __SYSTEM_STM32F30X_H
-#define __SYSTEM_STM32F30X_H
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __STM32F0XX_IT_H
+#define __STM32F0XX_IT_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif 
 
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+
 /* Exported types ------------------------------------------------------------*/
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-/** @addtogroup STM32F30x_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
+void NMI_Handler(void);
+void HardFault_Handler(void);
+void SVC_Handler(void);
+void PendSV_Handler(void);
+void SysTick_Handler(void);
 
-/**
-  * @}
-  */
+/*void PPP_IRQHandler(void);*/
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /*__SYSTEM_STM32F30X_H */
+#endif /* __STM32F0XX_IT_H */
 
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */  
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

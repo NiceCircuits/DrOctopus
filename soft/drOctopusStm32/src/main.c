@@ -14,7 +14,6 @@
  ******************************************************************************
  */
 
-#include "stm32f30x.h"
 #include "config.h"
 #include "debug.h"
 #include "delay.h"

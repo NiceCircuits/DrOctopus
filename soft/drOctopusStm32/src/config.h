@@ -24,6 +24,9 @@
 #define TEST_MODE_OLED 3
 #define TEST_MODE_DEBUG 4
 #define TEST_MODE_ESP 5
+#define TEST_MODE_ADC 6
+#define TEST_MODE_SERVO 7
+#define TEST_MODE_OUTPUTS 8
 
 /**
  * Default init function. Defined in main.c. Excluded from main, can be used in

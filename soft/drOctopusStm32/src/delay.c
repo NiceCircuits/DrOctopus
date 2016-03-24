@@ -142,6 +142,9 @@ void SysTick_Handler() {
 #if HW_VERSION == HW_VERSION0
 #define LED_GPIO GPIOA
 #define LED_PIN GPIO_Pin_5
+#elif HW_VERSION == HW_VERSION1
+#define LED_GPIO GPIOB
+#define LED_PIN GPIO_Pin_12
 #else
 #error "Unsupported HW version!"
 #endif /* HW_VERSION == HW_VERSION0 */
@@ -157,11 +160,11 @@ int main(void) {
 	defaultInit();
 
 	for (;;) {
-		LED_GPIO->BSRR = GPIO_Pin_5;
+		LED_GPIO->BSRR = LED_PIN;
 		delayUs(1);
 
 		timerStartUs(10);
-		LED_GPIO->BRR = GPIO_Pin_5;
+		LED_GPIO->BRR = LED_PIN;
 		for (i=0;i<20;i++)
 		{
 			timerStartUs(10); // restart timer
@@ -169,21 +172,21 @@ int main(void) {
 		while (timerEnd() == 0) {
 		}
 
-		LED_GPIO->BSRR = GPIO_Pin_5;
+		LED_GPIO->BSRR = LED_PIN;
 		delayUs(100);
 
 		timerStartMs(1);
-		LED_GPIO->BRR = GPIO_Pin_5;
+		LED_GPIO->BRR = LED_PIN;
 		while (timerEnd() == 0) {
 		}
 
-		LED_GPIO->BSRR = GPIO_Pin_5;
+		LED_GPIO->BSRR = LED_PIN;
 		delayMs(10);
-		LED_GPIO->BRR = GPIO_Pin_5;
+		LED_GPIO->BRR = LED_PIN;
 
 		max = rand() & 0x3fff;
 		for (i = 0; i < max; i++) {
-			LED_GPIO->BRR = GPIO_Pin_5;
+			LED_GPIO->BRR = LED_PIN;
 		}
 	}
 }

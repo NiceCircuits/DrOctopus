@@ -10,7 +10,7 @@
 #define PINOUTHW0_H_
 
 #include <inttypes.h>
-#include "stm32f30x.h"
+#include "stm32f0xx.h"
 
 /**
  * Initialize basic peripheral registers (mostly clocks and alternative pin
@@ -18,6 +18,13 @@
  * @return 0 if OK.
  */
 uint_fast8_t portInit(void);
+
+/**
+ * Initialize ADC - version specific function.
+ * @param adcBuffer ADC DMA buffer
+ * @return 0 if OK
+ */
+uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer);
 
 /******************************************************************************
  * Pinout
@@ -58,7 +65,7 @@ uint_fast8_t portInit(void);
 #define SERVO_IRQ_HANDLER TIM1_UP_TIM16_IRQHandler
 
 // ---------- ADC ----------
-#define ADC ADC1
+#define ADC_ADC ADC1
 /// Number of ADC channels.
 #define ADC_NUMBER (7)
 // ADC channels: heater_sig, bts_fb_sig, thermistors from 0
@@ -68,6 +75,7 @@ uint_fast8_t portInit(void);
 #define ADC_DMA DMA1_Channel1
 /// ADC conversion trigger event: Timer 3
 #define ADC_TRIGGER (ADC_ExternalTrigConvEvent_4)
+#define ADC_SAMPLE_TIME ADC_SampleTime_61Cycles5
 
 // ---------- I2C ----------
 #define I2C I2C1

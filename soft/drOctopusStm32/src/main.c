@@ -4,13 +4,10 @@
  * @author  piotr@nicecircuits.com
  * @date    2016-02-07
  * @brief   drOctopus firmware for STM32.
- * @todo I2C.
- * @todo OLED.
  * @todo Buttons.
- * @todo ESP8266.
  * @todo Self-test functions.
  * @todo BTS diagnostics.
- * @todo Test modes.
+ * @todo Logging and error handling.
  ******************************************************************************
  */
 

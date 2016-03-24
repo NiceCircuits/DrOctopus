@@ -11,7 +11,6 @@
 #include <stdbool.h>
 #include "outputs.h"
 #include "config.h"
-#include "stm32f30x.h"
 
 // ---------- constants ----------
 /// Servo pulse frequency.
@@ -86,8 +85,7 @@ uint_fast8_t servoInit() {
 
 	// Init servo timer update interrupt
 	nvic.NVIC_IRQChannel = (SERVO_IRQ);
-	nvic.NVIC_IRQChannelPreemptionPriority = 0;
-	nvic.NVIC_IRQChannelSubPriority = 0;
+	nvic.NVIC_IRQChannelPriority = 0;
 	nvic.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&nvic);
 	TIM_ITConfig(servoTimers[0], TIM_IT_Update, ENABLE);

@@ -10,7 +10,7 @@
 #define OUTPUTS_H_
 
 #include <inttypes.h>
-#include "stm32f30x.h"
+#include "config.h"
 #include <stdbool.h>
 
 /// PWM timer interrupt flag. Used to synchronize ADC processing with PWM.

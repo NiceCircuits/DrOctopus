@@ -9,7 +9,7 @@
 
 #include "delay.h"
 #include "config.h"
-#include "stm32f30x.h"
+
 
 // ---------- Private variables ----------
 /**

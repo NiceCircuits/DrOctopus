@@ -10,7 +10,7 @@
 #define DEBUG_H_
 
 #include <inttypes.h>
-#include "stm32f30x.h"
+#include "config.h"
 #include <stdbool.h>
 
 typedef int8_t debugSource_t;

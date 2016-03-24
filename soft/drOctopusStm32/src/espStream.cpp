@@ -102,8 +102,7 @@ uint_fast8_t espStream_t::init() {
 
 	// Init USART Receive data register not empty interrupt.
 	nvic.NVIC_IRQChannel = (ESP_IRQ);
-	nvic.NVIC_IRQChannelPreemptionPriority = 0;
-	nvic.NVIC_IRQChannelSubPriority = 0;
+	nvic.NVIC_IRQChannelPriority = 0;
 	nvic.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&nvic);
 	USART_ITConfig(ESP_USART, USART_IT_RXNE, ENABLE);

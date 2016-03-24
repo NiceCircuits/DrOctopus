@@ -11,7 +11,6 @@
 
 #include "u8g.h"
 #include "config.h"
-#include "stm32f30x.h"
 #include <stdint.h>
 
 // Initialize OLED display.

@@ -19,6 +19,13 @@
  */
 uint_fast8_t portInit(void);
 
+/**
+ * Initialize ADC - version specific function.
+ * @param adcBuffer ADC DMA buffer
+ * @return 0 if OK
+ */
+uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer);
+
 /******************************************************************************
  * Pinout
  ******************************************************************************/
@@ -27,16 +34,16 @@ uint_fast8_t portInit(void);
 #define DEBUG_GPIO GPIOA
 #define DEBUG_RX_PIN GPIO_Pin_3
 #define DEBUG_TX_PIN GPIO_Pin_2
-#define DEBUG_DMA DMA1_Channel7
+#define DEBUG_DMA DMA1_Channel4
 /// Debug DMA transfer complete flag.
-#define DEBUG_DMA_TC_FLAG DMA1_FLAG_TC7
+#define DEBUG_DMA_TC_FLAG DMA1_FLAG_TC4
 
 // ---------- LEDs ----------
 /// Number of LEDs present.
-#define LED_NUMBER 3
-#define LED_GPIOS {GPIOA, GPIOB, GPIOB}
-#define LED_PINS {GPIO_Pin_5, GPIO_Pin_13, GPIO_Pin_14}
-#define LED_ACTIVE_STATES {1,1,1}
+#define LED_NUMBER 2
+#define LED_GPIOS {GPIOB, GPIOB}
+#define LED_PINS {GPIO_Pin_12, GPIO_Pin_13}
+#define LED_ACTIVE_STATES {1,1}
 
 // ---------- PWM ----------
 #define PWM_TIMER TIM3
@@ -49,31 +56,33 @@ uint_fast8_t portInit(void);
 
 // ---------- servos ----------
 #define SERVO_NUMBER (8)
-#define SERVO_TIMERS_NUMBER (2)
-#define SERVO_TIMERS {TIM1, TIM4}
-#define SERVO_GPIOS {GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB}
-#define SERVO_PINS {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_13, GPIO_Pin_12, GPIO_Pin_6, GPIO_Pin_9}
-#define SERVO_CHANNELS {&(TIM1->CCR1), &(TIM1->CCR2), &(TIM1->CCR3), &(TIM1->CCR4), &(TIM4->CCR3), &(TIM4->CCR2), &(TIM4->CCR1), &(TIM4->CCR4)}
-#define SERVO_IRQ TIM1_UP_TIM16_IRQn
-#define SERVO_IRQ_HANDLER TIM1_UP_TIM16_IRQHandler
+#define SERVO_TIMERS_NUMBER (4)
+#define SERVO_TIMERS {TIM1, TIM15, TIM16, TIM17}
+#define SERVO_GPIOS {GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB, GPIOB, GPIOB}
+#define SERVO_PINS {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_8, GPIO_Pin_15, GPIO_Pin_14, GPIO_Pin_9}
+#define SERVO_CHANNELS {&(TIM1->CCR1), &(TIM1->CCR2), &(TIM1->CCR3), &(TIM1->CCR4), &(TIM16->CCR1), &(TIM15->CCR2), &(TIM15->CCR1), &(TIM17->CCR1)}
+#define SERVO_IRQ TIM1_BRK_UP_TRG_COM_IRQn
+#define SERVO_IRQ_HANDLER TIM1_BRK_UP_TRG_COM_IRQHandler
 
 // ---------- ADC ----------
-#define ADC ADC1
+#define ADC_ADC ADC1
 /// Number of ADC channels.
-#define ADC_NUMBER (7)
+#define ADC_NUMBER (8)
 // ADC channels: heater_sig, bts_fb_sig, thermistors from 0
-#define ADC_GPIOS {GPIOC, GPIOA, GPIOB, GPIOC, GPIOA, GPIOC, GPIOC}
-#define ADC_PINS {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_11, GPIO_Pin_3, GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2}
-#define ADC_CHANNELS {ADC_Channel_6, ADC_Channel_2, ADC_Channel_14, ADC_Channel_9, ADC_Channel_1, ADC_Channel_7, ADC_Channel_8}
+#define ADC_GPIOS {GPIOA, GPIOC, GPIOA, GPIOA, GPIOC, GPIOC, GPIOC, GPIOC}
+#define ADC_PINS {GPIO_Pin_5, GPIO_Pin_5, GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_4, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3}
+#define ADC_CHANNELS {ADC_Channel_5, ADC_Channel_15, ADC_Channel_6, ADC_Channel_7, ADC_Channel_14, ADC_Channel_11, ADC_Channel_12, ADC_Channel_13}
 #define ADC_DMA DMA1_Channel1
 /// ADC conversion trigger event: Timer 3
-#define ADC_TRIGGER (ADC_ExternalTrigConvEvent_4)
+#define ADC_TRIGGER (ADC_ExternalTrigConv_T3_TRGO)
+#define ADC_FLAG_RDY ADC_FLAG_ADRDY
+#define ADC_SAMPLE_TIME ADC_SampleTime_55_5Cycles
 
 // ---------- I2C ----------
-#define I2C I2C1
+#define I2C I2C2
 // I2C pins: SDA, SCL
 #define I2C_GPIOS {GPIOB, GPIOB}
-#define I2C_PINS {GPIO_Pin_7, GPIO_Pin_8}
+#define I2C_PINS {GPIO_Pin_11, GPIO_Pin_10}
 
 // ---------- delay ----------
 #define DELAY_TIMER TIM2
@@ -83,11 +92,10 @@ uint_fast8_t portInit(void);
 #define ESP_GPIO GPIOC
 #define ESP_RX_PIN GPIO_Pin_11
 #define ESP_TX_PIN GPIO_Pin_10
-#define ESP_RX_DMA DMA1_Channel3
 #define ESP_TX_DMA DMA1_Channel2
 /// ESP8266 DMA transmit complete flag.
 #define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2
-#define ESP_IRQHandler USART3_IRQHandler
-#define ESP_IRQ USART3_IRQn
+#define ESP_IRQHandler USART3_6_IRQHandler
+#define ESP_IRQ USART3_6_IRQn
 
 #endif /* PINOUTHW0_H_ */

@@ -63,7 +63,7 @@ enum {
 
 // ---------- PWM outputs ----------
 enum {
-	PWM_CHANNELS_NUMBER = 4, PWM_FREQ = 1000, PWM_MAX = 255,
+	PWM_CHANNELS_NUMBER = 4, PWM_FREQ = 200, PWM_MAX = 255,
 // PWM logical channels (not equal physical timer channels)
 	PWM_MOTOR_CHANNEL = 0,
 	PWM_HEATER_CHANNEL,

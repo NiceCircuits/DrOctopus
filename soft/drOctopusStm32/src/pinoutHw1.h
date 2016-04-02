@@ -1,9 +1,9 @@
 /**
  ******************************************************************************
- * @file    pinoutHw0.h
+ * @file    pinoutHw1.h
  * @author  piotr@nicecircuits.com
  * @date    2016-02-07
- * @brief   Pinout file for HW 0 (NUCLEO-F303RE)
+ * @brief   Pinout file for HW 1
  ******************************************************************************
  */
 #ifndef PINOUTHW0_H_
@@ -11,7 +11,8 @@
 
 #include <inttypes.h>
 #include "stm32f0xx.h"
-
+#ifdef HW_VERSION
+#if HW_VERSION == HW_VERSION1
 /**
  * Initialize basic peripheral registers (mostly clocks and alternative pin
  * functions).
@@ -97,5 +98,8 @@ uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer);
 #define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2
 #define ESP_IRQHandler USART3_6_IRQHandler
 #define ESP_IRQ USART3_6_IRQn
-
+#elif // HW_VERSION == HW_VERSION1
+#error "Invalid pinout file used!"
+#endif
+#endif // ifdef HW_VERSION
 #endif /* PINOUTHW0_H_ */

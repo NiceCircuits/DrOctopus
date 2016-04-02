@@ -112,3 +112,30 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
 void PWM_IRQ_HANDLER(void) {
 	pwmIrqFlag = true;
 }
+
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_OUTPUTS
+#include "delay.h"
+
+/// Main function for outputs test firmware
+int main(void) {
+	int_fast16_t ch, val = 0, increment = 1;
+	const int_fast16_t offset = 10;
+	defaultInit();
+	for (;;) {
+		if (val <= 0) {
+			ledCmd(0, ENABLE);
+			ledCmd(1, DISABLE);
+			increment = 1;
+		} else if (val >= (PWM_MAX - offset * (PWM_CHANNELS_NUMBER - 1))) {
+			ledCmd(0, DISABLE);
+			ledCmd(1, ENABLE);
+			increment = -1;
+		}
+		for (ch = 0; ch < PWM_CHANNELS_NUMBER; ch++) {
+			pwmCmd(ch, val + offset * ch);
+		}
+		delayMs(8);
+		val = val + increment;
+	}
+}
+#endif // defined(TEST_MODE) && TEST_MODE == TEST_MODE_OUTPUTS

@@ -135,14 +135,14 @@ void SysTick_Handler() {
 }
 
 // ---------- test functions ----------
-#if TEST_MODE == TEST_MODE_DELAY
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_DELAY
 #include <stdlib.h>
 #include "outputs.h"
 
-#if HW_VERSION == HW_VERSION0
+#if defined(HW_VERSION) && HW_VERSION == HW_VERSION0
 #define LED_GPIO GPIOA
 #define LED_PIN GPIO_Pin_5
-#elif HW_VERSION == HW_VERSION1
+#elif defined(HW_VERSION) && HW_VERSION == HW_VERSION1
 #define LED_GPIO GPIOB
 #define LED_PIN GPIO_Pin_12
 #else
@@ -160,32 +160,35 @@ int main(void) {
 	defaultInit();
 
 	for (;;) {
+		// LED_PIN -> High state
 		LED_GPIO->BSRR = LED_PIN;
 		delayUs(1);
 
 		timerStartUs(10);
+		// LED_PIN -> Low state
 		LED_GPIO->BRR = LED_PIN;
-		for (i=0;i<20;i++)
-		{
-			timerStartUs(10); // restart timer
-		}
 		while (timerEnd() == 0) {
 		}
 
+		// LED_PIN -> High state
 		LED_GPIO->BSRR = LED_PIN;
 		delayUs(100);
 
 		timerStartMs(1);
+		// LED_PIN -> Low state
 		LED_GPIO->BRR = LED_PIN;
 		while (timerEnd() == 0) {
 		}
 
+		// LED_PIN -> High state
 		LED_GPIO->BSRR = LED_PIN;
 		delayMs(10);
+		// LED_PIN -> Low state
 		LED_GPIO->BRR = LED_PIN;
 
 		max = rand() & 0x3fff;
 		for (i = 0; i < max; i++) {
+			// Dummy to force to not optimize out.
 			LED_GPIO->BRR = LED_PIN;
 		}
 	}

@@ -11,8 +11,7 @@
 
 #include <inttypes.h>
 #include "stm32f0xx.h"
-#ifdef HW_VERSION
-#if HW_VERSION == HW_VERSION1
+#if defined(HW_VERSION) && HW_VERSION == HW_VERSION1
 /**
  * Initialize basic peripheral registers (mostly clocks and alternative pin
  * functions).
@@ -98,8 +97,7 @@ uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer);
 #define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2
 #define ESP_IRQHandler USART3_6_IRQHandler
 #define ESP_IRQ USART3_6_IRQn
-#elif // HW_VERSION == HW_VERSION1
-#error "Invalid pinout file used!"
+#else // #if defined(HW_VERSION) && HW_VERSION == HW_VERSION1
+#error "Invalid pinout file used or HW version not defined!"
 #endif
-#endif // ifdef HW_VERSION
 #endif /* PINOUTHW0_H_ */

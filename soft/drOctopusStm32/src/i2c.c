@@ -152,7 +152,7 @@ bool i2cPinState(i2c_pin_t pin) {
 	return (bool) GPIO_ReadInputDataBit(i2cGpios[pin], i2cPins[pin]);
 }
 
-#if TEST_MODE == TEST_MODE_I2C
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_I2C
 
 int main(void) {
 	uint8_t addr;

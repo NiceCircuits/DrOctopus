@@ -96,7 +96,7 @@ void dataCb(void *response) {
 			(char*) message);
 }
 
-#if TEST_MODE == TEST_MODE_ESP
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_ESP
 int main(void) {
 	uint8_t i = 0;
 	defaultInit();

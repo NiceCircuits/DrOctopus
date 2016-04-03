@@ -151,7 +151,7 @@ uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
 	return 1;
 }
 
-#if TEST_MODE == TEST_MODE_OLED
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_OLED
 
 void draw(uint8_t pos) {
 	u8g_SetFont(&u8g, u8g_font_unifont);

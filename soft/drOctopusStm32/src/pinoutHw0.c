@@ -11,7 +11,7 @@
 
 static GPIO_TypeDef * const adcGpios[ADC_NUMBER] = ADC_GPIOS;
 static uint16_t const adcPins[ADC_NUMBER] = ADC_PINS;
-static uint8_t const adcChannels[] = ADC_CHANNELS;
+static uint32_t const adcChannels[] = ADC_CHANNELS;
 
 uint_fast8_t portInit(void) {
 	uint16_t const pwmGpioSources[4] = { GPIO_PinSource6, GPIO_PinSource7,

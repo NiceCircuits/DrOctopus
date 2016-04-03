@@ -11,7 +11,7 @@
 
 static GPIO_TypeDef * const adcGpios[ADC_NUMBER] = ADC_GPIOS;
 static uint16_t const adcPins[ADC_NUMBER] = ADC_PINS;
-static uint8_t const adcChannels[] = ADC_CHANNELS;
+static uint32_t const adcChannels[] = ADC_CHANNELS;
 
 uint_fast8_t portInit(void) {
 	uint16_t const pwmGpioSources[4] = { GPIO_PinSource9, GPIO_PinSource6,
@@ -41,7 +41,7 @@ uint_fast8_t portInit(void) {
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM3EN, ENABLE);
 	// initialize PWM pins alternative functions.
 	for (i = 0; i < 4; i++) {
-		GPIO_PinAFConfig(PWM_GPIO, pwmGpioSources[i], GPIO_AF_1);
+		GPIO_PinAFConfig(PWM_GPIO, pwmGpioSources[i], GPIO_AF_0);
 	}
 
 	// ---------- servos ----------
@@ -121,15 +121,15 @@ uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer) {
 	adc.ADC_ExternalTrigConv = ADC_TRIGGER;
 	adc.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_Rising;
 	adc.ADC_DataAlign = ADC_DataAlign_Right;
-	ADC_Init(ADC, &adc);
-	ADC_DMARequestModeConfig(ADC, ADC_DMAMode_Circular);
+	ADC_Init(ADC_ADC, &adc);
+	ADC_DMARequestModeConfig(ADC_ADC, ADC_DMAMode_Circular);
 
 	// Init ADC channels.
 	for (i = 0; i < ADC_NUMBER; i++) {
 		ADC_ChannelConfig(ADC_ADC, adcChannels[i], ADC_SAMPLE_TIME);
 	}
 
-	// Enable.
+	// Enable ADC and DMA.
 	ADC_DMACmd(ADC_ADC, ENABLE);
 	ADC_Cmd(ADC_ADC, ENABLE);
 

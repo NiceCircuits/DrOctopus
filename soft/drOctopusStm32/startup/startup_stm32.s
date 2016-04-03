@@ -139,7 +139,7 @@ g_pfnVectors:
 	.word	0
 	.word	0
 	.word	0
-	.word	0
+	.word	TIM3_IRQHandler			// TIM3 global interrupt
 	.word	0
 	.word	0
 	.word	0

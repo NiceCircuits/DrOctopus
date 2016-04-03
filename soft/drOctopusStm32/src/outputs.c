@@ -20,6 +20,7 @@ volatile bool pwmIrqFlag = false;
 uint_fast8_t outputsInit(void) {
 	GPIO_InitTypeDef gpio;
 	uint_fast8_t i;
+	NVIC_InitTypeDef nvic;
 
 	// LED pins - low speed outputs
 	GPIO_StructInit(&gpio);
@@ -38,7 +39,12 @@ uint_fast8_t outputsInit(void) {
 	GPIO_Init(PWM_GPIO, &gpio);
 	// init PWM timer
 	pwmTimerInit(PWM_TIMER, PWM_MAX, (PWM_MAX) * (PWM_FREQ));
-
+	// Init PWM timer update interrupt
+	nvic.NVIC_IRQChannel = (PWM_IRQ);
+	nvic.NVIC_IRQChannelPriority = 0;
+	nvic.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvic);
+	TIM_ITConfig(PWM_TIMER, TIM_IT_Update, ENABLE);
 	return 0;
 }
 
@@ -111,6 +117,7 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
  */
 void PWM_IRQ_HANDLER(void) {
 	pwmIrqFlag = true;
+	TIM_ClearFlag(PWM_TIMER, TIM_FLAG_Update);
 }
 
 #if defined(TEST_MODE) && TEST_MODE == TEST_MODE_OUTPUTS

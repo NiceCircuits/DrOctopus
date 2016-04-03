@@ -32,6 +32,15 @@ uint_fast8_t debugInit(void);
 uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...);
 
 /**
+ * Prints raw string to debug UART (no prefix and newline). Uses printf format
+ * and variable list of arguments.
+ * @param source debug source identifier.
+ * @param format printf-like format string.
+ * @return 0 if OK
+ */
+uint_fast8_t debugPrintRaw(debugSource_t source, const char* format, ...);
+
+/**
  * Add new debug source. It can be than used with debugPrint, enabled and
  * disabled. Disabled initially.
  * @param name name of new source, used as prefix for debug print.

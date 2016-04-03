@@ -122,6 +122,36 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 	}
 }
 
+uint_fast8_t debugPrintRaw(debugSource_t source, const char* format, ...) {
+	size_t len=0;
+	va_list arglist;
+	if ((source < 0) || (source >= debugSourcesNumber)) {
+		// no such source configured
+		return -1;
+	} else if (debugSourcesEnabled[source] == DISABLE) {
+		// source disabled, do not print anything
+		return 0;
+	} else {
+		while (debugStartFlag && DMA_GetFlagStatus(DEBUG_DMA_TC_FLAG) == 0) {
+			// Wait until previous transfer complete (if any has started).
+		}
+		debugStartFlag = 1; // Indicate, that transfer has started.
+		// pass variable argument list to vsnprintf function to format
+		// formatted string will be available in debugBuffer
+		va_start(arglist, format);
+		len = len
+				+ vsnprintf(debugUsartBuffer + len, DEBUG_BUFFER_SIZE - len - 2,
+						format, arglist);
+		va_end(arglist);
+		// setup DMA transfer
+		DMA_Cmd(DEBUG_DMA, DISABLE);
+		DMA_SetCurrDataCounter(DEBUG_DMA, len);
+		DMA_ClearFlag(DEBUG_DMA_TC_FLAG);
+		DMA_Cmd(DEBUG_DMA, ENABLE);
+		return 0;
+	}
+}
+
 debugSource_t debugNewSource(const char* name) {
 	if (debugSourcesNumber >= DEBUG_SOURCES_MAX_NUMBER) {
 		// no more sources available
@@ -147,7 +177,7 @@ uint_fast8_t debugSourceEnable(debugSource_t source, FunctionalState enabled) {
 	}
 }
 
-#if TEST_MODE == TEST_MODE_DEBUG
+#if defined(TEST_MODE) && TEST_MODE == TEST_MODE_DEBUG
 
 int main(void) {
 	uint8_t debugTest;

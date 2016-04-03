@@ -44,6 +44,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1842672660" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.620062116" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.869368292" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.136666565" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.287365576" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.888865493" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1299988794" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -65,10 +67,12 @@
 									<listOptionValue builtIn="false" value="DEBUG"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 									<listOptionValue builtIn="false" value="STM32F030xC"/>
-									<listOptionValue builtIn="false" value="TEST_MODE=TEST_MODE_ADC"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.958291735" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.862652455" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1150417983" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1786624547" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1101378088" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1745697108" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.366080533" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -126,7 +130,7 @@
 							<builder buildPath="${workspace_loc:/drOctopusStm32}/Release" id="fr.ac6.managedbuild.builder.gnu.cross.881676411" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross"/>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1243038537" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.2009379913" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.most" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.debugging.level.906696911" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.906696911" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.371968155" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/el-client-2.2.beta2/ELClient&quot;"/>
@@ -145,6 +149,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1120392443" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.1909331503" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.240356115" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1091398962" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.1045043476" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1455954345" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.732317303" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -165,10 +171,12 @@
 									<listOptionValue builtIn="false" value="STM32"/>
 									<listOptionValue builtIn="false" value="USE_STDPERIPH_DRIVER"/>
 									<listOptionValue builtIn="false" value="STM32F030xC"/>
-									<listOptionValue builtIn="false" value="TEST_MODE=TEST_MODE_ADC"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.799358857" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1869081928" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.2134249170" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1138692887" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1981997349" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.117897018" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.625286452" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -248,6 +256,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1425425352" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.680693455" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.2087766673" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1769054722" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.1687665293" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1940297050" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1933716924" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -273,6 +283,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1339238622" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1995291371" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1594648435" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1847252230" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1972804914" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.473623197" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.763166807" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -329,7 +342,7 @@
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1137471805" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross"/>
 							<builder buildPath="${workspace_loc:/drOctopusStm32}/Debug" id="fr.ac6.managedbuild.builder.gnu.cross.1462518321" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" stopOnErr="false" superClass="fr.ac6.managedbuild.builder.gnu.cross"/>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1278698254" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
-								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.1860060169" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.most" valueType="enumerated"/>
+								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.1860060169" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.511696297" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.421668094" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
@@ -352,6 +365,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.68777998" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.635238316" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.1109472623" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1525891869" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.792038422" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.954753379" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.772065057" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -377,6 +392,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1936821987" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1453838094" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1449753852" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.840513429" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1817425567" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1312773561" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.1583366118" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -456,6 +474,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1538283212" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.1430947767" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.704845586" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1020446039" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.626481954" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1555670536" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1122500387" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -481,6 +501,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.716000897" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.575299132" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1299104974" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.2114350325" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1529160416" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1540490375" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.315677961" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -560,6 +583,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1159274562" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.990905114" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.266825744" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1215120790" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.715163120" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.100519394" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.111285147" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -585,6 +610,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.22613997" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1435907385" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.425718417" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1169955080" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.2089792994" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1840831894" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.75474583" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -664,6 +692,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.422444512" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.7399004" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.285401345" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.1335921045" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.347004936" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.633158185" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1979868032" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -689,6 +719,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1698101393" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.2133019770" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1616364137" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.686689406" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.493032155" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.2091997407" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.851633910" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -768,6 +801,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.586717051" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.1474842267" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.1733828089" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.178686439" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.2009572899" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.6235834" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.464703424" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -793,6 +828,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1836309100" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1742465392" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1516401078" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1879065893" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.179377700" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.417729242" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.1445159257" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -872,6 +910,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1420988371" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.1323576111" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.310551468" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.899415907" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.536603121" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.2127122635" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.803403551" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -897,6 +937,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.802025688" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1994982600" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1636271959" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1134326955" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.800952599" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1865968087" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.1924427772" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>
@@ -976,6 +1019,8 @@
 								<option id="gnu.c.compiler.option.dialect.flags.1384815319" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu11" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.633932213" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata.1760517659" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.extrawarn.277685806" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.wconversion.1855875036" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1613042533" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.528494858" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
 							</tool>
@@ -1001,6 +1046,9 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.471251096" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.1171577695" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata.1835689459" name="Place the data in their own section (-fdata-sections)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.fdata" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.403780295" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1582837022" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1388896572" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.675329133" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
 							</tool>

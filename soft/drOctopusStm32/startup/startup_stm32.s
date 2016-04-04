@@ -90,11 +90,13 @@ LoopForever:
  * @param  None
  * @retval : None
 */
+/*
     .section	.text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
 	b	Infinite_Loop
 	.size	Default_Handler, .-Default_Handler
+	*/
 /******************************************************************************
 *
 * The minimal vector table for a Cortex-M.  Note that the proper constructs
@@ -114,97 +116,97 @@ g_pfnVectors:
 	.word	MemManage_Handler
 	.word	BusFault_Handler
 	.word	UsageFault_Handler
-	.word	0
-	.word	0
-	.word	0
-	.word	0
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
 	.word	SVC_Handler
 	.word	DebugMon_Handler
-	.word	0
+	.word	Default_Handler
 	.word	PendSV_Handler
 	.word	SysTick_Handler
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
 	.word	TIM3_IRQHandler			// TIM3 global interrupt
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
+	.word	Default_Handler
 
 /*******************************************************************************
 *

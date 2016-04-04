@@ -8,6 +8,8 @@
  * @todo Self-test functions.
  * @todo BTS diagnostics.
  * @todo Logging and error handling.
+ * @todo Asserts functions parameters with some kind of mechanism to signal
+ *       invalid parameters outside.
  ******************************************************************************
  */
 
@@ -51,4 +53,28 @@ uint_fast8_t defaultInit() {
 	//espInit();
 
 	return 0;
+}
+
+void Default_Handler() {
+	FunctionalState led = DISABLE;
+	ledCmd(0, ENABLE);
+	ledCmd(1, ENABLE);
+	for (;;) {
+		ledCmd(0, led);
+		ledCmd(1, !led);
+		delayMs(500);
+		led = !led;
+	}
+}
+
+void HardFault_Handler() {
+	FunctionalState led = DISABLE;
+	ledCmd(0, ENABLE);
+	ledCmd(1, ENABLE);
+	for (;;) {
+		ledCmd(0, led);
+		ledCmd(1, !led);
+		delayMs(100);
+		led = !led;
+	}
 }

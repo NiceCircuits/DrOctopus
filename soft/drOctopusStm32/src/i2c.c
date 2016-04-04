@@ -61,7 +61,7 @@ uint_fast8_t i2cWriteTransaction(uint8_t addr, uint8_t count, uint8_t* payload) 
 	uint8_t i;
 	uint_fast8_t nack;
 	i2cStartBit();
-	nack = i2cWriteByte(addr << 1);
+	nack = i2cWriteByte((uint8_t) (addr << 1));
 	if (nack == 0) {
 		for (i = 0; i < count; i++) {
 			i2cWriteByte(payload[i]);
@@ -75,7 +75,7 @@ bool i2cWriteByte(uint8_t data) {
 	uint_fast8_t i;
 	for (i = 0; i < 8; i++) {
 		i2cWriteBit((data & 0x80) != 0);
-		data = data << 1;
+		data = (uint8_t) (data << 1);
 	}
 	return i2cReadBit();
 }

@@ -10,7 +10,6 @@
 #include "delay.h"
 #include "config.h"
 
-
 // ---------- Private variables ----------
 /**
  * Store time elapsed from start (in ms). 32bit gives only ~49 days so
@@ -35,7 +34,8 @@ uint_fast8_t delayInit(void) {
 	/* Calculate prescaler values. For system clock up to 216MHz and
 	 * 16b prescaler, maximum timer clock period is 303us. */
 	// 1us prescaler.
-	delayTimerPrescalerUs = (SystemCoreClock + 1000000 / 2) / 1000000 - 1;
+	delayTimerPrescalerUs = (uint16_t) ((SystemCoreClock + 1000000 / 2)
+			/ 1000000 - 1);
 	// 256us prescaler
 	prescaler = (SystemCoreClock + 1000 * DELAY_MS_DIVIDER / 2)
 			/ DELAY_MS_DIVIDER / 1000 - 1;
@@ -44,7 +44,7 @@ uint_fast8_t delayInit(void) {
 		prescaler = 65535;
 		ret = 1; // signal error
 	}
-	delayTimerPrescalerMs = prescaler;
+	delayTimerPrescalerMs = (uint16_t)prescaler;
 
 	// Delay timer initialization.
 	TIM_Cmd(DELAY_TIMER, DISABLE);
@@ -74,7 +74,7 @@ uint_fast8_t delayMs(uint16_t time) {
 uint_fast8_t delayUs(uint16_t time) {
 	// Disable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down;
-	DELAY_TIMER->CNT = time - 1; // Load new time
+	DELAY_TIMER->CNT = time - 1U; // Load new time
 	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	// Enable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;
@@ -88,7 +88,7 @@ uint_fast8_t delayUs(uint16_t time) {
 uint_fast8_t timerStartUs(uint16_t time) {
 	// Disable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down;
-	DELAY_TIMER->CNT = time - 1; // Load new time
+	DELAY_TIMER->CNT = time - 1U; // Load new time
 	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	// Enable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;
@@ -104,7 +104,7 @@ uint_fast8_t timerStartMs(uint16_t time) {
 	// Set prescaler to achieve 250us clock period.
 	TIM_PrescalerConfig(DELAY_TIMER, delayTimerPrescalerMs,
 	TIM_PSCReloadMode_Immediate);
-	DELAY_TIMER->CNT = time * DELAY_MS_DIVIDER - 1; // Load new time
+	DELAY_TIMER->CNT = time * (uint32_t)DELAY_MS_DIVIDER - 1U; // Load new time
 	DELAY_TIMER->SR = (uint16_t) ~TIM_FLAG_Update; // Clear timer update flag.
 	// Enable timer.
 	DELAY_TIMER->CR1 = TIM_OPMode_Single | TIM_CounterMode_Down | TIM_CR1_CEN;

@@ -82,7 +82,7 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 	va_list arglist;
 	if ((source < 0) || (source >= debugSourcesNumber)) {
 		// no such source configured
-		return -1;
+		return 1;
 	} else if (debugSourcesEnabled[source] == DISABLE) {
 		// source disabled, do not print anything
 		return 0;
@@ -105,8 +105,8 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 		// formatted string will be available in debugBuffer
 		va_start(arglist, format);
 		len = len
-				+ vsnprintf(debugUsartBuffer + len, DEBUG_BUFFER_SIZE - len - 2,
-						format, arglist);
+				+ (size_t) vsnprintf(debugUsartBuffer + len,
+						DEBUG_BUFFER_SIZE - len - 2, format, arglist);
 		va_end(arglist);
 		// add new line
 		debugUsartBuffer[len] = '\r';
@@ -115,7 +115,7 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 		len++;
 		// setup DMA transfer
 		DMA_Cmd(DEBUG_DMA, DISABLE);
-		DMA_SetCurrDataCounter(DEBUG_DMA, len);
+		DMA_SetCurrDataCounter(DEBUG_DMA, (uint16_t) len);
 		DMA_ClearFlag(DEBUG_DMA_TC_FLAG);
 		DMA_Cmd(DEBUG_DMA, ENABLE);
 		return 0;
@@ -123,11 +123,11 @@ uint_fast8_t debugPrintln(debugSource_t source, const char* format, ...) {
 }
 
 uint_fast8_t debugPrintRaw(debugSource_t source, const char* format, ...) {
-	size_t len=0;
+	size_t len = 0;
 	va_list arglist;
 	if ((source < 0) || (source >= debugSourcesNumber)) {
 		// no such source configured
-		return -1;
+		return 1;
 	} else if (debugSourcesEnabled[source] == DISABLE) {
 		// source disabled, do not print anything
 		return 0;
@@ -140,12 +140,12 @@ uint_fast8_t debugPrintRaw(debugSource_t source, const char* format, ...) {
 		// formatted string will be available in debugBuffer
 		va_start(arglist, format);
 		len = len
-				+ vsnprintf(debugUsartBuffer + len, DEBUG_BUFFER_SIZE - len - 2,
-						format, arglist);
+				+ (size_t) vsnprintf(debugUsartBuffer + len,
+						DEBUG_BUFFER_SIZE - len - 2, format, arglist);
 		va_end(arglist);
 		// setup DMA transfer
 		DMA_Cmd(DEBUG_DMA, DISABLE);
-		DMA_SetCurrDataCounter(DEBUG_DMA, len);
+		DMA_SetCurrDataCounter(DEBUG_DMA, (uint16_t) len);
 		DMA_ClearFlag(DEBUG_DMA_TC_FLAG);
 		DMA_Cmd(DEBUG_DMA, ENABLE);
 		return 0;
@@ -160,7 +160,7 @@ debugSource_t debugNewSource(const char* name) {
 		debugSourcesNames[debugSourcesNumber] = name;
 		debugSourcesEnabled[debugSourcesNumber] = DISABLE;
 		debugSourcesNumber++;
-		return debugSourcesNumber - 1;
+		return (debugSource_t) (debugSourcesNumber - 1);
 	}
 }
 

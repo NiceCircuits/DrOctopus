@@ -89,7 +89,7 @@ uint_fast8_t pwmTimerInit(TIM_TypeDef* timer, uint16_t pwmMax,
 	// init timer
 	TIM_TimeBaseStructInit(&tim);
 	tim.TIM_CounterMode = TIM_CounterMode_Up;
-	tim.TIM_Period = pwmMax - 1;
+	tim.TIM_Period = (uint32_t)(pwmMax - 1);
 	tim.TIM_Prescaler = (uint16_t) prescaler;
 	TIM_TimeBaseInit(timer, &tim);
 

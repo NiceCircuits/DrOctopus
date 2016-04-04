@@ -15,7 +15,7 @@
  * Initialize ADC.
  * @return 0 if OK.
  */
-uint8_t adcInit(void);
+uint_fast8_t adcInit(void);
 
 /**
  * ADC loop.

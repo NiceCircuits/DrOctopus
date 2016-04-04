@@ -16,7 +16,7 @@
 /// ADC conversion buffer.
 static uint16_t adcBuffer[ADC_NUMBER];
 
-uint8_t adcInit(void) {
+uint_fast8_t adcInit(void) {
 	return adcInitVersionSpecific(adcBuffer);
 }
 

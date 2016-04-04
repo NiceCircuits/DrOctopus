@@ -79,16 +79,19 @@ uint_fast8_t servoInit() {
 
 	// Init servo timers.
 	for (i = 0; i < SERVO_TIMERS_NUMBER; i++) {
-		pwmTimerInit(servoTimers[i], SERVO_CNT_MAX,
-				(SERVO_CNT_MAX) * (SERVO_FREQ));
+		pwmTimerInit(servoTimers[i], (uint16_t)SERVO_CNT_MAX,
+				(uint32_t)(SERVO_CNT_MAX) * (SERVO_FREQ));
 	}
 
+	if (0){
 	// Init servo timer update interrupt
 	nvic.NVIC_IRQChannel = (SERVO_IRQ);
 	nvic.NVIC_IRQChannelPriority = 0;
 	nvic.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&nvic);
 	TIM_ITConfig(servoTimers[0], TIM_IT_Update, ENABLE);
+	}
+#warning "Fix interrupts"
 	return 0;
 }
 
@@ -102,7 +105,7 @@ uint_fast8_t servoLoop() {
 			if (servoEnabled[servo]) {
 				position = servoPosition[servo];
 				desired = servoDesiredPosition[servo];
-				speed = servoSpeed[servo];
+				speed = (int_fast32_t)servoSpeed[servo];
 				if (position == desired) {
 					// do nothing
 				} else if (position + speed < desired) {

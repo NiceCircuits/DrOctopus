@@ -92,6 +92,10 @@ uint_fast8_t adcInitVersionSpecific(uint16_t *adcBuffer);
 #define ESP_GPIO GPIOC
 #define ESP_RX_PIN GPIO_Pin_11
 #define ESP_TX_PIN GPIO_Pin_10
+#define ESP_EN_GPIO GPIOB
+#define ESP_EN_PIN GPIO_Pin_1
+#define ESP_BOOT_GPIO GPIOB
+#define ESP_BOOT_PIN GPIO_Pin_0
 #define ESP_TX_DMA DMA1_Channel2
 /// ESP8266 DMA transmit complete flag.
 #define ESP_DMA_TX_TC_FLAG DMA1_FLAG_TC2

@@ -68,7 +68,7 @@ void u8g_10MicroDelay(void) {
  * @param arg_ptr Optional argument pointer.
  * @return 1 if OK.
  */
-uint8_t u8g_communication(u8g_t *u8g, uint8_t msg, uint8_t arg_val,
+uint8_t u8g_communication(u8g_t *u8g __attribute__ ((unused)), uint8_t msg, uint8_t arg_val,
 		void *arg_ptr) {
 	uint_fast8_t result, i;
 

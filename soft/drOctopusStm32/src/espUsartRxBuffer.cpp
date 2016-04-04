@@ -14,7 +14,7 @@ uint_fast8_t espUsartRxBuffer_t::push(char data) {
 	if (this->count >= ESP_RX_BUFFER_SIZE) {
 		return 1;  // return an error
 	}
-	uint16_t next = this->head;
+	uint_fast16_t next = this->head;
 	this->buffer[next] = data;
 	next++;
 	if (next >= ESP_RX_BUFFER_SIZE) {
@@ -31,7 +31,7 @@ uint_fast8_t espUsartRxBuffer_t::pop(char *data) {
 	if (this->count == 0) {
 		return 1;  // quit with an error
 	}
-	uint8_t next = this->tail;
+	uint_fast16_t next = this->tail;
 	*data = this->buffer[next];
 	next++;
 	if (next >= ESP_RX_BUFFER_SIZE) {

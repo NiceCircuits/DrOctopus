@@ -13,7 +13,9 @@ public:
 	virtual size_t print(const char* format, ...) = 0;
 	virtual size_t write(uint8_t) = 0;
 	virtual int available() = 0;
-	virtual int read() = 0;
+	virtual char read() = 0;
+	virtual ~ELStream() {
+	}
 };
 
 // Enumeration of commands supported by esp-link, this needs to match the definition in
@@ -86,12 +88,12 @@ public:
 	// Busy wait for a response with a timeout in milliseconds, returns an ELClientPacket
 	// if a response was recv'd and NULL otherwise. The ELClientPacket is typically used to
 	// create an ELClientResponse.
-	ELClientPacket *WaitReturn(uint64_t timeout=ESP_TIMEOUT);
+	ELClientPacket *WaitReturn(uint64_t timeout = ESP_TIMEOUT);
 
 	//== Commands built-into ELClient
 	// Initialize and synchronize communication with esp-link with a timeout in milliseconds,
 	// and remove all existing callbacks. Registers the wifiCb and returns true on success
-	bool Sync(uint32_t timeout=ESP_TIMEOUT);
+	bool Sync(uint32_t timeout = ESP_TIMEOUT);
 	// Request the wifi status
 	void GetWifiStatus(void);
 

@@ -62,7 +62,7 @@ extern "C" uint_fast8_t espInit(void) {
 extern "C" void ESP_IRQHandler() {
 	uint8_t data;
 	if (USART_GetITStatus(ESP_USART, USART_IT_RXNE) == SET) {
-		data = USART_ReceiveData(ESP_USART);
+		data = (uint8_t) USART_ReceiveData(ESP_USART);
 		espStream.pushRxData(data);
 	}
 }
@@ -99,25 +99,24 @@ void dataCb(void *response) {
 #if defined(TEST_MODE) && TEST_MODE == TEST_MODE_ESP
 int main(void) {
 	uint8_t i = 0;
+	const uint8_t testMode = 3;
 	defaultInit();
-	espInit();
-	if (0) {
+	if (testMode == 0) {
 		// USART loopback.
 		for (;;) {
 			if (espStream.available()) {
 				espStream.write(espStream.read());
 			}
 		}
-	}
-	if (0) {
+	} else if (testMode == 1) {
 		// Print test
 		for (;;) {
-			//espStream.print("ESP test %c\r\n", i);
+			espInit();
+			espStream.print("ESP test %c\r\n", i);
 			i++;
-			//delayMs(1000);
+			delayMs(1000);
 		}
-	}
-	if (1) {
+	} else if (testMode == 2) {
 		// MQTT test. Example MQTT settings (set via ESP WiFi):
 		// Host: broker.hivemq.com
 		// Port: 1883
@@ -125,6 +124,7 @@ int main(void) {
 		// This test publishes "esplink_test" message every 1s
 		// and subscribes "esp_test_resp" messages from server
 		// Received messages are sent to debug port
+		espInit();
 		espELClientMqtt.subscribe("esp_test_resp");
 		for (;;) {
 			espELClient.Process();
@@ -133,6 +133,13 @@ int main(void) {
 				espELClientMqtt.publish("esplink_test", "xyz", 0);
 				delayMs(1000);
 			}
+		}
+	} else if (testMode == 3) {
+		espStream.init();
+		// ESP8266 bootloader mode. Connects ESP USART and debug USART.
+		espStream.enterProgrammingMode();
+	} else {
+		for (;;) {
 		}
 	}
 }

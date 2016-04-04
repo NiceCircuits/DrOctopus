@@ -125,88 +125,88 @@ g_pfnVectors:
 	.word	Default_Handler
 	.word	PendSV_Handler
 	.word	SysTick_Handler
+	.word	Default_Handler			// (0x40)
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0x50)
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0x60)
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0x70)
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	TIM3_IRQHandler			// (0x80) TIM3 global interrupt
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0x90)
 	.word	Default_Handler
-	.word	TIM3_IRQHandler			// TIM3 global interrupt
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0xA0)
 	.word	Default_Handler
 	.word	Default_Handler
 	.word	Default_Handler
+	.word	Default_Handler			// (0xB0)
+	.word	USART3_6_IRQHandler		// (0xB4) USART3, USART4, USART5, USART6 global interrupts (combined with EXTI line 28)
 	.word	Default_Handler
 	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
-	.word	Default_Handler
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
 
 /*******************************************************************************
 *
@@ -240,8 +240,8 @@ g_pfnVectors:
 	.weak	PendSV_Handler
 	.thumb_set PendSV_Handler,Default_Handler
 
-	.weak	SysTick_Handler
-	.thumb_set SysTick_Handler,Default_Handler
+//	.weak	SysTick_Handler
+//	.thumb_set SysTick_Handler,Default_Handler
 
 	.weak	SystemInit
 
